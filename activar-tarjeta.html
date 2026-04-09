@@ -3,172 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activar Tarjeta Premium · Impacto Digital</title>
+<title>Activador Premium · Impacto Digital</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ink:#0a0a0a;--ink2:#111118;
-  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0e6d0;--gold-ll:#fdf8f0;
-  --green:#16a34a;--green-l:#f0fdf4;
-  --red:#dc2626;--red-l:#fef2f2;
-  --amber:#f59e0b;--amber-l:#fffbeb;
-  --blue:#2563eb;--blue-l:#eff6ff;
-  --border:#e8e4dc;--muted:#8a7d6a;
-  --cream:#faf8f4;
+:root {
+  --ink: #050505;
+  --ink2: #0a0a0f;
+  --gold: #c8a96a;
+  --gold-d: #a07840;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.45);
+  --red: #ff4d4d;
+  --green: #22c55e;
 }
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ink);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(200, 169, 106, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(200, 169, 106, 0.03) 0%, transparent 40%);
+}
 
 /* ── LOGIN SCREEN ── */
-.login-screen{position:fixed;inset:0;background:var(--ink2);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;}
-.login-box{background:#fff;border-radius:28px;padding:52px 44px;width:400px;max-width:92vw;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.5);}
-.login-icon{width:64px;height:64px;border-radius:20px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;}
-.login-icon i{color:var(--gold);font-size:26px;}
-.login-brand{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.login-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink);margin-bottom:6px;}
-.login-sub{font-size:12px;color:var(--muted);margin-bottom:32px;line-height:1.6;}
-.login-input{width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);outline:none;margin-bottom:14px;transition:.2s;background:var(--cream);letter-spacing:.1em;text-align:center;}
-.login-input:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(200,169,106,.12);}
-.login-btn{width:100%;padding:15px;border-radius:14px;background:var(--ink);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.04em;}
-.login-btn:hover{background:var(--gold-d);}
-.login-err{color:var(--red);font-size:12px;margin-top:12px;display:none;font-weight:600;}
-.login-hint{font-size:10px;color:rgba(255,255,255,.2);margin-top:20px;letter-spacing:.08em;}
+.login-screen {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; padding: 20px;
+  transition: 0.5s;
+}
+.login-box {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px;
+  padding: 60px 40px;
+  width: 420px; max-width: 95vw;
+  text-align: center;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+}
+.login-logo { width: 140px; margin: 0 auto 32px; filter: drop-shadow(0 0 15px rgba(200,169,106,0.2)); }
+.login-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem; font-weight: 600; color: #fff;
+  margin-bottom: 8px; letter-spacing: -0.02em;
+}
+.login-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+.login-input {
+  width: 100%; padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  color: #fff; font-family: inherit; font-size: 16px;
+  text-align: center; outline: none; transition: 0.3s;
+  letter-spacing: 0.2em; margin-bottom: 16px;
+}
+.login-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); box-shadow: 0 0 20px rgba(200,169,106,0.1); }
+.login-btn {
+  width: 100%; padding: 16px;
+  border-radius: 16px;
+  background: var(--gold); color: var(--ink);
+  font-weight: 700; border: none; cursor: pointer;
+  transition: 0.3s; font-size: 14px; letter-spacing: 0.05em;
+}
+.login-btn:hover { background: #fff; transform: translateY(-2px); }
+.login-err { color: var(--red); font-size: 12px; margin-top: 15px; display: none; font-weight: 600; }
 
 /* ── NAV ── */
-nav{background:var(--ink2);position:sticky;top:0;z-index:100;height:60px;display:flex;align-items:center;padding:0 28px;justify-content:space-between;border-bottom:1px solid rgba(200,169,106,.1);}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;}
-.nav-logo em{font-style:italic;color:var(--gold);}
-.nav-back{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:rgba(255,255,255,.35);text-decoration:none;letter-spacing:.06em;transition:.2s;}
-.nav-back:hover{color:var(--gold);}
+nav {
+  height: 80px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; background: rgba(5,5,5,0.8);
+  backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border);
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-logo { height: 40px; }
+.nav-back {
+  color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px; transition: 0.3s;
+}
+.nav-back:hover { color: #fff; }
 
-/* ── MAIN LAYOUT ── */
-.main{max-width:900px;margin:0 auto;padding:48px 24px;}
+/* ── MAIN ── */
+.main { max-width: 1000px; margin: 0 auto; padding: 60px 24px; }
+.page-header { margin-bottom: 50px; }
+.page-eyebrow {
+  color: var(--gold); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.page-eyebrow::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 600; line-height: 1.1; margin-bottom: 16px;
+}
+.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 600px; }
 
-/* ── HEADER ── */
-.page-header{margin-bottom:40px;}
-.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.page-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold);}
-.page-title{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:8px;}
-.page-title em{font-style:italic;color:var(--gold);}
-.page-desc{font-size:13px;color:var(--muted);line-height:1.75;max-width:560px;}
+/* ── GLASS CARD ── */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
 
-/* ── SEARCH BOX ── */
-.search-box{background:#fff;border-radius:24px;border:1.5px solid var(--border);padding:28px 32px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.05);}
-.search-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:block;}
-.search-row{display:flex;gap:12px;}
-.search-input{flex:1;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;transition:.2s;background:var(--cream);letter-spacing:.08em;}
-.search-input:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(200,169,106,.1);}
-.search-input::placeholder{font-weight:400;letter-spacing:0;color:#ccc;}
-.search-btn{padding:14px 24px;border-radius:14px;background:var(--ink);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:7px;letter-spacing:.04em;}
-.search-btn:hover{background:var(--gold-d);}
-.search-btn:disabled{opacity:.5;cursor:not-allowed;}
-.search-hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6;}
+/* ── SEARCH ── */
+.search-row { display: flex; gap: 12px; margin-top: 20px; }
+.search-input {
+  flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+  border-radius: 14px; padding: 14px 20px; color: #fff; outline: none; transition: 0.3s;
+}
+.search-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.06); }
+.search-btn {
+  background: #fff; color: var(--ink); border: none; padding: 0 28px;
+  border-radius: 14px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
+}
+.search-btn:hover { background: var(--gold); }
 
-/* ── RESULT CARD ── */
-.result-area{display:none;}
-.result-area.show{display:block;}
-.result-card{background:#fff;border-radius:24px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.07);margin-bottom:20px;}
-.result-header{padding:22px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
-.result-avatar{width:50px;height:50px;border-radius:14px;background:var(--gold-l);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1.5px solid rgba(200,169,106,.3);}
-.result-name-wrap{}
-.result-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);}
-.result-id{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.08em;margin-top:2px;}
-.status-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:.06em;}
-.status-activa{background:var(--green-l);color:var(--green);border:1.5px solid rgba(22,163,74,.2);}
-.status-inactiva{background:var(--red-l);color:var(--red);border:1.5px solid rgba(220,38,38,.2);}
-.status-pendiente{background:var(--amber-l);color:var(--amber);border:1.5px solid rgba(245,158,11,.2);}
-.status-dot{width:7px;height:7px;border-radius:50%;}
-.status-activa .status-dot{background:var(--green);}
-.status-inactiva .status-dot{background:var(--red);}
-.status-pendiente .status-dot{background:var(--amber);}
+/* ── RESULT ── */
+.result-area { display: none; }
+.result-area.show { display: block; animation: fadeInUp 0.5s ease both; }
+@keyframes fadeInUp { from {opacity:0; transform:translateY(20px)} to {opacity:1; transform:translateY(0)} }
 
-.result-body{padding:24px 28px;}
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
-@media(max-width:600px){.info-grid{grid-template-columns:1fr 1fr;}}
-.info-item{}
-.info-item-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.info-item-val{font-size:13px;font-weight:600;color:var(--ink);}
-.info-item-val.mono{font-family:monospace;font-size:12px;letter-spacing:.06em;}
+.res-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+.res-info h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600; }
+.res-info span { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; }
 
-/* ── TOGGLE SWITCH ── */
-.toggle-section{background:var(--gold-ll);border:1.5px solid rgba(200,169,106,.25);border-radius:18px;padding:22px 24px;margin-bottom:16px;}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.toggle-info h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);margin-bottom:3px;}
-.toggle-info p{font-size:12px;color:var(--muted);line-height:1.6;}
-.toggle-switch{position:relative;width:60px;height:32px;flex-shrink:0;}
-.toggle-switch input{opacity:0;width:0;height:0;position:absolute;}
-.toggle-slider{position:absolute;inset:0;background:#e2e8f0;border-radius:50px;cursor:pointer;transition:.3s;border:2px solid transparent;}
-.toggle-slider::before{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.3s;box-shadow:0 2px 6px rgba(0,0,0,.2);}
-input:checked + .toggle-slider{background:var(--green);border-color:var(--green);}
-input:checked + .toggle-slider::before{transform:translateX(28px);}
+.status-badge {
+  padding: 8px 20px; border-radius: 50px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.status-activa { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+.status-inactiva { background: rgba(255, 77, 77, 0.15); color: #ff6666; border: 1px solid rgba(255, 77, 77, 0.3); }
 
-/* ── ACTION BUTTONS ── */
-.actions-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:.2s;letter-spacing:.03em;}
-.btn-activate{background:var(--green);color:#fff;flex:1;justify-content:center;}
-.btn-activate:hover{background:#15803d;}
-.btn-deactivate{background:var(--red-l);color:var(--red);border:1.5px solid rgba(220,38,38,.2);flex:1;justify-content:center;}
-.btn-deactivate:hover{background:var(--red);color:#fff;}
-.btn-wa{background:#25d366;color:#fff;}
-.btn-wa:hover{background:#1ab754;}
-.btn-copy{background:var(--gold-ll);color:var(--gold-d);border:1.5px solid rgba(200,169,106,.3);}
-.btn-copy:hover{background:var(--gold-l);}
-.btn:disabled{opacity:.45;cursor:not-allowed;}
+.grid-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
+.info-item label { display: block; filter: brightness(0.7); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; color: var(--gold); }
+.info-item p { font-size: 15px; font-weight: 500; }
+.info-item .mono { font-family: monospace; letter-spacing: 0.05em; color: var(--gold); }
 
-/* ── LOG / HISTORIAL ── */
-.log-section{background:#fff;border-radius:20px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.04);}
-.log-header{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.log-title{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
-.log-list{padding:0;}
-.log-item{display:flex;align-items:flex-start;gap:14px;padding:14px 22px;border-bottom:1px solid #f8f7f5;}
-.log-item:last-child{border-bottom:none;}
-.log-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
-.log-dot-green{background:var(--green);}
-.log-dot-red{background:var(--red);}
-.log-dot-gold{background:var(--gold);}
-.log-dot-blue{background:var(--blue);}
-.log-text{font-size:12px;color:var(--ink);font-weight:500;line-height:1.5;}
-.log-time{font-size:10px;color:var(--muted);margin-top:2px;}
-.log-empty{padding:28px 22px;text-align:center;font-size:12px;color:var(--muted);font-style:italic;}
+/* ── TOGGLE ── */
+.toggle-panel {
+  background: rgba(200,169,106, 0.06); padding: 24px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; border: 1px solid rgba(200,169,106, 0.15);
+}
+.toggle-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 4px; }
+.toggle-text p { font-size: 12px; color: var(--muted); }
 
-/* ── TARJETAS LIST ── */
-.cards-list-section{background:#fff;border-radius:24px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05);}
-.cards-list-header{padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.cards-list-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);}
-.cards-search{padding:9px 14px;border-radius:10px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:200px;transition:.2s;}
-.cards-search:focus{border-color:var(--gold);}
-table{width:100%;border-collapse:collapse;}
-thead th{background:#f8f7f5;padding:10px 16px;font-size:9px;font-weight:800;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;text-align:left;border-bottom:1px solid var(--border);}
-tbody td{padding:13px 16px;font-size:12px;border-bottom:1px solid #f5f4f2;vertical-align:middle;}
-tbody tr:hover{background:#fdfcfa;}
-tbody tr:last-child td{border-bottom:none;}
+.switch { position: relative; width: 64px; height: 34px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background: rgba(255,255,255,0.1); transition: 0.4s; border-radius: 34px; border: 1px solid var(--glass-border); }
+.slider::before { position: absolute; content: ""; height: 26px; width: 26px; left: 3px; bottom: 3px; background: #fff; transition: 0.4s; border-radius: 50%; }
+input:checked + .slider { background: var(--green); border-color: transparent; }
+input:checked + .slider::before { transform: translateX(30px); }
 
-/* ── NOT FOUND ── */
-.not-found{background:var(--red-l);border:1.5px solid rgba(220,38,38,.15);border-radius:20px;padding:28px;text-align:center;display:none;}
-.not-found.show{display:block;}
-.not-found i{font-size:28px;color:var(--red);margin-bottom:12px;display:block;}
-.not-found h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--red);margin-bottom:6px;}
-.not-found p{font-size:12px;color:var(--muted);line-height:1.6;}
+/* ── ACTIONS ── */
+.actions { display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 12px; margin-top: 32px; }
+@media(max-width:600px){ .actions { grid-template-columns: 1fr; } }
+.btn {
+  padding: 16px; border-radius: 14px; border: none; font-family: inherit;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-gold { background: var(--gold); color: var(--ink); }
+.btn-glass { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); }
+.btn-wa { background: #25d366; color: #fff; }
+.btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-/* ── NEW CARD FORM ── */
-.new-card-section{background:#fff;border-radius:24px;border:1.5px solid var(--border);padding:28px 32px;margin-top:20px;box-shadow:0 4px 24px rgba(0,0,0,.05);}
-.nc-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
-.nc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:540px){.nc-grid{grid-template-columns:1fr;}}
-.fgroup label{display:block;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.fgroup input,.fgroup select{width:100%;padding:12px 15px;border-radius:12px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;transition:.2s;}
-.fgroup input:focus,.fgroup select:focus{border-color:var(--gold);background:#fff;}
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; margin-top: 20px; }
+table { width: 100%; border-collapse: collapse; min-width: 800px; }
+th { text-align: left; padding: 16px; color: var(--gold); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid var(--glass-border); }
+td { padding: 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+tr:hover td { background: rgba(255,255,255,0.015); }
 
-/* ── TOAST ── */
-#toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:12px 22px;border-radius:14px;z-index:9999;transform:translateY(60px);opacity:0;transition:.3s;pointer-events:none;max-width:320px;}
-#toast.show{transform:translateY(0);opacity:1;}
-#toast.ok{background:var(--green);}
-#toast.err{background:var(--red);}
-#toast.info{background:var(--blue);}
+/* ── LOG ── */
+.log-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.log-item { display: flex; align-items: flex-start; gap: 12px; border-left: 1px solid var(--gold); padding-left: 16px; position: relative; }
+.log-item::before { content: ''; position: absolute; left: -4px; top: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.log-item p { font-size: 12px; font-weight: 500; }
+.log-item span { font-size: 10px; color: var(--muted); display: block; margin-top: 4px; }
+
+/* ── FORM ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+@media(max-width:540px){ .form-grid { grid-template-columns: 1fr; } }
+.field label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px; }
+.field input, .field select {
+  width: 100%; padding: 14px; border-radius: 12px; background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glass-border); color: #fff; outline: none; transition: 0.3s;
+}
+.field input:focus { border-color: var(--gold); }
+
+#toast {
+  position: fixed; bottom: 30px; right: 30px; padding: 16px 32px;
+  background: var(--gold); color: var(--ink); border-radius: 50px;
+  font-weight: 700; font-size: 13px; transform: translateY(100px); opacity: 0;
+  transition: 0.4s; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.err { background: var(--red); color: #fff; }
+
 </style>
 </head>
 <body>
@@ -176,232 +222,144 @@ tbody tr:last-child td{border-bottom:none;}
 <!-- ══ LOGIN ══ -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
-    <div class="login-icon"><i class="fas fa-toggle-on"></i></div>
-    <div class="login-brand">Impacto Digital</div>
-    <div class="login-title">Activador de Tarjetas</div>
-    <div class="login-sub">Ingresa el código de acceso para continuar.<br>Solo personal autorizado.</div>
-    <input class="login-input" type="password" id="loginPass" placeholder="••••••••" autocomplete="off"
-      onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()"><i class="fas fa-unlock-alt" style="margin-right:7px"></i> Acceder</button>
-    <div class="login-err" id="loginErr"><i class="fas fa-times-circle"></i> Código incorrecto</div>
+    <img src="logo_id.png" alt="Logo" class="login-logo">
+    <div class="login-title">Digital Card Activator</div>
+    <div class="login-sub">Acceso restringido a personal autorizado.<br>Por favor, ingresa tu código de seguridad.</div>
+    <input class="login-input" type="password" id="loginPass" placeholder="••••••••" autocomplete="off">
+    <button class="login-btn" onclick="doLogin()">Validar Acceso</button>
+    <div class="login-err" id="loginErr"><i class="fas fa-exclamation-triangle"></i> Código de acceso inválido</div>
   </div>
 </div>
 
-<!-- ══ APP ══ -->
 <div id="app" style="display:none">
+  <nav>
+    <img src="logo_id.png" alt="Logo" class="nav-logo">
+    <a href="admin.html" class="nav-back"><i class="fas fa-chevron-left"></i> Volver al Portal</a>
+  </nav>
 
-<nav>
-  <div class="nav-logo">Impacto <em>Digital</em></div>
-  <a href="admin.html" class="nav-back"><i class="fas fa-arrow-left" style="font-size:10px"></i> Dashboard</a>
-</nav>
+  <div class="main">
+    <header class="page-header">
+      <div class="page-eyebrow">Digital Card Management</div>
+      <h1 class="page-title">Gestión de <em>Accesos Premium</em></h1>
+      <p class="page-desc">Plataforma centralizada para la activación de tarjetas NFC, códigos QR y suscripciones de Invitaciones Premium. Control total sobre el ecosistema digital del cliente.</p>
+    </header>
 
-<div class="main">
-
-  <!-- Header -->
-  <div class="page-header">
-    <div class="page-eyebrow">Tarjetas Premium</div>
-    <h1 class="page-title">Activar / Desactivar<br><em>Tarjeta Digital</em></h1>
-    <p class="page-desc">Busca una tarjeta por código, nombre o teléfono del cliente. Activa o desactiva su tarjeta premium con un clic. Todos los cambios quedan registrados.</p>
-  </div>
-
-  <!-- Search -->
-  <div class="search-box">
-    <span class="search-label"><i class="fas fa-magnifying-glass" style="margin-right:6px;color:var(--gold)"></i> Buscar tarjeta</span>
-    <div class="search-row">
-      <input class="search-input" type="text" id="searchInput" placeholder="Código de tarjeta, nombre o teléfono..."
-        onkeydown="if(event.key==='Enter')buscarTarjeta()">
-      <button class="search-btn" id="searchBtn" onclick="buscarTarjeta()">
-        <i class="fas fa-search"></i> Buscar
-      </button>
-    </div>
-    <p class="search-hint">💡 Puedes buscar por el código único (ej: <strong>TD-20251001</strong>), nombre del cliente o número de teléfono.</p>
-  </div>
-
-  <!-- Not found -->
-  <div class="not-found" id="notFound">
-    <i class="fas fa-face-frown-open"></i>
-    <h3>Tarjeta no encontrada</h3>
-    <p>No se encontró ninguna tarjeta con ese código o datos. Verifica la información o crea una tarjeta nueva más abajo.</p>
-  </div>
-
-  <!-- Result -->
-  <div class="result-area" id="resultArea">
-
-    <div class="result-card">
-      <div class="result-header">
-        <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:0;">
-          <div class="result-avatar" id="res-avatar">💳</div>
-          <div class="result-name-wrap">
-            <div class="result-name" id="res-name">—</div>
-            <div class="result-id" id="res-id">—</div>
-          </div>
-        </div>
-        <div class="status-badge" id="res-status-badge">
-          <span class="status-dot"></span> <span id="res-status-text">—</span>
-        </div>
+    <!-- Search -->
+    <div class="glass-card">
+      <div class="page-eyebrow" style="margin-bottom: 0;">Buscar Cliente</div>
+      <div class="search-row">
+        <input class="search-input" type="text" id="searchInput" placeholder="Nombre, código TD- o teléfono..." onkeydown="if(event.key==='Enter')buscarTarjeta()">
+        <button class="search-btn" id="searchBtn" onclick="buscarTarjeta()">Consultar</button>
       </div>
+    </div>
 
-      <div class="result-body">
-        <div class="info-grid">
-          <div class="info-item">
-            <div class="info-item-lbl">Teléfono / WA</div>
-            <div class="info-item-val" id="res-tel">—</div>
+    <!-- Result -->
+    <div class="result-area" id="resultArea">
+      <div class="glass-card">
+        <div class="res-header">
+          <div class="res-info">
+             <span id="res-id">—</span>
+             <h2 id="res-name">—</h2>
           </div>
-          <div class="info-item">
-            <div class="info-item-lbl">Tipo de tarjeta</div>
-            <div class="info-item-val" id="res-tipo">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-lbl">Fecha de alta</div>
-            <div class="info-item-val" id="res-fecha">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-lbl">Vencimiento</div>
-            <div class="info-item-val" id="res-vence">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-lbl">Plan</div>
-            <div class="info-item-val" id="res-plan">—</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-lbl">Código</div>
-            <div class="info-item-val mono" id="res-codigo">—</div>
-          </div>
+          <div id="res-status-badge">—</div>
         </div>
 
-        <!-- Toggle -->
-        <div class="toggle-section">
-          <div class="toggle-row">
-            <div class="toggle-info">
-              <h3 id="toggle-title">Estado de la tarjeta</h3>
-              <p id="toggle-desc">Activa la tarjeta para que el cliente pueda usarla.</p>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggleActiva" onchange="toggleEstado()">
-              <span class="toggle-slider"></span>
-            </label>
+        <div class="grid-info">
+          <div class="info-item"><label>WhatsApp</label><p id="res-tel">—</p></div>
+          <div class="info-item"><label>Categoría</label><p id="res-tipo">—</p></div>
+          <div class="info-item"><label>Plan</label><p id="res-plan">—</p></div>
+          <div class="info-item"><label>Alta</label><p id="res-fecha">—</p></div>
+          <div class="info-item"><label>Vencimiento</label><p id="res-vence">—</p></div>
+          <div class="info-item"><label>UUID</label><p id="res-codigo" class="mono">—</p></div>
+        </div>
+
+        <div class="toggle-panel">
+          <div class="toggle-text">
+            <h3 id="toggle-title">Cerrar acceso digital</h3>
+            <p id="toggle-desc">Define si la invitación o tarjeta está disponible públicamente.</p>
           </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleActiva" onchange="toggleEstado()">
+            <span class="slider"></span>
+          </label>
         </div>
 
-        <!-- Actions -->
-        <div class="actions-row">
-          <button class="btn btn-activate" id="btnActivar" onclick="activarTarjeta()">
-            <i class="fas fa-circle-check"></i> Activar tarjeta
-          </button>
-          <button class="btn btn-deactivate" id="btnDesactivar" onclick="desactivarTarjeta()">
-            <i class="fas fa-circle-xmark"></i> Desactivar
-          </button>
-          <button class="btn btn-wa" id="btnWA" onclick="notificarWA()">
-            <i class="fab fa-whatsapp"></i> Notificar
-          </button>
-          <button class="btn btn-copy" onclick="copiarCodigo()">
-            <i class="fas fa-copy"></i> Copiar código
-          </button>
+        <div class="actions">
+          <button class="btn btn-gold" id="btnActivar" onclick="activarTarjeta()"><i class="fas fa-power-off"></i> Activar Servicio</button>
+          <button class="btn btn-glass" id="btnDesactivar" onclick="desactivarTarjeta()" style="color:var(--red)"><i class="fas fa-lock"></i> Suspender</button>
+          <button class="btn btn-wa" onclick="notificarWA()"><i class="fab fa-whatsapp"></i> Notificar Cliente</button>
+          <button class="btn btn-glass" onclick="copiarCodigo()"><i class="fas fa-link"></i> Link</button>
         </div>
       </div>
+
+      <div class="glass-card">
+        <div class="page-eyebrow">Historial de Transacciones</div>
+        <div class="log-list" id="logList"></div>
+      </div>
     </div>
 
-    <!-- Log de actividad -->
-    <div class="log-section">
-      <div class="log-header">
-        <span class="log-title"><i class="fas fa-clock-rotate-left" style="margin-right:6px;color:var(--gold)"></i> Historial de actividad</span>
-        <button onclick="limpiarLog()" style="font-size:10px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;">Limpiar</button>
+    <!-- Inventory -->
+    <div class="glass-card">
+      <div class="page-eyebrow">Base de Datos de Clientes</div>
+      <div style="display:flex; gap:16px; margin-top:20px; margin-bottom:20px; flex-wrap:wrap">
+         <input class="search-input" id="cardsSearch" placeholder="🔍 Filtrar registros..." oninput="filtrarLista()" style="max-width:300px">
+         <select id="filtroEstado" onchange="filtrarLista()" class="search-input" style="max-width:200px">
+            <option value="">Cualquier estado</option>
+            <option value="activa">Activa</option>
+            <option value="inactiva">Pendiente / Suspendida</option>
+         </select>
+         <button class="search-btn" onclick="cargarTodasLasTarjetas()"><i class="fas fa-sync"></i></button>
       </div>
-      <div id="logList"><div class="log-empty">Sin actividad registrada aún.</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>UUID</th>
+              <th>Cliente</th>
+              <th>WA</th>
+              <th>Tipo</th>
+              <th>Plan</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cards-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Registration -->
+    <div class="glass-card">
+      <div class="page-eyebrow">Registrar Nuevo Acceso</div>
+      <div class="form-grid">
+        <div class="field"><label>Nombre Completo</label><input id="nc-nombre" placeholder="Nombre de la cuenta"></div>
+        <div class="field"><label>WhatsApp Directo</label><input id="nc-tel" placeholder="7000-0000"></div>
+        <div class="field"><label>Producto Digital</label>
+          <select id="nc-tipo">
+            <option value="Digital NFC">Tarjeta NFC Premium</option>
+            <option value="Digital QR">Invitación QR</option>
+            <option value="Wedding Planner">Acceso Planner</option>
+            <option value="Empresarial">Suscripción Business</option>
+          </select>
+        </div>
+        <div class="field"><label>Nivel de Servicio</label>
+          <select id="nc-plan">
+            <option value="Básico">Starter (Básico)</option>
+            <option value="Premium" selected>Premium Elite</option>
+            <option value="Vitalicio">Life-Time (Vitalicio)</option>
+          </select>
+        </div>
+        <div class="field"><label>Fecha de Expiración</label><input type="date" id="nc-vence"></div>
+        <div class="field"><label>Custom ID</label><input id="nc-codigo" placeholder="ID generado automáticamente"></div>
+      </div>
+      <div style="margin-top:32px; display:flex; gap:12px">
+         <button class="btn btn-gold" onclick="crearTarjeta()" style="flex:1">Crear Acceso Especial</button>
+         <button class="btn btn-glass" onclick="generarCodigo()">Auto-ID</button>
+      </div>
     </div>
 
   </div>
-
-  <!-- ══ LISTA DE TODAS LAS TARJETAS ══ -->
-  <div class="cards-list-section">
-    <div class="cards-list-header">
-      <span class="cards-list-title">📋 Todas las tarjetas registradas</span>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <input class="cards-search" type="text" id="cardsSearch" placeholder="🔍 Filtrar..." oninput="filtrarLista()">
-        <select id="filtroEstado" onchange="filtrarLista()" style="padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;">
-          <option value="">Todos</option>
-          <option value="activa">Activas</option>
-          <option value="inactiva">Inactivas</option>
-          <option value="pendiente">Pendientes</option>
-        </select>
-        <button onclick="cargarTodasLasTarjetas()" style="padding:9px 14px;border-radius:10px;background:var(--ink);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
-          <i class="fas fa-rotate-right"></i> Actualizar
-        </button>
-      </div>
-    </div>
-    <div style="overflow-x:auto">
-      <table>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Cliente</th>
-            <th>Teléfono</th>
-            <th>Tipo</th>
-            <th>Plan</th>
-            <th>Vence</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="cards-tbody">
-          <tr><td colspan="8" style="text-align:center;padding:40px;color:#ccc;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em">Cargando tarjetas...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ══ REGISTRAR NUEVA TARJETA ══ -->
-  <div class="new-card-section">
-    <div class="nc-title"><i class="fas fa-plus-circle" style="color:var(--gold)"></i> Registrar nueva tarjeta premium</div>
-    <div class="nc-grid">
-      <div class="fgroup">
-        <label>Nombre del cliente *</label>
-        <input type="text" id="nc-nombre" placeholder="Ej. Ana María López">
-      </div>
-      <div class="fgroup">
-        <label>Teléfono / WhatsApp *</label>
-        <input type="tel" id="nc-tel" placeholder="7000-0000">
-      </div>
-      <div class="fgroup">
-        <label>Tipo de tarjeta</label>
-        <select id="nc-tipo">
-          <option value="Digital NFC">Digital NFC</option>
-          <option value="Digital QR">Digital QR</option>
-          <option value="Digital Estándar">Digital Estándar</option>
-          <option value="Wedding Planner">Wedding Planner</option>
-          <option value="Empresarial">Empresarial</option>
-        </select>
-      </div>
-      <div class="fgroup">
-        <label>Plan</label>
-        <select id="nc-plan">
-          <option value="Básico">Básico</option>
-          <option value="Premium">Premium</option>
-          <option value="Anual">Anual</option>
-          <option value="Vitalicio">Vitalicio</option>
-        </select>
-      </div>
-      <div class="fgroup">
-        <label>Fecha de vencimiento</label>
-        <input type="date" id="nc-vence">
-      </div>
-      <div class="fgroup">
-        <label>Código personalizado (opcional)</label>
-        <input type="text" id="nc-codigo" placeholder="TD-XXXXXXXX (auto si vacío)" style="text-transform:uppercase;letter-spacing:.06em;">
-      </div>
-    </div>
-    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
-      <button onclick="crearTarjeta()" class="btn" style="background:var(--ink);color:#fff;flex:1;justify-content:center;min-width:180px;">
-        <i class="fas fa-plus"></i> Crear tarjeta
-      </button>
-      <button onclick="generarCodigo()" class="btn btn-copy">
-        <i class="fas fa-dice"></i> Generar código
-      </button>
-    </div>
-  </div>
-
-</div><!-- /main -->
-</div><!-- /app -->
+</div>
 
 <div id="toast"></div>
 
@@ -424,347 +382,187 @@ var _tarjetaActual = null;
 var _tarjetaKey = null;
 var _todasLasTarjetas = {};
 
-/* ══ LOGIN ══ */
 function doLogin() {
   var p = document.getElementById('loginPass').value.trim();
-  var err = document.getElementById('loginErr');
   if (p === ACCESS_CODE) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    cargarTodasLasTarjetas();
-    toast('✅ Bienvenido al Activador de Tarjetas', 'ok');
+    document.getElementById('loginScreen').style.opacity = '0';
+    setTimeout(()=> {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      cargarTodasLasTarjetas();
+      toast('🔒 Sesión autorizada: Acceso total');
+    }, 400);
   } else {
-    err.style.display = 'block';
+    document.getElementById('loginErr').style.display = 'block';
     document.getElementById('loginPass').value = '';
-    document.getElementById('loginPass').focus();
-    setTimeout(function(){ err.style.display = 'none'; }, 3000);
+    setTimeout(()=>{ document.getElementById('loginErr').style.display = 'none'; }, 3000);
   }
 }
-document.getElementById('loginPass').addEventListener('keydown', function(e){
-  if(e.key === 'Enter') doLogin();
-});
 
-/* ══ TOAST ══ */
 function toast(msg, type) {
   var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + (type || '');
-  setTimeout(function(){ t.className = ''; }, 3500);
+  t.textContent = msg; t.className = 'show ' + (type || '');
+  setTimeout(()=>{ t.className = ''; }, 3500);
 }
 
-/* ══ BUSCAR TARJETA ══ */
 function buscarTarjeta() {
   var q = document.getElementById('searchInput').value.trim().toLowerCase();
-  if (!q) { toast('Ingresa un código, nombre o teléfono', 'err'); return; }
+  if (!q) { toast('Ingresa datos de búsqueda','err'); return; }
   var btn = document.getElementById('searchBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
-  document.getElementById('resultArea').classList.remove('show');
-  document.getElementById('notFound').classList.remove('show');
-
-  db.ref('tarjetas_premium').once('value', function(snap) {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-search"></i> Buscar';
-    var data = snap.val() || {};
-    var found = null, foundKey = null;
-    Object.entries(data).forEach(function(e) {
-      var t = e[1], k = e[0];
-      var nombre = (t.nombre || '').toLowerCase();
-      var tel = (t.telefono || '').replace(/[^0-9]/g, '');
-      var codigo = (t.codigo || k).toLowerCase();
-      if (codigo.includes(q) || nombre.includes(q) || tel.includes(q.replace(/[^0-9]/g,''))) {
+  btn.innerText = '···';
+  db.ref('tarjetas_premium').once('value', snap => {
+    btn.innerText = 'Consultar';
+    var data = snap.val() || {}, found = null, foundKey = null;
+    Object.entries(data).forEach(([k,t]) => {
+      if ((t.codigo||k).toLowerCase().includes(q) || (t.nombre||'').toLowerCase().includes(q) || (t.telefono||'').includes(q)) {
         if (!found) { found = t; foundKey = k; }
       }
     });
-    if (found) {
-      mostrarTarjeta(found, foundKey);
-    } else {
-      document.getElementById('notFound').classList.add('show');
-      toast('No se encontró ninguna tarjeta', 'err');
-    }
-  }).catch(function(e){
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-search"></i> Buscar';
-    toast('Error: ' + e.message, 'err');
-  });
+    if (found) mostrarTarjeta(found, foundKey);
+    else toast('No se encontró el registro','err');
+  }).catch(e => toast(e.message,'err'));
 }
 
 function mostrarTarjeta(t, key) {
-  _tarjetaActual = t;
-  _tarjetaKey = key;
-  var activa = (t.estado === 'activa');
-
-  // Header
-  document.getElementById('res-avatar').textContent = activa ? '✅' : '🔒';
-  document.getElementById('res-name').textContent = t.nombre || '—';
-  document.getElementById('res-id').textContent = '📎 Código: ' + (t.codigo || key);
-
-  // Status badge
+  _tarjetaActual = t; _tarjetaKey = key;
+  var activa = t.estado === 'activa';
+  document.getElementById('res-name').innerText = t.nombre || 'Sin Nombre';
+  document.getElementById('res-id').innerText = 'ID REGISTRO: ' + (t.codigo || key);
   var badge = document.getElementById('res-status-badge');
-  var cls = {'activa':'status-activa','inactiva':'status-inactiva','pendiente':'status-pendiente'}[t.estado] || 'status-pendiente';
-  badge.className = 'status-badge ' + cls;
-  document.getElementById('res-status-text').textContent = (t.estado || 'pendiente').charAt(0).toUpperCase() + (t.estado || 'pendiente').slice(1);
-
-  // Info
-  document.getElementById('res-tel').textContent = t.telefono || '—';
-  document.getElementById('res-tipo').textContent = t.tipo || 'Digital';
-  document.getElementById('res-plan').textContent = t.plan || '—';
-  document.getElementById('res-codigo').textContent = t.codigo || key;
-  document.getElementById('res-fecha').textContent = t.fechaAlta
-    ? new Date(t.fechaAlta).toLocaleDateString('es-SV', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
-  document.getElementById('res-vence').textContent = t.vencimiento
-    ? new Date(t.vencimiento+'T12:00:00').toLocaleDateString('es-SV', {day:'2-digit',month:'short',year:'2-digit'}) : 'Sin venc.';
-
-  // Toggle
+  badge.className = 'status-badge ' + (activa ? 'status-activa' : 'status-inactiva');
+  badge.innerText = activa ? 'Servicio Activo' : 'Acceso Suspendido';
+  document.getElementById('res-tel').innerText = t.telefono || '—';
+  document.getElementById('res-tipo').innerText = t.tipo || '—';
+  document.getElementById('res-plan').innerText = t.plan || '—';
+  document.getElementById('res-codigo').innerText = t.codigo || key;
+  document.getElementById('res-fecha').innerText = t.fechaAlta ? new Date(t.fechaAlta).toLocaleDateString() : '—';
+  document.getElementById('res-vence').innerText = t.vencimiento ? new Date(t.vencimiento+'T12:00:00').toLocaleDateString() : 'Infinite Access';
   document.getElementById('toggleActiva').checked = activa;
-  document.getElementById('toggle-title').textContent = activa ? '🟢 Tarjeta ACTIVA' : '🔴 Tarjeta INACTIVA';
-  document.getElementById('toggle-desc').textContent = activa
-    ? 'El cliente puede usar su tarjeta digital normalmente.'
-    : 'La tarjeta está desactivada. El cliente no puede acceder.';
-
-  // Buttons
-  document.getElementById('btnActivar').style.display = activa ? 'none' : '';
-  document.getElementById('btnDesactivar').style.display = activa ? '' : 'none';
-
-  // Log
+  document.getElementById('toggle-title').innerText = activa ? 'Acceso Abierto (Público)' : 'AccesoRestringido (Privado)';
   renderLog(t.historial || {});
-
   document.getElementById('resultArea').classList.add('show');
-  document.getElementById('resultArea').scrollIntoView({behavior:'smooth', block:'start'});
+  window.scrollTo({top: 400, behavior:'smooth'});
 }
 
-/* ══ TOGGLE ══ */
 function toggleEstado() {
   var checked = document.getElementById('toggleActiva').checked;
-  if (checked) activarTarjeta();
-  else desactivarTarjeta();
+  if(checked) activarTarjeta(); else desactivarTarjeta();
 }
 
-/* ══ ACTIVAR ══ */
 function activarTarjeta() {
   if (!_tarjetaKey) return;
   var ahora = Date.now();
-  db.ref('tarjetas_premium/' + _tarjetaKey).update({
-    estado: 'activa',
-    ultimaActivacion: ahora
-  }).then(function(){
-    // Log entry
-    db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').push({
-      accion: 'activada',
-      fecha: ahora,
-      nota: 'Activada desde el panel admin'
-    });
-    _tarjetaActual.estado = 'activa';
-    mostrarTarjeta(_tarjetaActual, _tarjetaKey);
-    cargarTodasLasTarjetas();
-    toast('✅ Tarjeta activada correctamente', 'ok');
-  }).catch(function(e){ toast('Error: ' + e.message, 'err'); });
+  db.ref('tarjetas_premium/' + _tarjetaKey).update({estado: 'activa', ultimaActivacion: ahora}).then(() => {
+    db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').push({accion: 'activada', fecha: ahora, nota: 'Activación de servicio ejecutada.'});
+    _tarjetaActual.estado = 'activa'; mostrarTarjeta(_tarjetaActual, _tarjetaKey);
+    cargarTodasLasTarjetas(); toast('✅ Acceso activado');
+  });
 }
 
-/* ══ DESACTIVAR ══ */
 function desactivarTarjeta() {
-  if (!_tarjetaKey) return;
-  if (!confirm('¿Desactivar la tarjeta de ' + (_tarjetaActual.nombre || 'este cliente') + '?')) return;
+  if (!_tarjetaKey || !confirm('¿Ejecutar suspensión de servicio?')) return;
   var ahora = Date.now();
-  db.ref('tarjetas_premium/' + _tarjetaKey).update({
-    estado: 'inactiva',
-    ultimaDesactivacion: ahora
-  }).then(function(){
-    db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').push({
-      accion: 'desactivada',
-      fecha: ahora,
-      nota: 'Desactivada desde el panel admin'
-    });
-    _tarjetaActual.estado = 'inactiva';
-    mostrarTarjeta(_tarjetaActual, _tarjetaKey);
-    cargarTodasLasTarjetas();
-    toast('🔴 Tarjeta desactivada', 'info');
-  }).catch(function(e){ toast('Error: ' + e.message, 'err'); });
+  db.ref('tarjetas_premium/' + _tarjetaKey).update({estado: 'inactiva', ultimaDesactivacion: ahora}).then(() => {
+    db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').push({accion: 'desactivada', fecha: ahora, nota: 'Suspensión de cuenta por administrador.'});
+    _tarjetaActual.estado = 'inactiva'; mostrarTarjeta(_tarjetaActual, _tarjetaKey);
+    cargarTodasLasTarjetas(); toast('🔒 Acceso suspendido','err');
+  });
 }
 
-/* ══ NOTIFICAR WA ══ */
 function notificarWA() {
   if (!_tarjetaActual) return;
-  var tel = (_tarjetaActual.telefono || '').replace(/[^0-9]/g, '');
-  var activa = _tarjetaActual.estado === 'activa';
-  var msg = activa
-    ? '✅ Hola ' + (_tarjetaActual.nombre || '') + ', tu Tarjeta Digital Premium de *Impacto Digital* ya está *ACTIVA* 🎉\n\nCódigo: *' + (_tarjetaActual.codigo || _tarjetaKey) + '*\n\n¡Ya puedes compartirla con todos! 🌟'
-    : '🔴 Hola ' + (_tarjetaActual.nombre || '') + ', tu Tarjeta Digital Premium ha sido desactivada temporalmente. Contáctanos para más información.\n\n📞 Impacto Digital';
-  window.open('https://wa.me/503' + tel + '?text=' + encodeURIComponent(msg), '_blank');
+  var tel = (_tarjetaActual.telefono||'').replace(/[^0-9]/g,''), activa = _tarjetaActual.estado === 'activa';
+  var msg = activa 
+    ? '✨ Hola ' + _tarjetaActual.nombre + ', es un placer saludarte de *Impacto Digital*.\n\nNos complace informarte que tu *Acceso Premium Digital* ya se encuentra *ACTIVO* y listo para compartir.\n\n🔑 ID Acceso: *'+(_tarjetaActual.codigo||_tarjetaKey)+'*\n\nGracias por confiar en nuestra exclusividad. 🎩'
+    : '🎩 Hola ' + _tarjetaActual.nombre + ', te informamos que tu acceso digital ha sido puesto en pausa por mantenimiento o administración. Si tienes dudas, estamos a tu disposición.';
+  window.open('https://wa.me/503'+tel+'?text='+encodeURIComponent(msg), '_blank');
 }
 
-/* ══ COPIAR CÓDIGO ══ */
 function copiarCodigo() {
-  if (!_tarjetaActual) return;
-  var codigo = _tarjetaActual.codigo || _tarjetaKey;
-  navigator.clipboard.writeText(codigo).then(function(){
-    toast('📋 Código copiado: ' + codigo, 'info');
-  });
+  var c = _tarjetaActual.codigo || _tarjetaKey;
+  navigator.clipboard.writeText(c).then(()=> toast('Link copiado al portapapeles'));
 }
 
-/* ══ LOG ══ */
 function renderLog(historial) {
-  var entries = Object.values(historial || {}).sort(function(a,b){ return b.fecha - a.fecha; });
-  var el = document.getElementById('logList');
-  if (!entries.length) {
-    el.innerHTML = '<div class="log-empty">Sin actividad registrada aún.</div>';
-    return;
-  }
-  var colors = {activada:'log-dot-green', desactivada:'log-dot-red', creada:'log-dot-gold', editada:'log-dot-blue'};
-  var icons = {activada:'✅', desactivada:'🔴', creada:'🆕', editada:'✏️'};
-  el.innerHTML = entries.map(function(e) {
-    var color = colors[e.accion] || 'log-dot-gold';
-    var icon = icons[e.accion] || '•';
-    var fecha = e.fecha ? new Date(e.fecha).toLocaleString('es-SV') : '—';
-    return '<div class="log-item"><div class="log-dot ' + color + '"></div><div><div class="log-text">' + icon + ' ' + (e.nota || e.accion) + '</div><div class="log-time">' + fecha + '</div></div></div>';
-  }).join('');
+  var histVal = historial || {};
+  var list = document.getElementById('logList'), entries = Object.values(histVal).sort((a,b)=>b.fecha-a.fecha);
+  if(!entries.length){ list.innerHTML = '<p style="color:var(--muted); font-size:12px">Sin actividad previa.</p>'; return; }
+  list.innerHTML = entries.map(e => `
+    <div class="log-item">
+      <div>
+        <p>${e.nota || e.accion}</p>
+        <span>${new Date(e.fecha).toLocaleString()}</span>
+      </div>
+    </div>
+  `).join('');
 }
 
-function limpiarLog() {
-  if (!_tarjetaKey) return;
-  if (!confirm('¿Limpiar el historial de esta tarjeta?')) return;
-  db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').remove().then(function(){
-    document.getElementById('logList').innerHTML = '<div class="log-empty">Historial limpiado.</div>';
-    toast('🗑 Historial limpiado', 'info');
-  });
-}
-
-/* ══ LISTA TODAS ══ */
 function cargarTodasLasTarjetas() {
-  db.ref('tarjetas_premium').once('value', function(snap) {
-    _todasLasTarjetas = snap.val() || {};
-    filtrarLista();
-  }).catch(function(){
-    document.getElementById('cards-tbody').innerHTML =
-      '<tr><td colspan="8" style="text-align:center;padding:32px;color:#ccc;font-size:12px;font-weight:700;text-transform:uppercase">Sin tarjetas registradas aún</td></tr>';
-  });
+  db.ref('tarjetas_premium').once('value', snap => { _todasLasTarjetas = snap.val() || {}; filtrarLista(); });
 }
 
 function filtrarLista() {
-  var q = (document.getElementById('cardsSearch').value || '').toLowerCase();
-  var est = document.getElementById('filtroEstado').value;
-  var entries = Object.entries(_todasLasTarjetas).filter(function(e) {
-    var t = e[1];
-    var matchQ = !q || (t.nombre||'').toLowerCase().includes(q) || (t.telefono||'').includes(q) || (t.codigo||e[0]).toLowerCase().includes(q);
-    var matchE = !est || (t.estado || 'pendiente') === est;
+  var q = document.getElementById('cardsSearch').value.toLowerCase(), est = document.getElementById('filtroEstado').value;
+  var entries = Object.entries(_todasLasTarjetas).filter(([k,t]) => {
+    var matchQ = !q || (t.nombre||'').toLowerCase().includes(q) || (t.codigo||k).toLowerCase().includes(q) || (t.telefono||'').includes(q);
+    var matchE = !est || (t.estado||'inactiva') === est;
     return matchQ && matchE;
   });
   renderTabla(entries);
 }
 
 function renderTabla(entries) {
-  var tbody = document.getElementById('cards-tbody');
-  if (!entries.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:#ccc;font-size:12px;font-weight:700;text-transform:uppercase">Sin resultados</td></tr>';
-    return;
-  }
-  var estadoBadge = function(est) {
-    var map = {
-      activa: 'background:#f0fdf4;color:#16a34a;border:1px solid rgba(22,163,74,.2)',
-      inactiva: 'background:#fef2f2;color:#dc2626;border:1px solid rgba(220,38,38,.2)',
-      pendiente: 'background:#fffbeb;color:#f59e0b;border:1px solid rgba(245,158,11,.2)'
-    };
-    var s = map[est] || map.pendiente;
-    return '<span style="' + s + ';padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;">' + (est||'pendiente') + '</span>';
-  };
-  tbody.innerHTML = entries.map(function(e) {
-    var k = e[0], t = e[1];
-    var vence = t.vencimiento ? new Date(t.vencimiento+'T12:00:00').toLocaleDateString('es-SV',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
-    return '<tr>' +
-      '<td style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.06em;color:#6366f1">' + (t.codigo||k) + '</td>' +
-      '<td><div style="font-weight:700;font-size:12px">' + (t.nombre||'—') + '</div></td>' +
-      '<td><a href="https://wa.me/503' + (t.telefono||'').replace(/[^0-9]/g,'') + '" target="_blank" style="color:#16a34a;font-weight:700;font-size:12px">' + (t.telefono||'—') + '</a></td>' +
-      '<td style="font-size:11px">' + (t.tipo||'—') + '</td>' +
-      '<td style="font-size:11px">' + (t.plan||'—') + '</td>' +
-      '<td style="font-size:11px">' + vence + '</td>' +
-      '<td>' + estadoBadge(t.estado) + '</td>' +
-      '<td><div style="display:flex;gap:6px">' +
-        '<button onclick="quickActivar(\'' + k + '\')" title="Activar" style="width:28px;height:28px;border-radius:8px;background:#f0fdf4;color:#16a34a;border:1px solid rgba(22,163,74,.2);cursor:pointer;font-size:12px"><i class="fas fa-check"></i></button>' +
-        '<button onclick="quickDesactivar(\'' + k + '\')" title="Desactivar" style="width:28px;height:28px;border-radius:8px;background:#fef2f2;color:#dc2626;border:1px solid rgba(220,38,38,.2);cursor:pointer;font-size:12px"><i class="fas fa-times"></i></button>' +
-        '<button onclick="cargarEnBuscador(\'' + k + '\')" title="Ver detalle" style="width:28px;height:28px;border-radius:8px;background:#eff6ff;color:#2563eb;border:1px solid rgba(37,99,235,.2);cursor:pointer;font-size:12px"><i class="fas fa-eye"></i></button>' +
-      '</div></td>' +
-      '</tr>';
-  }).join('');
+  var tb = document.getElementById('cards-tbody');
+  if(!entries.length){ tb.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px; color:var(--muted)">Sin registros existentes</td></tr>'; return; }
+  tb.innerHTML = entries.map(([k,t]) => `
+    <tr>
+      <td class="mono" style="color:var(--gold)">${t.codigo||k}</td>
+      <td style="font-weight:700">${t.nombre||'—'}</td>
+      <td>${t.telefono||'—'}</td>
+      <td>${t.tipo||'—'}</td>
+      <td>${t.plan||'—'}</td>
+      <td><span class="status-badge ${t.estado==='activa'?'status-activa':'status-inactiva'}">${t.estado||'off'}</span></td>
+      <td>
+        <button onclick="cargarEnBuscador('${k}')" class="btn-glass" style="width:32px; height:32px; border-radius:8px"><i class="fas fa-eye"></i></button>
+      </td>
+    </tr>
+  `).join('');
 }
 
-function quickActivar(key) {
-  db.ref('tarjetas_premium/' + key).update({estado:'activa', ultimaActivacion:Date.now()}).then(function(){
-    db.ref('tarjetas_premium/' + key + '/historial').push({accion:'activada',fecha:Date.now(),nota:'Activación rápida desde lista'});
-    cargarTodasLasTarjetas();
-    toast('✅ Tarjeta activada', 'ok');
-  });
-}
-function quickDesactivar(key) {
-  db.ref('tarjetas_premium/' + key).update({estado:'inactiva', ultimaDesactivacion:Date.now()}).then(function(){
-    db.ref('tarjetas_premium/' + key + '/historial').push({accion:'desactivada',fecha:Date.now(),nota:'Desactivación rápida desde lista'});
-    cargarTodasLasTarjetas();
-    toast('🔴 Tarjeta desactivada', 'info');
-  });
-}
-function cargarEnBuscador(key) {
-  var t = _todasLasTarjetas[key];
+function cargarEnBuscador(k) {
+  var t = _todasLasTarjetas[k];
   if (t) {
-    document.getElementById('searchInput').value = t.codigo || key;
-    mostrarTarjeta(t, key);
+    document.getElementById('searchInput').value = (t.codigo || k);
+    mostrarTarjeta(t, k);
   }
 }
 
-/* ══ GENERAR CÓDIGO ══ */
 function generarCodigo() {
-  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  var code = 'TD-';
-  for (var i = 0; i < 8; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-  document.getElementById('nc-codigo').value = code;
-  toast('🎲 Código generado: ' + code, 'info');
+  var c = 'TD-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  document.getElementById('nc-codigo').value = c;
 }
 
-/* ══ CREAR TARJETA ══ */
 function crearTarjeta() {
-  var nombre = document.getElementById('nc-nombre').value.trim();
-  var tel = document.getElementById('nc-tel').value.trim();
-  if (!nombre) { toast('Ingresa el nombre del cliente', 'err'); document.getElementById('nc-nombre').focus(); return; }
-  if (!tel) { toast('Ingresa el teléfono', 'err'); document.getElementById('nc-tel').focus(); return; }
-
-  var codigo = document.getElementById('nc-codigo').value.trim().toUpperCase();
-  if (!codigo) {
-    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    codigo = 'TD-';
-    for (var i = 0; i < 8; i++) codigo += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-
-  var vence = document.getElementById('nc-vence').value;
-  var datos = {
-    nombre: nombre,
-    telefono: tel,
+  var n = document.getElementById('nc-nombre').value, t = document.getElementById('nc-tel').value;
+  if(!n || !t) { toast('Campos obligatorios incompletos','err'); return; }
+  var cod = document.getElementById('nc-codigo').value.toUpperCase() || 'TD-'+Date.now().toString().slice(-8);
+  var data = {
+    nombre: n, telefono: t,
     tipo: document.getElementById('nc-tipo').value,
     plan: document.getElementById('nc-plan').value,
-    codigo: codigo,
-    estado: 'pendiente',
-    fechaAlta: Date.now(),
-    vencimiento: vence || null
+    codigo: cod, estado: 'inactiva', fechaAlta: Date.now(),
+    vencimiento: document.getElementById('nc-vence').value || null
   };
-
-  db.ref('tarjetas_premium').push(datos).then(function(ref) {
-    // Log
-    db.ref('tarjetas_premium/' + ref.key + '/historial').push({accion:'creada', fecha:Date.now(), nota:'Tarjeta creada desde panel admin'});
-    toast('🆕 Tarjeta creada: ' + codigo, 'ok');
-    // Limpiar form
-    ['nc-nombre','nc-tel','nc-codigo','nc-vence'].forEach(function(id){ document.getElementById(id).value = ''; });
+  db.ref('tarjetas_premium').push(data).then(ref => {
+    db.ref('tarjetas_premium/'+ref.key+'/historial').push({accion:'creada', fecha:Date.now(), nota:'Creación de cuenta Élite.'});
+    toast('✅ Cliente registrado con éxito');
+    ['nc-nombre','nc-tel','nc-codigo','nc-vence'].forEach(id => document.getElementById(id).value='');
     cargarTodasLasTarjetas();
-    // Abrir en buscador
-    datos.historial = {};
-    setTimeout(function(){ mostrarTarjeta(datos, ref.key); }, 500);
-  }).catch(function(e){ toast('Error: ' + e.message, 'err'); });
+  });
 }
 
-// Escuchar cambios en tiempo real
-db.ref('tarjetas_premium').on('value', function(snap) {
-  _todasLasTarjetas = snap.val() || {};
-  filtrarLista();
-  // Actualizar tarjeta actual si está abierta
-  if (_tarjetaKey && _todasLasTarjetas[_tarjetaKey]) {
-    _tarjetaActual = _todasLasTarjetas[_tarjetaKey];
-  }
+db.ref('tarjetas_premium').on('value', snap => {
+  _todasLasTarjetas = snap.val() || {}; filtrarLista();
 });
 </script>
 </body>
