@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impacto Digital · Portal del Cliente</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d0d0d;--paper:#faf9f6;--warm:#f5f2ec;
+  --gold:#c9a96e;--gold-d:#a07844;--gold-l:#f0e6d3;
+  --violet:#6366f1;--green:#16a34a;--red:#dc2626;--amber:#f59e0b;
+  --border:#e8e4dc;--muted:#8a8070;
+  --shadow:0 4px 20px rgba(13,13,13,.08);
+  --shadow-lg:0 12px 48px rgba(13,13,13,.14);
+  --fh:"Playfair Display",Georgia,serif;
+  --fb:"DM Sans",system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--paper);color:var(--ink);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{background:rgba(13,13,13,.97);backdrop-filter:blur(16px);position:sticky;top:0;z-index:200;height:60px;display:flex;align-items:center;padding:0 clamp(16px,5vw,48px);justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-img{width:34px;height:34px;border-radius:9px;object-fit:cover;border:1px solid rgba(255,255,255,.1)}
+.nav-logo-fb{width:34px;height:34px;border-radius:9px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);display:flex;align-items:center;justify-content:center}
+.nav-logo-fb i{color:var(--gold);font-size:14px}
+.nav-name{font-family:var(--fh);font-size:15px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.nav-name span{color:var(--gold)}
+.nav-links{display:flex;gap:2px}
+@media(max-width:580px){.nav-links{display:none}}
+.nav-link{padding:6px 13px;border-radius:8px;font-size:12px;font-weight:600;color:rgba(255,255,255,.45);transition:.15s;cursor:pointer;border:none;background:none;font-family:var(--fb)}
+.nav-link:hover,.nav-link.act{color:#fff;background:rgba(255,255,255,.07)}
+.nav-right{display:flex;gap:8px;align-items:center}
+.nbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:var(--fb);transition:.15s;text-decoration:none;white-space:nowrap}
+.nbtn-gold{background:var(--gold);color:var(--ink)}
+.nbtn-gold:hover{background:var(--gold-d);color:#fff}
+.nbtn-ghost{background:rgba(255,255,255,.07);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1)}
+.nbtn-ghost:hover{color:#fff;background:rgba(255,255,255,.12)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:480px;display:flex;align-items:center;padding:clamp(48px,7vw,80px) clamp(16px,5vw,48px)}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0d0d0d 0%,#1a1207 55%,#0d0d0d 100%);z-index:0}
+.hero-img{position:absolute;inset:0;background-image:url("https://i.ibb.co/xSgM6ytj/Chat-GPT-Image-6-mar-2026-04-16-01.png");background-size:cover;background-position:center;opacity:.1;z-index:0}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse 65% 70% at 75% 50%,rgba(201,169,110,.16),transparent 65%);z-index:0}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;z-index:0}
+.hero-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media(max-width:700px){.hero-inner{grid-template-columns:1fr}}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.hero-eyebrow::before{content:"";width:20px;height:1px;background:var(--gold)}
+.hero-h1{font-family:var(--fh);font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-.03em;margin-bottom:12px}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.75;margin-bottom:22px;max-width:380px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.hbtn{display:inline-flex;align-items:center;gap:7px;padding:12px 22px;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:var(--fb);transition:.2s}
+.hbtn-gold{background:var(--gold);color:var(--ink)}
+.hbtn-gold:hover{background:var(--gold-d);color:#fff;transform:translateY(-2px)}
+.hbtn-ghost{background:rgba(255,255,255,.07);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}
+.hbtn-ghost:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* TRACK CARD */
+.track-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:26px;backdrop-filter:blur(8px)}
+.track-title{font-family:var(--fh);font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:3px}
+.track-sub{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:16px}
+.track-row{display:flex;gap:8px}
+.track-inp{flex:1;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);color:#fff;padding:11px 15px;border-radius:10px;font-size:14px;font-family:var(--fb);font-weight:600;letter-spacing:.06em;text-transform:uppercase;outline:none;transition:.2s;min-width:0}
+.track-inp::placeholder{color:rgba(255,255,255,.22);font-weight:400;text-transform:none;letter-spacing:0}
+.track-inp:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
+.track-btn{padding:11px 18px;background:var(--gold);color:var(--ink);border:none;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--fb);transition:.15s;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.track-btn:hover{background:var(--gold-d);color:#fff}
+.track-btn:disabled{opacity:.5;cursor:not-allowed}
+.track-hint{font-size:10px;color:rgba(255,255,255,.18);margin-top:8px}
+.track-err{font-size:12px;color:#fca5a5;margin-top:8px;display:none}
+
+/* TRACKING RESULT */
+.result-wrap{max-width:1100px;margin:0 auto;padding:0 clamp(16px,5vw,48px)}
+.result-card{background:white;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);margin:20px 0 0;border:1.5px solid var(--border)}
+.rc-head{background:var(--ink);padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.rc-name{font-family:var(--fh);font-size:1.1rem;font-weight:700;color:#fff}
+.rc-order{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.rc-badge{padding:5px 13px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.rc-body{padding:22px}
+/* Stepper */
+.stepper{display:flex;align-items:flex-start;margin-bottom:20px;overflow-x:auto;padding-bottom:4px;gap:0}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:64px;position:relative;z-index:1}
+.step-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;margin-bottom:7px;border:2px solid var(--border);background:white;position:relative;z-index:2;flex-shrink:0;transition:.3s}
+.step.done .step-circle{background:var(--green);border-color:var(--green);color:white}
+.step.curr .step-circle{background:var(--gold);border-color:var(--gold);color:var(--ink);box-shadow:0 0 0 4px rgba(201,169,110,.18)}
+.step-lbl{font-size:9px;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;line-height:1.3}
+.step.done .step-lbl,.step.curr .step-lbl{color:var(--ink)}
+.step-conn{flex:1;height:2px;background:var(--border);margin-top:15px;align-self:flex-start;min-width:12px;transition:.3s}
+.step-conn.done{background:var(--green)}
+/* Info grid */
+.rc-info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:480px){.rc-info{grid-template-columns:1fr}}
+.rc-info-item{background:var(--warm);border-radius:11px;padding:11px 14px}
+.rc-info-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px}
+.rc-info-val{font-size:13px;font-weight:700;color:var(--ink);line-height:1.4}
+/* Description */
+.rc-desc{background:var(--warm);border-radius:11px;padding:14px;margin-bottom:14px}
+.rc-desc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px}
+.rc-desc-val{font-size:13px;color:var(--ink);line-height:1.6}
+/* Saldo */
+.rc-saldo{background:var(--ink);border-radius:13px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rc-saldo-lbl{font-size:12px;color:rgba(255,255,255,.45);font-weight:600}
+.rc-saldo-val{font-family:var(--fh);font-size:1.5rem;font-weight:700}
+.rc-saldo-val.green{color:#4ade80}
+.rc-saldo-val.red{color:#f87171}
+/* Actions */
+.rc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.rc-act-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:var(--fb);transition:.15s;text-decoration:none}
+.rc-act-wa{background:#25d366;color:white}
+.rc-act-wa:hover{background:#1eae57}
+.rc-act-close{background:var(--warm);color:var(--muted);border:1px solid var(--border)}
+.rc-act-close:hover{background:var(--border)}
+
+/* SECTIONS */
+.wrap{max-width:1100px;margin:0 auto;padding:0 clamp(16px,5vw,48px)}
+section{padding:clamp(48px,6vw,72px) 0}
+.sec-eyebrow{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.sec-h{font-family:var(--fh);font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:800;color:var(--ink);line-height:1.1;letter-spacing:-.025em;margin-bottom:8px}
+.sec-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:460px}
+
+/* PROMO */
+.promo{border-radius:22px;overflow:hidden;position:relative;min-height:190px;display:flex;align-items:center;padding:28px 32px;margin-bottom:40px}
+.promo-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0d0d0d,#1a1207);z-index:0}
+.promo-glow{position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80%,rgba(201,169,110,.22),transparent 60%);z-index:0}
+.promo-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;flex-wrap:wrap}
+.promo-badge{display:inline-flex;align-items:center;background:var(--gold);color:var(--ink);font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:3px 11px;border-radius:20px;margin-bottom:8px}
+.promo-h{font-family:var(--fh);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:5px}
+.promo-p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6;max-width:340px}
+.promo-cta{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;background:var(--gold);color:var(--ink);border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--fb);transition:.15s;flex-shrink:0}
+.promo-cta:hover{background:var(--gold-d);color:#fff;transform:translateY(-2px)}
+
+/* CATALOG */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.cat-card{background:white;border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
+.cat-thumb{height:160px;overflow:hidden;position:relative;cursor:pointer}
+.cat-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.cat-card:hover .cat-thumb img{transform:scale(1.06)}
+.cat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.8),transparent 50%);display:flex;align-items:flex-end;padding:14px}
+.cat-thumb-title{font-family:var(--fh);font-size:1.1rem;font-weight:700;color:#fff;flex:1}
+.cat-toggle-btn{width:28px;height:28px;background:rgba(255,255,255,.15);border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;transition:.2s;cursor:pointer;border:none;flex-shrink:0}
+.cat-toggle-btn.open{background:var(--gold);color:var(--ink)}
+.cat-products{display:none;padding:4px 14px 14px;background:var(--warm)}
+.cat-products.open{display:block}
+.prod-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(232,228,220,.7)}
+.prod-row:last-child{border:none}
+.prod-name{font-size:11.5px;font-weight:600;color:var(--ink);flex:1;line-height:1.3}
+.prod-price{font-size:12px;font-weight:800;color:var(--gold-d);min-width:44px;text-align:right;flex-shrink:0}
+.qty-wrap{display:flex;align-items:center;background:white;border:1.5px solid var(--border);border-radius:7px;overflow:hidden;flex-shrink:0}
+.qty-b{width:24px;height:24px;background:none;border:none;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:var(--fb);transition:.15s}
+.qty-b:hover{background:var(--gold-l);color:var(--gold-d)}
+.qty-n{width:20px;text-align:center;font-size:10px;font-weight:800;color:var(--ink);font-family:var(--fb)}
+
+/* CART FLOAT */
+.cart-float{position:fixed;bottom:22px;right:18px;z-index:300;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.cart-bubble{background:var(--ink);color:white;padding:7px 15px;border-radius:11px;font-size:12px;font-weight:700;display:none;box-shadow:var(--shadow-lg)}
+.cart-wa{display:flex;align-items:center;gap:9px;padding:13px 22px;background:#25d366;color:white;border-radius:100px;border:none;cursor:pointer;font-family:var(--fb);font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(37,211,102,.3);transition:.2s}
+.cart-wa:hover{background:#1eae57;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,.4)}
+.cart-wa i{font-size:20px}
+
+/* EVENTOS SECTION */
+.eventos-sec{background:var(--ink);padding:clamp(48px,6vw,72px) 0}
+.ev-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+@media(max-width:580px){.ev-grid{grid-template-columns:1fr}}
+.ev-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px;transition:.2s;text-decoration:none;display:block}
+.ev-card:hover{background:rgba(255,255,255,.08);transform:translateY(-2px);border-color:rgba(201,169,110,.3)}
+.ev-icon{width:42px;height:42px;border-radius:11px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+.ev-title{font-family:var(--fh);font-size:1rem;font-weight:700;color:#fff;margin-bottom:5px}
+.ev-sub{font-size:12px;color:rgba(255,255,255,.35);line-height:1.5}
+.ev-arrow{margin-top:14px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.06em;display:flex;align-items:center;gap:5px;transition:.2s}
+.ev-card:hover .ev-arrow{gap:8px}
+
+/* PIXIESET BANNER */
+.pixie-banner{background:linear-gradient(135deg,rgba(99,102,241,.9),rgba(49,46,129,.95));border-radius:18px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:12px}
+.pixie-h{font-family:var(--fh);font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:5px}
+.pixie-p{font-size:12px;color:rgba(255,255,255,.6);max-width:320px;line-height:1.5}
+.pixie-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:white;color:var(--violet);border-radius:10px;font-size:12px;font-weight:700;transition:.15s;text-decoration:none;flex-shrink:0}
+.pixie-btn:hover{background:#eef2ff;transform:translateY(-1px)}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.06);padding:32px clamp(16px,5vw,48px);text-align:center}
+footer p{font-size:12px;color:rgba(255,255,255,.2);margin-bottom:10px}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.3);font-weight:600;transition:.15s}
+.footer-links a:hover{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:white;padding:9px 20px;border-radius:10px;font-size:12px;font-weight:600;opacity:0;transition:.2s;z-index:9999;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:500px){.hero-inner{gap:28px}.track-row{flex-direction:column}.track-btn{width:100%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .35s both}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="iconoid.jpg" alt="ID" class="nav-logo-img" onerror="this.style.display='none';document.getElementById('nl-fb').style.display='flex'">
+    <div id="nl-fb" class="nav-logo-fb" style="display:none"><i class="fa-solid fa-camera"></i></div>
+    <span class="nav-name">Impacto <span>Digital</span></span>
+  </div>
+  <div class="nav-links">
+    <!-- <button class="nav-link act" onclick="scrollTo('seguimiento')">Seguimiento</button> -->
+    <button class="nav-link" onclick="scrollTo('catalogo')">Catálogo</button>
+    <button class="nav-link" onclick="scrollTo('eventos')">Eventos</button>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/50372419889" target="_blank" class="nbtn nbtn-gold">
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="hide-xs">WhatsApp</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO + TRACK -->
+<div class="hero" id="seguimiento">
+  <div class="hero-bg"></div>
+  <div class="hero-img"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="fu" style="animation-delay:.05s">
+      <div class="hero-eyebrow">Portal del Cliente · Impacto Digital SV</div>
+      <h1 class="hero-h1">Tu pedido,<br><em>en tiempo real.</em></h1>
+      <p class="hero-p">Consulta el estado de tu orden, descarga tus fotos de eventos y cotiza nuestros servicios al instante.</p>
+      <div class="hero-btns">
+        <button class="hbtn hbtn-gold" onclick="scrollTo('catalogo')">
+          <i class="fa-solid fa-tags"></i> Ver catálogo
+        </button>
+        <a href="foto-galeria.html" class="hbtn hbtn-ghost">
+          <i class="fa-solid fa-images"></i> Galería de eventos
+        </a>
+      </div>
+    </div>
+    <div class="fu" style="animation-delay:.12s; display:none;">
+      <div class="track-card">
+        <div class="track-title">Rastrear mi pedido</div>
+        <div class="track-sub">Ingresa tu código de orden (ej: ID-5635)</div>
+        <div class="track-row">
+          <input type="text" id="track-inp" class="track-inp" placeholder="Código de orden..." maxlength="20"
+            onkeydown="if(event.key==='Enter')buscarPedido()">
+          <button class="track-btn" onclick="buscarPedido()" id="track-btn">
+            <i class="fa-solid fa-magnifying-glass"></i> Buscar
+          </button>
+        </div>
+        <div class="track-err" id="track-err">No se encontró ningún pedido con ese código.</div>
+        <div class="track-hint">También puedes buscar por tu nombre completo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTADO RASTREO -->
+<div class="result-wrap" id="track-result" style="display:none"></div>
+
+<!-- PROMO + CATÁLOGO -->
+<section id="catalogo">
+  <div class="wrap">
+    <!-- Promo banner -->
+    <div class="promo fu" style="animation-delay:.2s">
+      <div class="promo-bg"></div>
+      <div class="promo-glow"></div>
+      <div class="promo-content">
+        <div>
+          <div class="promo-badge">🎉 Promoción del mes</div>
+          <div class="promo-h">Cuadros en Resina<br><em style="color:var(--gold)">$5 de descuento</em></div>
+          <div class="promo-p">Obtén $5.00 de descuento en tu cuadro en resina personalizado. Usa el código al pedir.</div>
+        </div>
+        <button class="promo-cta" onclick="mostrarCupon()">
+          <i class="fa-solid fa-ticket"></i> Ver cupón
+        </button>
+      </div>
+    </div>
+
+    <!-- Section header -->
+    <div style="margin-bottom:28px">
+      <div class="sec-eyebrow">Servicios y precios</div>
+      <h2 class="sec-h">Catálogo de Productos</h2>
+      <p class="sec-sub">Selecciona los productos que deseas y envía tu cotización directo por WhatsApp.</p>
+    </div>
+
+    <!-- Catalog grid -->
+    <div class="cat-grid" id="cat-grid"></div>
+  </div>
+</section>
+
+<!-- EVENTOS SECTION -->
+<section class="eventos-sec" id="eventos">
+  <div style="max-width:1100px;margin:0 auto;padding:0 clamp(16px,5vw,48px)">
+    <div class="sec-eyebrow" style="color:var(--gold)">Fotografía de Eventos</div>
+    <h2 class="sec-h" style="color:white">Tus fotos,<br><em style="color:var(--gold)">siempre disponibles.</em></h2>
+    <p class="sec-sub" style="color:rgba(255,255,255,.35)">Accede a la galería de tu evento, sube tus propias fotos o consulta nuestro portafolio.</p>
+
+    <div class="ev-grid">
+      <a href="foto-galeria.html" class="ev-card">
+        <div class="ev-icon"><i class="fa-solid fa-images" style="color:var(--gold)"></i></div>
+        <div class="ev-title">Galería de mi Evento</div>
+        <div class="ev-sub">Accede con tu código privado y descarga todas las fotos de tu evento.</div>
+        <div class="ev-arrow">Acceder <i class="fa-solid fa-arrow-right" style="font-size:10px"></i></div>
+      </a>
+      <a href="foto-upload.html" class="ev-card">
+        <div class="ev-icon"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--gold)"></i></div>
+        <div class="ev-title">Subir mis Fotos</div>
+        <div class="ev-sub">¿Fuiste al evento? Comparte tus fotos con todos los invitados desde aquí.</div>
+        <div class="ev-arrow">Subir fotos <i class="fa-solid fa-arrow-right" style="font-size:10px"></i></div>
+      </a>
+    </div>
+
+    <!-- Pixieset banner -->
+    <div class="pixie-banner" style="margin-top:12px">
+      <div>
+        <div class="pixie-h">Portafolio Profesional</div>
+        <div class="pixie-p">Mira nuestro trabajo en bodas, quinceañeras y eventos en nuestro portafolio oficial.</div>
+      </div>
+      <a href="https://impactodigital75.mypixieset.com/" target="_blank" class="pixie-btn">
+        Ver Pixieset <i class="fa-solid fa-external-link" style="font-size:10px"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Impacto Digital SV · Todos los derechos reservados</p>
+  <div class="footer-links">
+    <!-- <a href="#seguimiento" onclick="scrollTo('seguimiento')">Seguimiento</a> -->
+    <a href="#catalogo" onclick="scrollTo('catalogo')">Catálogo</a>
+    <a href="foto-galeria.html">Eventos</a>
+    <a href="https://wa.me/50372419889" target="_blank">WhatsApp</a>
+    <a href="https://impactodigital75.mypixieset.com/" target="_blank">Pixieset</a>
+  </div>
+</footer>
+
+<!-- CART FLOAT -->
+<div class="cart-float">
+  <div class="cart-bubble" id="cart-bubble">Total estimado: <strong id="cart-total">$0.00</strong></div>
+  <button class="cart-wa" onclick="enviarCotizacion()">
+    <i class="fa-brands fa-whatsapp"></i>
+    Cotizar por WhatsApp
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── FIREBASE ──
+var fbConfig = {
+  apiKey:"AIzaSyDDV95jBSlNFjzwP9SzF0oPB_nOkWX3MHY",
+  authDomain:"impacto-digital-pedidos.firebaseapp.com",
+  databaseURL:"https://impacto-digital-pedidos-default-rtdb.firebaseio.com",
+  projectId:"impacto-digital-pedidos",
+  storageBucket:"impacto-digital-pedidos.firebasestorage.app",
+  messagingSenderId:"335233633777",
+  appId:"1:335233633777:web:d1f588d6792ad63318c850"
+};
+if(!firebase.apps.length) firebase.initializeApp(fbConfig);
+var db = firebase.database();
+
+// ── HELPERS ──
+function scrollTo(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); }
+function toast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(function(){t.classList.remove("show");},3000); }
+function fmt(v){ return "$"+(parseFloat(v)||0).toFixed(2); }
+function cleanId(s){ return s.replace(/[^a-zA-Z0-9]/g,""); }
+
+// ── CATÁLOGO ──
+var CATALOGO = [
+  { nombre:"Cuadros y Ampliaciones", img:"https://i.ibb.co/mV7Dzh6D/8503102a-9d4f-404f-9d2b-b8d24005940d.png",
+    productos:[
+      {n:"Impresión Postal",p:0.60},{n:"Impresión 5x7",p:1.50},{n:"Impresión 6x8",p:2.50},
+      {n:"Impresión 8x10",p:5.00},{n:"Impresión 11x14",p:10.00},{n:"Impresión 12x18",p:15.00},
+      {n:"Ampliación 6x8 con cuadro",p:6.50},{n:"Ampliación 8x10 con cuadro",p:10.00},
+      {n:"Ampliación 11x14 con cuadro",p:16.00},{n:"Ampliación 12x18 con cuadro",p:20.00},
+      {n:"Ampliación 16x20 con cuadro",p:45.00}
+    ]
+  },
+  { nombre:"Banners y Vinil", img:"https://i.ibb.co/Gfr1cdB4/Chat-GPT-Image-6-mar-2026-03-43-35.png",
+    productos:[
+      {n:"Banner 50x100 cm (+ $1 Ojetes)",p:8.00},{n:"Banner 1x1 mt (+ $1 Ojetes)",p:12.00},
+      {n:"Banner 2x1 mt (+ $1 Ojetes)",p:24.00},{n:"Vinil Metro Lineal",p:14.00},
+      {n:"Sticker Metro Lineal",p:15.00},{n:"Tabloide Adhesivo",p:4.00}
+    ]
+  },
+  { nombre:"Graduación", img:"https://i.ibb.co/hRVQCLQX/Chat-GPT-Image-6-mar-2026-03-59-02.png",
+    productos:[
+      {n:"Paquete 5x7 Sencillo",p:15.00},{n:"Paquete 6x9 (Resina)",p:25.00},
+      {n:"Paquete 8x12 (Resina)",p:35.00},{n:"Paquete 12x18 (Resina)",p:55.00}
+    ]
+  },
+  { nombre:"Resinas", img:"https://i.ibb.co/rGHXKxc8/Chat-GPT-Image-6-mar-2026-03-38-22.png",
+    productos:[
+      {n:"Cuadro Resina 6x9",p:20.00},{n:"Cuadro Resina 8x12",p:30.00},
+      {n:"Cuadro Resina 10x12",p:35.00},{n:"Cuadro Resina 11x14",p:45.00},
+      {n:"Cuadro Resina 12x18",p:50.00},{n:"Cuadro Resina 16x20",p:80.00}
+    ]
+  },
+  { nombre:"Tarjetas e Invitaciones", img:"https://i.ibb.co/n8Q4C98J/Chat-GPT-Image-6-mar-2026-03-45-59.png",
+    productos:[
+      {n:"100 Tarjetas (1 Lado)",p:8.00},{n:"100 Tarjetas (2 Lados)",p:12.00},
+      {n:"Invitación Sencilla",p:2.50},{n:"Invitación Cumpleaños",p:0.35},{n:"Invitación Premium",p:3.50}
+    ]
+  },
+  { nombre:"Fotoestudio y Sublimados", img:"https://i.ibb.co/FkJ3VCph/Chat-GPT-Image-6-mar-2026-03-52-25.png",
+    productos:[
+      {n:"Fotos Carnet/Trámite",p:5.00},{n:"Título Bachiller",p:15.00},
+      {n:"Taza Blanca Sublimada",p:5.00},{n:"Camisa Estampada (DTF Normal)",p:12.00},
+      {n:"Camisa Estampada (Diseño Grande)",p:14.00}
+    ]
+  }
+];
+
+var carrito = {};
+
+function renderCatalogo(){
+  var grid = document.getElementById("cat-grid");
+  CATALOGO.forEach(function(cat,idx){
+    var cid = "cat-"+idx;
+    var prods = cat.productos.map(function(p){
+      var qid = "q-"+cleanId(p.n)+idx;
+      return "<div class=\"prod-row\">" +
+        "<span class=\"prod-name\">"+p.n+"</span>" +
+        "<span class=\"prod-price\">$"+p.p.toFixed(2)+"</span>" +
+        "<div class=\"qty-wrap\">" +
+          "<button class=\"qty-b\" onclick=\"updateQty('"+p.n+"',"+p.p+","+idx+",-1)\">−</button>" +
+          "<span class=\"qty-n\" id=\""+qid+"\">0</span>" +
+          "<button class=\"qty-b\" onclick=\"updateQty('"+p.n+"',"+p.p+","+idx+",1)\">+</button>" +
+        "</div>" +
+      "</div>";
+    }).join("");
+
+    var card = document.createElement("div");
+    card.className = "cat-card";
+    card.innerHTML = 
+      "<div class=\"cat-thumb\" onclick=\"toggleCat("+idx+")\">" +
+        "<img src=\""+cat.img+"\" alt=\""+cat.nombre+"\" loading=\"lazy\" onerror=\"this.src='https://via.placeholder.com/300x160/1a1207/c9a96e?text='+encodeURIComponent(cat.nombre)+''\">" +
+        "<div class=\"cat-overlay\">" +
+          "<span class=\"cat-thumb-title\">"+cat.nombre+"</span>" +
+          "<button class=\"cat-toggle-btn\" id=\"tog-"+idx+"\"><i class=\"fa-solid fa-plus\"></i></button>" +
+        "</div>" +
+      "</div>" +
+      "<div class=\"cat-products\" id=\""+cid+"\">"+prods+"</div>";
+    grid.appendChild(card);
+  });
+}
+
+function toggleCat(idx){
+  var body = document.getElementById("cat-"+idx);
+  var tog  = document.getElementById("tog-"+idx);
+  var open = body.classList.toggle("open");
+  if(tog){ tog.classList.toggle("open",open); tog.innerHTML=open?"<i class=\"fa-solid fa-minus\"></i>":"<i class=\"fa-solid fa-plus\"></i>"; }
+}
+
+function updateQty(name,price,idx,delta){
+  var key = name+"-"+idx;
+  if(!carrito[key]) carrito[key] = {n:name,p:price,q:0};
+  carrito[key].q = Math.max(0, carrito[key].q + delta);
+  var qid = "q-"+cleanId(name)+idx;
+  var el = document.getElementById(qid);
+  if(el) el.textContent = carrito[key].q;
+  actualizarTotal();
+}
+
+function actualizarTotal(){
+  var total = 0;
+  Object.values(carrito).forEach(function(i){ total += i.q * i.p; });
+  document.getElementById("cart-total").textContent = "$"+total.toFixed(2);
+  document.getElementById("cart-bubble").style.display = total > 0 ? "block" : "none";
+}
+
+function enviarCotizacion(){
+  var items = Object.values(carrito).filter(function(i){ return i.q > 0; });
+  if(!items.length){ toast("Selecciona productos primero"); return; }
+  var msg = "*COTIZACIÓN WEB — IMPACTO DIGITAL*%0A%0A";
+  var total = 0;
+  items.forEach(function(i){ msg += "• "+i.q+"x "+i.n+" = $"+(i.q*i.p).toFixed(2)+"%0A"; total += i.q*i.p; });
+  msg += "%0A*TOTAL ESTIMADO: $"+total.toFixed(2)+"*";
+  window.open("https://wa.me/50372419889?text="+msg,"_blank");
+}
+
+function mostrarCupon(){
+  toast("Cupón: IDMRC5 — $5 de descuento en cuadros en resina");
+}
+
+// ── BÚSQUEDA DE PEDIDO (CORREGIDA) ──
+var FASES = ["Recibido","Diseño / Edición","Producción / Impresión","Listo para entrega","Entregado"];
+var FASE_COLORS = ["#6366f1","#f59e0b","#f97316","#16a34a","#64748b"];
+var FASE_ICONS = ["fa-inbox","fa-pen-nib","fa-print","fa-box-check","fa-circle-check"];
+
+function buscarPedido(){
+  var inp = document.getElementById("track-inp").value.trim();
+  var btn = document.getElementById("track-btn");
+  var err = document.getElementById("track-err");
+  err.style.display = "none";
+  if(!inp){ toast("Ingresa un código de orden o nombre"); return; }
+  btn.disabled = true;
+  btn.innerHTML = "<i class=\"fa-solid fa-spinner fa-spin\"></i>";
+
+  db.ref("pedidos").once("value", function(snap){
+    btn.disabled = false;
+    btn.innerHTML = "<i class=\"fa-solid fa-magnifying-glass\"></i> Buscar";
+    var data = snap.val() || {};
+    var found = null;
+    var foundKey = null;
+
+    // Buscar por clave exacta (ID-XXXX)
+    var code = inp.toUpperCase().replace(/\s/g,"");
+    if(data[code]){ found = data[code]; foundKey = code; }
+
+    // Buscar por campo "orden"
+    if(!found){
+      Object.entries(data).forEach(function(e){
+        var p = e[1];
+        if(p.orden && p.orden.toUpperCase().replace(/\s/g,"") === code){
+          found = p; foundKey = e[0];
+        }
+      });
+    }
+
+    // Buscar por nombre de cliente (parcial, case-insensitive)
+    if(!found){
+      var q = inp.toLowerCase();
+      Object.entries(data).forEach(function(e){
+        var p = e[1];
+        if(p.cliente && p.cliente.toLowerCase().includes(q)){
+          if(!found){ found = p; foundKey = e[0]; }
+        }
+      });
+    }
+
+    if(found){
+      mostrarResultado(foundKey, found);
+      document.getElementById("track-result").style.display = "block";
+      document.getElementById("track-result").scrollIntoView({behavior:"smooth",block:"start"});
+    } else {
+      err.style.display = "block";
+      document.getElementById("track-result").style.display = "none";
+    }
+  });
+}
+
+function mostrarResultado(key, p){
+  var fi = Math.min(parseInt(p.faseIdx||0), FASES.length-1);
+  var total   = parseFloat(p.total||0);
+  var abono   = parseFloat(p.abono||0);
+  var saldo   = Math.max(0, total - abono);
+  var color   = FASE_COLORS[fi];
+  var fase    = FASES[fi];
+
+  // Build stepper
+  var stepperHtml = "";
+  FASES.forEach(function(f,i){
+    var cls = i < fi ? "done" : i === fi ? "curr" : "";
+    var icon = i < fi ? "fa-check" : FASE_ICONS[i];
+    stepperHtml +=
+      "<div class=\"step "+cls+"\">"+
+        "<div class=\"step-circle\"><i class=\"fa-solid "+icon+"\"></i></div>"+
+        "<div class=\"step-lbl\">"+f+"</div>"+
+      "</div>";
+    if(i < FASES.length-1){
+      stepperHtml += "<div class=\"step-conn "+(i<fi?"done":"")+"\"></div>";
+    }
+  });
+
+  // Info items
+  var infos = [];
+  if(p.orden||key)     infos.push({l:"Orden", v:p.orden||key});
+  if(p.entrega||p.fecha_entrega) infos.push({l:"Fecha de entrega", v:p.entrega||p.fecha_entrega});
+  if(total)            infos.push({l:"Total del pedido", v:fmt(total)});
+  if(abono)            infos.push({l:"Abono pagado", v:fmt(abono)});
+  var infoHtml = infos.map(function(i){
+    return "<div class=\"rc-info-item\"><div class=\"rc-info-lbl\">"+i.l+"</div><div class=\"rc-info-val\">"+i.v+"</div></div>";
+  }).join("");
+
+  var resultado = document.getElementById("track-result");
+  resultado.innerHTML =
+    "<div class=\"result-card fu\">"+
+      "<div class=\"rc-head\">"+
+        "<div>"+
+          "<div class=\"rc-name\">"+(p.cliente||"Cliente")+"</div>"+
+          "<div class=\"rc-order\">Pedido #"+(p.orden||key)+"</div>"+
+        "</div>"+
+        "<div class=\"rc-badge\" style=\"background:"+color+"22;color:"+color+";border:1px solid "+color+"44\">"+fase+"</div>"+
+      "</div>"+
+      "<div class=\"rc-body\">"+
+        "<div class=\"stepper\">"+stepperHtml+"</div>"+
+        (infos.length ? "<div class=\"rc-info\">"+infoHtml+"</div>" : "")+
+        (p.descripcion ? "<div class=\"rc-desc\"><div class=\"rc-desc-lbl\">Descripción</div><div class=\"rc-desc-val\">"+p.descripcion+"</div></div>" : "")+
+        "<div class=\"rc-saldo\">"+
+          "<div class=\"rc-saldo-lbl\">Saldo pendiente</div>"+
+          "<div class=\"rc-saldo-val "+(saldo===0?"green":"red")+"\">"+fmt(saldo)+"</div>"+
+        "</div>"+
+        "<div class=\"rc-actions\">"+
+          "<a href=\"https://wa.me/50372419889?text=Hola%2C+soy+cliente+con+pedido+%23"+(p.orden||key)+"+quiero+consultar+mi+pedido\" target=\"_blank\" class=\"rc-act-btn rc-act-wa\"><i class=\"fa-brands fa-whatsapp\"></i> Consultar por WhatsApp</a>"+
+          "<button class=\"rc-act-btn rc-act-close\" onclick=\"cerrarResultado()\"><i class=\"fa-solid fa-xmark\"></i> Cerrar</button>"+
+        "</div>"+
+      "</div>"+
+    "</div>";
+}
+
+function cerrarResultado(){
+  document.getElementById("track-result").style.display = "none";
+  document.getElementById("track-inp").value = "";
+  document.getElementById("track-err").style.display = "none";
+}
+
+// ── INIT ──
+document.addEventListener("DOMContentLoaded", function(){
+  renderCatalogo();
+  // Check URL param for order
+  var params = new URLSearchParams(window.location.search);
+  var orden = params.get("orden") || params.get("pedido");
+  if(orden){
+    document.getElementById("track-inp").value = orden;
+    setTimeout(buscarPedido, 400);
+  }
+});
+</script>
+</body>
+</html>

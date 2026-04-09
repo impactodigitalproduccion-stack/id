@@ -1,0 +1,17 @@
+{
+  "short_name": "ImpactoStudio",
+  "name": "Studio Impacto Digital - Ventas",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/1fRmsWGV/278937093-179317394435041-4808142031331968620-n.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html",
+  "background_color": "#4f46e5",
+  "display": "standalone",
+  "scope": "./",
+  "theme_color": "#4f46e5",
+  "description": "Sistema de gestión de ventas y pedidos para Studio Impacto Digital."
+}

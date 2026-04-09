@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impacto Digital · Fotografía & Eventos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a0a;--ink2:#111118;
+  --cream:#faf8f4;--warm:#f5f0e8;
+  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0e6d0;
+  --rose:#c4687a;--green:#16a34a;--red:#dc2626;
+  --border:rgba(200,169,106,0.2);--muted:#8a7d6a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* ── ADMIN CORNER ── */
+.admin-corner{position:fixed;bottom:24px;right:24px;z-index:1000}
+.admin-dot{width:36px;height:36px;border-radius:50%;background:rgba(10,10,10,0.65);border:1px solid rgba(200,169,106,0.25);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;color:rgba(200,169,106,0.4);font-size:11px}
+.admin-dot:hover{background:rgba(10,10,10,0.9);color:var(--gold);border-color:rgba(200,169,106,0.5)}
+
+/* ── MODAL BASE ── */
+.modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,0.82);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:24px;padding:44px 40px;width:400px;max-width:94vw;transform:translateY(24px);transition:.3s;position:relative}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-close{position:absolute;top:18px;right:20px;background:none;border:none;font-size:17px;color:var(--muted);cursor:pointer;transition:.2s;line-height:1}
+.modal-close:hover{color:var(--ink)}
+.modal-logo{text-align:center;margin-bottom:28px}
+.modal-icon{width:54px;height:54px;border-radius:16px;background:var(--ink);display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
+.modal-icon i{color:var(--gold);font-size:22px}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--ink)}
+.modal-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* Tabs */
+.modal-tabs{display:flex;border-bottom:1.5px solid #ece8e0;margin-bottom:24px}
+.m-tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:.2s;letter-spacing:.04em}
+.m-tab.active{color:var(--ink);border-bottom-color:var(--gold)}
+
+/* Form fields */
+.mf{margin-bottom:14px}
+.mf label{display:block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.mf input{width:100%;padding:12px 15px;border-radius:11px;border:1.5px solid #e8e4dc;font-family:'DM Sans',sans-serif;font-size:14px;transition:.2s;outline:none;color:var(--ink);background:#faf9f7}
+.mf input:focus{border-color:var(--gold);background:#fff}
+.mbtn{width:100%;padding:14px;border-radius:11px;border:none;background:var(--ink);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;margin-top:4px;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:8px}
+.mbtn:hover{background:var(--gold-d)}
+.mbtn:disabled{opacity:.5;cursor:not-allowed}
+.merr{color:var(--red);font-size:12px;text-align:center;margin-top:10px;display:none;padding:8px;border-radius:8px;background:#fef2f2}
+.msep{text-align:center;font-size:12px;color:var(--muted);margin:14px 0;position:relative}
+.msep::before,.msep::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:#ece8e0}
+.msep::before{left:0}.msep::after{right:0}
+.mlink{font-size:12px;color:var(--gold-d);cursor:pointer;font-weight:600;text-decoration:underline}
+
+/* Panel views inside modal */
+.m-view{display:none}
+.m-view.active{display:block}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--ink2)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 15% 50%,rgba(200,169,106,0.09) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 85% 75%,rgba(196,104,122,0.06) 0%,transparent 50%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:64px 64px}
+.hero-content{position:relative;z-index:1;text-align:center;padding:48px 24px;max-width:760px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:32px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:32px;height:1px;background:var(--gold);opacity:.45}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,9vw,6.5rem);font-weight:300;color:#fff;line-height:.98;letter-spacing:-.03em;margin-bottom:10px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,0.42);line-height:1.85;margin-bottom:48px;font-weight:300}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{padding:15px 36px;border-radius:50px;background:var(--gold);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:.25s;border:none;cursor:pointer;letter-spacing:.02em;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--gold-d);color:#fff;transform:translateY(-2px)}
+.btn-outline{padding:15px 36px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-decoration:none;transition:.25s;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:rgba(255,255,255,0.18);font-size:9px;letter-spacing:.14em;text-transform:uppercase;animation:bounce 2.2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}55%{transform:translateX(-50%) translateY(7px)}}
+
+/* ── SERVICES ── */
+.section{padding:96px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--border)}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:600;color:var(--ink);line-height:1.12;margin-bottom:18px}
+.stitle em{font-style:italic;color:var(--gold)}
+.sdesc{color:var(--muted);font-size:15px;line-height:1.85;max-width:560px;margin-bottom:56px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:780px){.svc-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.svc-grid{grid-template-columns:1fr}}
+.svc-card{background:#fff;border-radius:22px;padding:32px 28px;border:1px solid rgba(200,169,106,0.1);transition:.3s;text-decoration:none;display:block;color:inherit;cursor:pointer}
+.svc-card:hover{transform:translateY(-6px);box-shadow:0 24px 64px rgba(0,0,0,0.08);border-color:rgba(200,169,106,0.4)}
+.svc-icon{width:48px;height:48px;border-radius:14px;background:var(--gold-l);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:20px;color:var(--gold-d)}
+.svc-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;margin-bottom:9px;color:var(--ink)}
+.svc-desc{font-size:13px;color:var(--muted);line-height:1.75}
+.svc-link{display:inline-block;margin-top:18px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+
+/* ── PAQUETES ── */
+.paquetes-sec{padding:96px 24px;background:#fff}
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+@media(max-width:900px){.pkg-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.pkg-grid{grid-template-columns:1fr}}
+.pkg-card{border-radius:22px;padding:32px 28px;border:1.5px solid #ece8e0;position:relative;transition:.3s}
+.pkg-card:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(0,0,0,0.07)}
+.pkg-card.featured{border-color:var(--gold);background:var(--ink);color:#fff}
+.pkg-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--ink);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 16px;border-radius:20px;white-space:nowrap}
+.pkg-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
+.pkg-price{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold);line-height:1;margin:16px 0}
+.pkg-price sup{font-size:1.2rem;vertical-align:top;margin-top:10px;display:inline-block}
+.pkg-features{list-style:none;font-size:13px;line-height:2;color:var(--muted);margin-bottom:28px}
+.pkg-card.featured .pkg-features{color:rgba(255,255,255,0.55)}
+.pkg-features li::before{content:'✓ ';color:var(--gold);font-weight:700}
+.pkg-btn{width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--gold);background:transparent;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+.pkg-btn:hover,.pkg-card.featured .pkg-btn{background:var(--gold);color:var(--ink)}
+
+/* ── BONOS ── */
+.bonos-sec{padding:88px 24px;background:var(--ink);position:relative;overflow:hidden}
+.bonos-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 65% at 75% 50%,rgba(200,169,106,0.09) 0%,transparent 60%)}
+.bonos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;position:relative;z-index:1}
+@media(max-width:780px){.bonos-grid{grid-template-columns:1fr}}
+.bono-card{background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:20px;padding:28px;transition:.2s}
+.bono-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(200,169,106,0.28)}
+.bono-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 12px;border-radius:20px;margin-bottom:16px}
+.bono-tag.incl{background:rgba(200,169,106,0.15);color:var(--gold)}
+.bono-tag.free{background:rgba(22,163,74,0.15);color:#4ade80}
+.bono-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:4px}
+.bono-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-bottom:8px}
+.bono-desc{font-size:13px;color:rgba(255,255,255,0.38);line-height:1.75}
+.bono-feat{margin-top:16px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.04);font-size:11px;font-weight:600;color:rgba(255,255,255,0.35);letter-spacing:.04em}
+
+/* ── STATS ── */
+.stats-sec{padding:80px 24px;background:#fff}
+.stats-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center}
+@media(max-width:680px){.stats-inner{grid-template-columns:repeat(2,1fr);gap:32px}}
+.snum{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:300;color:var(--ink);line-height:1}
+.snum em{font-style:normal;color:var(--gold)}
+.slbl{font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+
+/* ── CTA ── */
+.cta-sec{padding:100px 24px;background:var(--ink);text-align:center}
+.cta-inner{max-width:600px;margin:0 auto}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.btn-wa{padding:15px 32px;border-radius:50px;background:#25D366;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:.25s;display:inline-flex;align-items:center;gap:9px}
+.btn-wa:hover{background:#1ab754;transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+footer{background:#06060c;padding:44px 24px;text-align:center}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;margin-bottom:10px}
+.f-logo em{font-style:italic;color:var(--gold)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:.75s cubic-bezier(.4,0,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.1s}
+.reveal.d2{transition-delay:.2s}
+
+/* ── SPINNER ── */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- ── ADMIN CORNER (botón discreto) ── -->
+<div class="admin-corner">
+  <div class="admin-dot" onclick="abrirModal()" title="Acceso al portal">
+    <i class="fas fa-lock"></i>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL UNIFICADO: Admin + Cliente
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+
+    <!-- Logo -->
+    <div class="modal-logo">
+      <div class="modal-icon"><i class="fas fa-camera-retro"></i></div>
+      <div class="modal-title">Impacto Digital</div>
+      <div class="modal-sub" id="modal-sub-txt">Portal de acceso</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="modal-tabs" id="modal-tabs">
+      <div class="m-tab active" onclick="switchTab('login')" id="tab-login">Mi Cuenta</div>
+      <div class="m-tab" onclick="switchTab('register')" id="tab-register">Registrarse</div>
+    </div>
+
+    <!-- VIEW: LOGIN -->
+    <div class="m-view active" id="view-login">
+      <div class="mf">
+        <label>Correo electrónico</label>
+        <input type="email" id="lEmail" placeholder="correo@email.com" autocomplete="email">
+      </div>
+      <div class="mf">
+        <label>Contraseña</label>
+        <input type="password" id="lPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="mbtn" id="btnLogin" onclick="doLogin()">
+        <i class="fas fa-arrow-right"></i> Ingresar
+      </button>
+      <div class="merr" id="lErr"></div>
+      <div class="msep">o</div>
+      <div style="text-align:center;font-size:12px;color:var(--muted)">
+        ¿No tienes cuenta? <span class="mlink" onclick="switchTab('register')">Crea una gratis</span>
+      </div>
+      <div style="text-align:center;margin-top:10px">
+        <span class="mlink" onclick="showForgot()">Olvidé mi contraseña</span>
+      </div>
+    </div>
+
+    <!-- VIEW: REGISTRO CLIENTE -->
+    <div class="m-view" id="view-register">
+      <div class="mf">
+        <label>Nombre completo</label>
+        <input type="text" id="rNombre" placeholder="Tu nombre">
+      </div>
+      <div class="mf">
+        <label>Correo electrónico</label>
+        <input type="email" id="rEmail" placeholder="correo@email.com">
+      </div>
+      <div class="mf">
+        <label>Teléfono (WhatsApp)</label>
+        <input type="tel" id="rTel" placeholder="7000-0000">
+      </div>
+      <div class="mf">
+        <label>Contraseña (mín. 6 caracteres)</label>
+        <input type="password" id="rPass" placeholder="••••••••">
+      </div>
+      <button class="mbtn" id="btnRegister" onclick="doRegister()">
+        <i class="fas fa-user-plus"></i> Crear mi cuenta
+      </button>
+      <div class="merr" id="rErr"></div>
+      <div class="msep">o</div>
+      <div style="text-align:center;font-size:12px;color:var(--muted)">
+        ¿Ya tienes cuenta? <span class="mlink" onclick="switchTab('login')">Inicia sesión</span>
+      </div>
+    </div>
+
+    <!-- VIEW: FORGOT -->
+    <div class="m-view" id="view-forgot">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+      <div class="mf">
+        <label>Correo electrónico</label>
+        <input type="email" id="fEmail" placeholder="correo@email.com">
+      </div>
+      <button class="mbtn" id="btnForgot" onclick="doForgot()">
+        <i class="fas fa-paper-plane"></i> Enviar enlace
+      </button>
+      <div class="merr" id="fErr"></div>
+      <div style="text-align:center;margin-top:14px">
+        <span class="mlink" onclick="switchTab('login')">← Volver</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Fotografía · Eventos · El Salvador</div>
+    <h1 class="hero-title">Impacto<br><em>Digital</em></h1>
+    <p class="hero-sub">Capturamos los momentos que definen tu historia.<br>Bodas, quinceañeras y eventos únicos e irrepetibles.</p>
+    <div class="hero-ctas">
+      <a href="eventos.html" class="btn-primary"><i class="fas fa-star" style="font-size:12px"></i>Portal de Eventos</a>
+      <a href="invitaciones.html" class="btn-outline"><i class="fas fa-envelope-open-text" style="font-size:12px"></i>Invitaciones</a>
+      <button class="btn-outline" onclick="abrirModal()"><i class="fas fa-user" style="font-size:12px"></i>Mi Cuenta</button>
+    </div>
+  </div>
+  <div class="scroll-hint"><i class="fas fa-chevron-down"></i>Explorar</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SERVICIOS
+══════════════════════════════════════════ -->
+<section class="section" style="background:var(--cream)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Nuestros servicios</div>
+      <h2 class="stitle">Todo lo que tu evento<br>necesita en un <em>solo lugar</em></h2>
+      <p class="sdesc">Desde la fotografía profesional hasta el planning completo de tu boda o quinceañera — con tecnología que ningún otro estudio ofrece en El Salvador.</p>
+    </div>
+    <div class="svc-grid">
+      <a href="eventos.html#galeria" class="svc-card reveal d1">
+        <div class="svc-icon"><i class="fas fa-camera"></i></div>
+        <div class="svc-name">Fotografía & Video</div>
+        <p class="svc-desc">Cobertura completa con equipos profesionales y edición de nivel internacional.</p>
+        <span class="svc-link">Ver portafolio →</span>
+      </a>
+      <div class="svc-card reveal d1" onclick="abrirModal()">
+        <div class="svc-icon"><i class="fas fa-calculator"></i></div>
+        <div class="svc-name">Cotizador Modular</div>
+        <p class="svc-desc">Crea tu cuenta gratis, selecciona los servicios que deseas y obtén tu precio exacto al instante.</p>
+        <span class="svc-link">Cotizar desde mi cuenta →</span>
+      </div>
+      <div class="svc-card reveal d2" onclick="abrirModal()">
+        <div class="svc-icon"><i class="fas fa-heart"></i></div>
+        <div class="svc-name">Wedding Planner</div>
+        <p class="svc-desc">Planifica cada detalle: checklist, presupuesto y cronograma del día. Todo guardado en tu cuenta.</p>
+        <span class="svc-link">Crear mi planner →</span>
+      </div>
+      <a href="eventos.html#live" class="svc-card reveal">
+        <div class="svc-icon"><i class="fas fa-images"></i></div>
+        <div class="svc-name">Galería en Vivo</div>
+        <p class="svc-desc">Los invitados suben fotos en tiempo real. Slideshow en pantalla grande durante tu evento.</p>
+        <span class="svc-link">¿Cómo funciona? →</span>
+      </a>
+      <div class="svc-card reveal d1" onclick="abrirModal()">
+        <div class="svc-icon"><i class="fas fa-star"></i></div>
+        <div class="svc-name">Event Planner</div>
+        <p class="svc-desc">Quinceañeras, graduaciones, corporativos. Planificación completa vinculada a tu cuenta.</p>
+        <span class="svc-link">Comenzar →</span>
+      </div>
+      <a href="invitaciones.html" class="svc-card reveal d2" style="border-color:rgba(200,169,106,0.35);position:relative;overflow:hidden">
+        <div style="position:absolute;top:12px;right:14px;background:var(--gold);color:var(--ink);font-size:9px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:50px;text-transform:uppercase">Nuevo</div>
+        <div class="svc-icon" style="background:linear-gradient(135deg,var(--gold-l),#ffe8c0)"><i class="fas fa-envelope-open-text" style="color:var(--gold-d)"></i></div>
+        <div class="svc-name">Invitaciones Digitales</div>
+        <p class="svc-desc">Bodas, quinceañeras y cumpleaños. Personaliza y comparte por WhatsApp en segundos.</p>
+        <span class="svc-link">Ver plantillas →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PAQUETES DE EVENTO (modulares)
+══════════════════════════════════════════ -->
+<section class="paquetes-sec reveal">
+  <div class="wrap">
+    <div class="eyebrow">Paquetes 2026</div>
+    <h2 class="stitle">Elige tu paquete de<br><em>Foto & Video</em></h2>
+    <p class="sdesc">Paquetes completos para bodas y quinceañeras. Puedes personalizar cada uno con servicios adicionales.</p>
+    <div class="pkg-grid">
+      <!-- PLATA -->
+      <div class="pkg-card">
+        <div class="pkg-name">Plata</div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Foto y Video</div>
+        <div class="pkg-price"><sup>$</sup>300</div>
+        <ul class="pkg-features">
+          <li>6 horas de cobertura</li>
+          <li>45 min misa + 40 min recepción</li>
+          <li>Videoclip de 3 minutos</li>
+          <li>100 fotos digitales en USB</li>
+          <li>Galería privada en la nube</li>
+          <li>25 fotos impresas 4×6</li>
+          <li>Ampliación 11×14 en resina</li>
+          <li>Obsequio: cuadro 8×10 o banner</li>
+        </ul>
+        <button class="pkg-btn" onclick="irACotizador('plata')">Seleccionar Plata</button>
+      </div>
+      <!-- ORO (destacado) -->
+      <div class="pkg-card featured">
+        <div class="pkg-badge">⭐ Más Popular</div>
+        <div class="pkg-name" style="color:#fff">Oro</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Foto y Video</div>
+        <div class="pkg-price"><sup>$</sup>400</div>
+        <ul class="pkg-features">
+          <li>6 horas de cobertura</li>
+          <li>45 min misa + 40 min recepción</li>
+          <li>Videoclip de 3 minutos</li>
+          <li>150-200 fotos digitales</li>
+          <li>Galería privada link exclusivo</li>
+          <li>Sesión previa o con dron</li>
+          <li>50 fotos impresas 4×6</li>
+          <li>Ampliación 16×20 en resina</li>
+          <li>Obsequio: cuadro 8×10 o banner</li>
+        </ul>
+        <button class="pkg-btn" style="background:var(--gold);color:var(--ink)" onclick="irACotizador('oro')">Seleccionar Oro</button>
+      </div>
+      <!-- DIAMANTE -->
+      <div class="pkg-card">
+        <div class="pkg-name">Diamante</div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Foto y Video</div>
+        <div class="pkg-price"><sup>$</sup>600</div>
+        <ul class="pkg-features">
+          <li>Hasta 8 horas de cobertura</li>
+          <li>2 USB: video + videoclip resumen</li>
+          <li>100-250 fotos digitales</li>
+          <li>Galería 150-250 fotos (link privado)</li>
+          <li>Sesión previa o posterior incluida</li>
+          <li>2 fotógrafos + tomas de dron</li>
+          <li>100 fotos impresas 4×6</li>
+          <li>Ampliación gigante 24×36 pulgadas</li>
+        </ul>
+        <button class="pkg-btn" onclick="irACotizador('diamante')">Seleccionar Diamante</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:24px">
+      También contamos con paquetes especiales: <strong>Foto Digital $200</strong> y <strong>Foto+Video Digital $275</strong>.
+      <a href="#" onclick="abrirModal();return false;" style="color:var(--gold-d);font-weight:600"> Ver en sistema →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BONOS INCLUIDOS
+══════════════════════════════════════════ -->
+<section class="bonos-sec">
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="reveal">
+      <div class="eyebrow" style="color:var(--gold)">Beneficios exclusivos para clientes</div>
+      <h2 class="stitle" style="color:#fff">Tres <em>bonos increíbles</em> incluidos</h2>
+      <p class="sdesc" style="color:rgba(255,255,255,0.38)">Con cualquier paquete de foto y video accedes a estas herramientas digitales sin costo adicional.</p>
+    </div>
+    <div class="bonos-grid reveal d1">
+      <div class="bono-card">
+        <div class="bono-tag incl">Incluido</div>
+        <div class="bono-num">01</div>
+        <div class="bono-title">Galería para tus Invitados</div>
+        <p class="bono-desc">Tus invitados suben sus fotos al portal del evento. Un álbum colectivo en tiempo real compartido con todos.</p>
+        <div class="bono-feat">📸 Álbum colaborativo con todos los momentos</div>
+      </div>
+      <div class="bono-card">
+        <div class="bono-tag free">+ 100% Gratis</div>
+        <div class="bono-num">02</div>
+        <div class="bono-title">Generador de Invitación Digital</div>
+        <p class="bono-desc">Diseña tu invitación personalizada en minutos y compártela por WhatsApp con link directo a tus invitados.</p>
+        <div class="bono-feat">⚡ Lista en minutos · Link directo a invitados</div>
+      </div>
+      <div class="bono-card">
+        <div class="bono-tag free">+ 100% Gratis</div>
+        <div class="bono-num">03</div>
+        <div class="bono-title">Event Planner Inteligente</div>
+        <p class="bono-desc">Control total de tu evento: tareas, presupuesto y cronograma guardado en tu cuenta, accesible desde el celular.</p>
+        <div class="bono-feat">📱 Desde el celular · Sin estrés, sin olvidos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SESIONES FOTOGRÁFICAS
+══════════════════════════════════════════ -->
+<section class="section" style="background:var(--cream)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Sesiones fotográficas</div>
+      <h2 class="stitle">Sesiones para <em>portafolio,</em><br>pre-boda & pre-quince</h2>
+      <p class="sdesc">Sesiones individuales en exteriores para quinceañeras, novias, modelos y más. Precios temporada 2025.</p>
+    </div>
+    <div class="pkg-grid reveal d1">
+      <div class="pkg-card">
+        <div class="pkg-name" style="font-size:1.2rem">Plata · Exterior</div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Sesión Individual</div>
+        <div class="pkg-price"><sup>$</sup>150</div>
+        <ul class="pkg-features">
+          <li>2 horas de sesión</li>
+          <li>Galería digital link privado</li>
+          <li>25 fotos digitales editadas</li>
+          <li>Ampliación 8×12 pulgadas</li>
+        </ul>
+        <button class="pkg-btn" onclick="irACotizador('sesion-plata')">Reservar Sesión</button>
+      </div>
+      <div class="pkg-card featured">
+        <div class="pkg-badge">🌟 Recomendado</div>
+        <div class="pkg-name" style="color:#fff;font-size:1.2rem">Oro · Exterior</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Sesión Individual</div>
+        <div class="pkg-price"><sup>$</sup>200</div>
+        <ul class="pkg-features">
+          <li>3 horas de sesión</li>
+          <li>Galería digital link privado</li>
+          <li>Videoclip con tomas aéreas</li>
+          <li>Video slideshow incluido</li>
+          <li>35 fotos digitales editadas</li>
+          <li>Ampliación 11×14 pulgadas</li>
+          <li>5 fotos tamaño postal</li>
+        </ul>
+        <button class="pkg-btn" style="background:var(--gold);color:var(--ink)" onclick="irACotizador('sesion-oro')">Reservar Sesión</button>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-name" style="font-size:1.2rem">Diamante · Exterior</div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Sesión Individual</div>
+        <div class="pkg-price"><sup>$</sup>300</div>
+        <ul class="pkg-features">
+          <li>3-4 horas de sesión</li>
+          <li>Galería digital link privado</li>
+          <li>Videoclip con tomas aéreas</li>
+          <li>Video slideshow incluido</li>
+          <li>50 fotos digitales editadas</li>
+          <li>Ampliación 16×24 pulgadas</li>
+          <li>Fotobook pasta dura Deluxe 50 fotos</li>
+        </ul>
+        <button class="pkg-btn" onclick="irACotizador('sesion-diamante')">Reservar Sesión</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:20px;line-height:1.7">
+      Precios no incluyen viáticos. No incluimos peinado, maquillaje ni vestuario. Uso de dron sujeto a condiciones climáticas.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STATS
+══════════════════════════════════════════ -->
+<section class="stats-sec">
+  <div class="wrap">
+    <div class="stats-inner reveal">
+      <div><div class="snum">5<em>00+</em></div><div class="slbl">Eventos fotografiados</div></div>
+      <div><div class="snum">12<em>k+</em></div><div class="slbl">Fotos entregadas</div></div>
+      <div><div class="snum">8<em>+</em></div><div class="slbl">Años de experiencia</div></div>
+      <div><div class="snum">4<em>.9★</em></div><div class="slbl">Calificación promedio</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA FINAL
+══════════════════════════════════════════ -->
+<section class="cta-sec">
+  <div class="cta-inner reveal">
+    <div class="eyebrow" style="justify-content:center;color:var(--gold)">Agenda tu sesión</div>
+    <h2 class="stitle" style="color:#fff;text-align:center">¿Listo para crear algo<br><em>extraordinario?</em></h2>
+    <p style="color:rgba(255,255,255,0.38);font-size:15px;line-height:1.8;text-align:center">Cuéntanos sobre tu evento y te enviamos una propuesta personalizada en menos de 24 horas.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/50372419889?text=Hola!%20Me%20interesa%20cotizar%20mis%20fotos" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp directo</a>
+      <button onclick="abrirModal()" class="btn-outline">Cotizar online</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Impacto <em>Digital</em></div>
+  <p style="font-size:13px;color:rgba(255,255,255,0.25);margin-bottom:8px">Fotografía & Eventos · El Salvador</p>
+  <p style="font-size:12px;color:rgba(255,255,255,0.15)">© 2026 Impacto Digital · WhatsApp: 7241-9889</p>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     FIREBASE AUTH
+══════════════════════════════════════════ -->
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<script>
+// ── FIREBASE CONFIG ──
+const fbConfig = {
+  apiKey:"AIzaSyDDV95jBSlNFjzwP9SzF0oPB_nOkWX3MHY",
+  authDomain:"impacto-digital-pedidos.firebaseapp.com",
+  databaseURL:"https://impacto-digital-pedidos-default-rtdb.firebaseio.com",
+  projectId:"impacto-digital-pedidos",
+  storageBucket:"impacto-digital-pedidos.firebasestorage.app",
+  messagingSenderId:"335233633777",
+  appId:"1:335233633777:web:d1f588d6792ad63318c850"
+};
+firebase.initializeApp(fbConfig);
+const auth = firebase.auth();
+const db   = firebase.database();
+
+// ── EMAILS DE ADMIN ──
+const ADMIN_EMAILS = ['admin@impactodigital.sv','gerencia@impactodigital.sv'];
+
+// ── AUTH STATE LISTENER ──
+auth.onAuthStateChanged(function(user){
+  if(user){
+    var isAdmin = ADMIN_EMAILS.includes(user.email);
+    if(isAdmin){
+      window.location.href = 'admin.html';
+    } else {
+      window.location.href = 'mi-cuenta.html';
+    }
+  }
+});
+
+// ── MODAL ──
+function abrirModal(){
+  document.getElementById('authModal').classList.add('open');
+  setTimeout(()=>document.getElementById('lEmail').focus(),200);
+}
+function cerrarModal(){
+  document.getElementById('authModal').classList.remove('open');
+  limpiarErrores();
+}
+document.getElementById('authModal').addEventListener('click',function(e){
+  if(e.target===this)cerrarModal();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')cerrarModal();
+});
+
+// ── TABS ──
+function switchTab(t){
+  ['login','register','forgot'].forEach(function(v){
+    document.getElementById('view-'+v).classList.toggle('active',v===t);
+    document.getElementById('tab-'+v) && document.getElementById('tab-'+v).classList.toggle('active',v===t);
+  });
+  document.getElementById('modal-sub-txt').textContent = t==='login'?'Accede a tu cuenta':t==='register'?'Crea tu cuenta gratis':'Recuperar contraseña';
+  limpiarErrores();
+}
+function showForgot(){
+  document.querySelectorAll('.m-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-forgot').classList.add('active');
+  document.getElementById('modal-sub-txt').textContent = 'Recuperar contraseña';
+}
+
+function limpiarErrores(){
+  ['lErr','rErr','fErr'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.style.display='none';el.textContent='';}
+  });
+}
+function mostrarError(id,msg){
+  var el=document.getElementById(id);
+  el.textContent=msg;el.style.display='block';
+}
+function setLoading(btnId,on){
+  var btn=document.getElementById(btnId);
+  btn.disabled=on;
+  btn.innerHTML=on?'<span class="spin"></span>':btn.dataset.txt;
+}
+
+// ── LOGIN ──
+document.getElementById('btnLogin').dataset.txt='<i class="fas fa-arrow-right"></i> Ingresar';
+function doLogin(){
+  var email=document.getElementById('lEmail').value.trim();
+  var pass=document.getElementById('lPass').value;
+  limpiarErrores();
+  if(!email||!pass){mostrarError('lErr','Completa todos los campos.');return;}
+  setLoading('btnLogin',true);
+  auth.signInWithEmailAndPassword(email,pass)
+    .then(function(uc){
+      var isAdmin=ADMIN_EMAILS.includes(uc.user.email);
+      window.location.href=isAdmin?'admin.html':'mi-cuenta.html';
+    })
+    .catch(function(e){
+      setLoading('btnLogin',false);
+      var msgs={'auth/user-not-found':'No existe una cuenta con este correo.','auth/wrong-password':'Contraseña incorrecta.','auth/invalid-email':'Correo inválido.','auth/too-many-requests':'Demasiados intentos. Espera un momento.'};
+      mostrarError('lErr',msgs[e.code]||'Error al iniciar sesión.');
+    });
+}
+
+// ── REGISTRO ──
+document.getElementById('btnRegister').dataset.txt='<i class="fas fa-user-plus"></i> Crear mi cuenta';
+function doRegister(){
+  var nombre=document.getElementById('rNombre').value.trim();
+  var email=document.getElementById('rEmail').value.trim();
+  var tel=document.getElementById('rTel').value.trim();
+  var pass=document.getElementById('rPass').value;
+  limpiarErrores();
+  if(!nombre||!email||!pass){mostrarError('rErr','Completa todos los campos requeridos.');return;}
+  if(pass.length<6){mostrarError('rErr','La contraseña debe tener al menos 6 caracteres.');return;}
+  setLoading('btnRegister',true);
+  auth.createUserWithEmailAndPassword(email,pass)
+    .then(function(uc){
+      // Guardar perfil en DB
+      return db.ref('usuarios/'+uc.user.uid).set({
+        nombre:nombre,
+        email:email,
+        telefono:tel||'',
+        rol:'cliente',
+        creadoEn:Date.now(),
+        estado:'activo'
+      });
+    })
+    .then(function(){
+      window.location.href='mi-cuenta.html';
+    })
+    .catch(function(e){
+      setLoading('btnRegister',false);
+      var msgs={'auth/email-already-in-use':'Este correo ya tiene una cuenta. Inicia sesión.','auth/invalid-email':'Correo inválido.','auth/weak-password':'Contraseña muy débil (mínimo 6 caracteres).'};
+      mostrarError('rErr',msgs[e.code]||'Error al crear cuenta.');
+    });
+}
+
+// ── FORGOT ──
+document.getElementById('btnForgot').dataset.txt='<i class="fas fa-paper-plane"></i> Enviar enlace';
+function doForgot(){
+  var email=document.getElementById('fEmail').value.trim();
+  limpiarErrores();
+  if(!email){mostrarError('fErr','Ingresa tu correo.');return;}
+  setLoading('btnForgot',true);
+  auth.sendPasswordResetEmail(email)
+    .then(function(){
+      setLoading('btnForgot',false);
+      mostrarError('fErr','✓ Enlace enviado. Revisa tu correo (también spam).');
+      document.getElementById('fErr').style.background='#f0fdf4';
+      document.getElementById('fErr').style.color='#16a34a';
+    })
+    .catch(function(e){
+      setLoading('btnForgot',false);
+      mostrarError('fErr',e.code==='auth/user-not-found'?'No existe cuenta con ese correo.':'Error al enviar. Verifica el correo.');
+    });
+}
+
+// ── COTIZADOR ──
+function irACotizador(pkg){
+  abrirModal();
+  toast('Inicia sesión o regístrate para cotizar un paquete.');
+}
+
+// ── REVEAL ON SCROLL ──
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Invitaciones · Impacto Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a0a;--ink2:#111118;
+  --cream:#faf8f4;--warm:#f5f0e8;
+  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0e6d0;
+  --green:#16a34a;--green-l:#f0fdf4;
+  --border:#e8e4dc;--muted:#8a7d6a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+
+/* LOGIN */
+.login-screen{position:fixed;inset:0;background:var(--ink2);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.login-box{background:#fff;border-radius:24px;padding:48px 40px;width:380px;max-width:92vw;text-align:center;}
+.login-icon{width:60px;height:60px;border-radius:18px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.login-icon i{color:var(--gold);font-size:24px;}
+.login-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.login-sub{font-size:12px;color:var(--muted);margin-bottom:28px;}
+.login-input{width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;margin-bottom:12px;transition:.2s;}
+.login-input:focus{border-color:var(--gold);}
+.login-btn{width:100%;padding:14px;border-radius:12px;background:var(--ink);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;}
+.login-btn:hover{background:var(--gold-d);}
+.login-err{color:#dc2626;font-size:12px;margin-top:10px;display:none;}
+
+/* TOPBAR */
+.topbar{background:var(--ink);height:58px;display:flex;align-items:center;padding:0 28px;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.tb-brand{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;}
+.tb-brand em{font-style:italic;color:var(--gold);}
+.tb-badge{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(200,169,106,0.15);color:var(--gold);border:1px solid rgba(200,169,106,0.25);padding:3px 12px;border-radius:20px;}
+.tb-right{display:flex;align-items:center;gap:12px;}
+.tb-logout{background:none;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);padding:6px 14px;border-radius:8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;}
+.tb-logout:hover{color:#fff;border-color:rgba(255,255,255,0.4);}
+
+/* LAYOUT */
+.main{display:grid;grid-template-columns:420px 1fr;min-height:calc(100vh - 58px);}
+@media(max-width:900px){.main{grid-template-columns:1fr;}}
+
+/* PANEL IZQUIERDO - FORMULARIO */
+.form-panel{background:#fff;border-right:1px solid var(--border);padding:28px;overflow-y:auto;max-height:calc(100vh - 58px);}
+.panel-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.panel-sub{font-size:12px;color:var(--muted);margin-bottom:24px;}
+
+/* Selector de plantilla */
+.tpl-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
+.tpl-opt{border:1.5px solid var(--border);border-radius:12px;padding:12px 10px;cursor:pointer;transition:.2s;text-align:center;}
+.tpl-opt:hover{border-color:var(--gold);}
+.tpl-opt.active{border-color:var(--gold);background:var(--gold-l);}
+.tpl-opt-icon{font-size:20px;margin-bottom:4px;}
+.tpl-opt-name{font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.tpl-opt-sub{font-size:10px;color:var(--muted);}
+
+/* Secciones del formulario */
+.fsec{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding:8px 0 6px;border-bottom:1px solid var(--border);margin:18px 0 12px;display:flex;align-items:center;gap:7px;}
+.fsec i{font-size:11px;}
+.fg{margin-bottom:12px;}
+.fg label{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.fg input,.fg textarea,.fg select{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:#faf9f7;outline:none;transition:.2s;resize:vertical;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold);background:#fff;}
+.fg textarea{min-height:70px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* Entradas dinámicas */
+.dynamic-entry{display:grid;gap:6px;margin-bottom:8px;align-items:center;}
+.dynamic-entry.padrino{grid-template-columns:1fr 100px 28px;}
+.dynamic-entry.corte{grid-template-columns:20px 1fr 1fr;}
+.dynamic-entry input,.dynamic-entry select{padding:9px 11px;border-radius:9px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--ink);background:#faf9f7;outline:none;transition:.2s;}
+.dynamic-entry input:focus{border-color:var(--gold);background:#fff;}
+.corte-num{width:20px;height:20px;border-radius:50%;background:var(--gold-l);color:var(--gold-d);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.btn-add{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;border:1.5px dashed var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:.2s;margin-top:2px;}
+.btn-add:hover{border-color:var(--gold);color:var(--gold);}
+.btn-rm{width:26px;height:26px;border-radius:50%;border:none;background:#fee2e2;color:#dc2626;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* Botón generar */
+.btn-generate{width:100%;padding:15px;border-radius:12px;background:var(--ink);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px;}
+.btn-generate:hover{background:var(--gold-d);}
+.btn-generate i{font-size:14px;}
+
+/* Info link */
+.link-preview{background:var(--green-l);border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px;margin-top:12px;display:none;}
+.link-preview.show{display:block;}
+.link-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.link-url{font-size:13px;color:var(--ink);font-weight:600;word-break:break-all;}
+.link-copy{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border-radius:8px;background:var(--green);color:#fff;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* PANEL DERECHO - PREVIEW */
+.preview-panel{background:#e8e8ec;overflow-y:auto;max-height:calc(100vh - 58px);display:flex;flex-direction:column;}
+.preview-bar{background:var(--ink2);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.preview-bar span{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+.preview-tabs{display:flex;gap:6px;}
+.preview-tab{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;}
+.preview-tab.active{background:var(--gold);color:var(--ink);}
+.preview-tab:not(.active){background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);}
+.preview-actions{display:flex;gap:8px;}
+.btn-download{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;background:var(--gold);color:var(--ink);border:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-download:hover{background:var(--gold-d);color:#fff;}
+.btn-download:disabled{background:#ccc;cursor:not-allowed;}
+
+.preview-frame-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:28px;overflow-y:auto;}
+.phone-frame{width:375px;background:#fff;border-radius:36px;box-shadow:0 24px 80px rgba(0,0,0,0.28);overflow:hidden;border:8px solid #1a1a1a;position:relative;flex-shrink:0;}
+.phone-notch{height:28px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;}
+.phone-notch-pill{width:80px;height:10px;background:#0a0a0a;border-radius:5px;}
+.phone-content{height:680px;overflow-y:auto;background:#fff;}
+.phone-content iframe{width:100%;height:100%;border:none;display:block;}
+
+/* Empty state */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.2);text-align:center;padding:40px;}
+.empty-state i{font-size:48px;margin-bottom:16px;opacity:0.3;}
+.empty-state p{font-size:13px;line-height:1.7;}
+
+/* Secciones condicionales */
+.cond-section{display:none;}
+.cond-section.show{display:block;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-icon"><i class="fas fa-envelope-open-text"></i></div>
+    <div class="login-title">Generador</div>
+    <div class="login-sub">Impacto Digital · Acceso interno</div>
+    <input class="login-input" type="password" id="loginPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="loginErr">Contraseña incorrecta</div>
+  </div>
+</div>
+
+<!-- APP (oculto hasta login) -->
+<div id="app" style="display:none;">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand">Impacto <em>Digital</em></div>
+  <div class="tb-right">
+    <span class="tb-badge">Generador de Invitaciones</span>
+    <button class="tb-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ═══ PANEL FORMULARIO ═══ -->
+  <div class="form-panel">
+    <div class="panel-title">Nueva invitación</div>
+    <div class="panel-sub">Completa los datos del cliente y genera el HTML listo para subir.</div>
+
+    <!-- SELECTOR DE PLANTILLA -->
+    <div class="fsec"><i class="fas fa-palette"></i> Plantilla</div>
+    <div class="tpl-selector">
+      <div class="tpl-opt active" onclick="selectTpl('boda-nupcial',this)">
+        <div class="tpl-opt-icon">💍</div>
+        <div class="tpl-opt-name">Boda Nupcial</div>
+        <div class="tpl-opt-sub">Elegante dorado</div>
+      </div>
+      <div class="tpl-opt" onclick="selectTpl('boda-floral',this)">
+        <div class="tpl-opt-icon">🌸</div>
+        <div class="tpl-opt-name">Boda Floral</div>
+        <div class="tpl-opt-sub">Romántica rosa</div>
+      </div>
+      <div class="tpl-opt" onclick="selectTpl('quincea-azul',this)">
+        <div class="tpl-opt-icon">👑</div>
+        <div class="tpl-opt-name">Quinceañera Azul</div>
+        <div class="tpl-opt-sub">Azul & dorado</div>
+      </div>
+      <div class="tpl-opt" onclick="selectTpl('quincea-rosa',this)">
+        <div class="tpl-opt-icon">🎀</div>
+        <div class="tpl-opt-name">Quinceañera Rosa</div>
+        <div class="tpl-opt-sub">Rosa & dorado</div>
+      </div>
+      <div class="tpl-opt" onclick="selectTpl('cumple-infantil',this)">
+        <div class="tpl-opt-icon">🎂</div>
+        <div class="tpl-opt-name">Cumpleaños</div>
+        <div class="tpl-opt-sub">Infantil colorido</div>
+      </div>
+    </div>
+
+    <!-- DATOS DEL ARCHIVO -->
+    <div class="fsec"><i class="fas fa-link"></i> Nombre del archivo (URL)</div>
+    <div class="fg">
+      <label>Nombre para el link <span style="color:var(--muted);font-weight:400;">(sin espacios ni tildes)</span></label>
+      <input type="text" id="fileSlug" placeholder="ej: boda-sofia-alejandro" oninput="updateSlugPreview()">
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;">
+        🔗 Link: <strong id="slugPreview" style="color:var(--gold-d);">impactodigitalsv.neocities.org/...</strong>
+      </div>
+    </div>
+
+    <!-- DATOS PRINCIPALES -->
+    <div class="fsec"><i class="fas fa-user"></i> Datos del evento</div>
+    <div class="fg" id="fg-nombre1">
+      <label id="lbl-nombre1">Nombre 1</label>
+      <input type="text" id="nombre1" placeholder="Ej. Sofía" oninput="liveUpdate()">
+    </div>
+    <div class="fg" id="fg-nombre2">
+      <label id="lbl-nombre2">Nombre 2</label>
+      <input type="text" id="nombre2" placeholder="Ej. Alejandro" oninput="liveUpdate()">
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Fecha</label><input type="date" id="fecha" oninput="liveUpdate()"></div>
+      <div class="fg"><label>Hora</label><input type="text" id="hora" placeholder="6:00 PM" oninput="liveUpdate()"></div>
+    </div>
+    <div class="fg" id="fg-iglesia" style="display:none">
+      <label>Iglesia / Ceremonia</label>
+      <input type="text" id="iglesia" placeholder="Ej. Iglesia El Carmen" oninput="liveUpdate()">
+    </div>
+    <div class="fg"><label>Lugar / Salón</label><input type="text" id="lugar" placeholder="Ej. Salón El Jardín, San Salvador" oninput="liveUpdate()"></div>
+    <div class="fg"><label>Vestimenta</label><input type="text" id="vestimenta" placeholder="Ej. Formal · Azul y Dorado" oninput="liveUpdate()"></div>
+
+    <!-- FOTO -->
+    <div class="fsec"><i class="fas fa-image"></i> Foto</div>
+    <div class="fg"><label>URL de la foto (ibb.co, drive, etc.)</label><input type="url" id="photoUrl" placeholder="https://i.ibb.co/..." oninput="liveUpdate()"></div>
+
+    <!-- PADRINOS -->
+    <div class="cond-section show" id="sec-padrinos">
+      <div class="fsec"><i class="fas fa-hands"></i> Padrinos y madrinas</div>
+      <div id="padrinosList"></div>
+      <button class="btn-add" onclick="addPadrino()"><i class="fas fa-plus"></i> Agregar</button>
+    </div>
+
+    <!-- FRASE -->
+    <div class="cond-section show" id="sec-frase">
+      <div class="fsec"><i class="fas fa-quote-left"></i> Frase de agradecimiento</div>
+      <div class="fg"><textarea id="frase" placeholder="Ej. Hoy celebro cada persona que me ha rodeado de amor..." oninput="liveUpdate()"></textarea></div>
+      <div class="fg"><label>Autor de la frase</label><input type="text" id="fraseAutor" placeholder="Ej. Con gratitud eterna, Valentina" oninput="liveUpdate()"></div>
+    </div>
+
+    <!-- CHAMBELÁN -->
+    <div class="cond-section" id="sec-chambelan">
+      <div class="fsec"><i class="fas fa-star"></i> Chambelán de honor</div>
+      <div class="fg"><input type="text" id="chambelan" placeholder="Nombre del chambelán" oninput="liveUpdate()"></div>
+    </div>
+
+    <!-- CORTE DE HONOR -->
+    <div class="cond-section" id="sec-corte">
+      <div class="fsec"><i class="fas fa-users"></i> Corte de honor (7 parejas)</div>
+      <div id="corteList"></div>
+    </div>
+
+    <!-- DATOS CLIENTE -->
+    <div class="fsec"><i class="fas fa-address-card"></i> Cliente</div>
+    <div class="fg"><label>Nombre del cliente</label><input type="text" id="clientName" placeholder="Para el archivo y referencia"></div>
+    <div class="fg"><label>Notas internas</label><textarea id="notas" placeholder="Notas para tu equipo..." style="min-height:50px;"></textarea></div>
+
+    <!-- BOTÓN GENERAR -->
+    <button class="btn-generate" onclick="generateHTML()">
+      <i class="fas fa-magic"></i> Generar invitación
+    </button>
+
+    <!-- LINK PREVIEW -->
+    <div class="link-preview" id="linkPreview">
+      <div class="link-label">✅ Invitación generada · Link del cliente</div>
+      <div class="link-url" id="linkUrl"></div>
+      <button class="link-copy" onclick="copyLink()"><i class="fas fa-copy"></i> Copiar link</button>
+      <span style="font-size:11px;color:var(--green);margin-left:8px;">Sube el archivo a Neocities y comparte este link</span>
+    </div>
+  </div>
+
+  <!-- ═══ PANEL PREVIEW ═══ -->
+  <div class="preview-panel">
+    <div class="preview-bar">
+      <span>Vista previa · Celular</span>
+      <div class="preview-actions">
+        <button class="btn-download" id="btnDownload" onclick="downloadHTML()" disabled>
+          <i class="fas fa-download"></i> Descargar HTML
+        </button>
+      </div>
+    </div>
+    <div class="preview-frame-wrap">
+      <div id="emptyState" class="empty-state">
+        <i class="fas fa-mobile-alt"></i>
+        <p>Completa los datos y haz clic en<br><strong style="color:rgba(255,255,255,0.5)">"Generar invitación"</strong><br>para ver la preview aquí.</p>
+      </div>
+      <div class="phone-frame" id="phoneFrame" style="display:none;">
+        <div class="phone-notch"><div class="phone-notch-pill"></div></div>
+        <div class="phone-content">
+          <iframe id="previewFrame" title="Preview invitación"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ─── AUTH ───
+var PASS = 'impacto2025inv';
+var generatedHTML = '';
+var currentTpl = 'boda-nupcial';
+var padrinos = [];
+var corteData = [];
+
+function doLogin(){
+  var p = document.getElementById('loginPass').value;
+  if(p === PASS){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    initForm();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('loginPass').value='';
+  }
+}
+function logout(){ location.reload(); }
+document.getElementById('loginPass').addEventListener('keydown',function(e){ if(e.key==='Enter') doLogin(); });
+
+// ─── INIT ───
+function initForm(){
+  selectTpl('boda-nupcial', document.querySelector('.tpl-opt'));
+}
+
+// ─── SELECTOR DE PLANTILLA ───
+var tplCfg = {
+  'boda-nupcial':   {lbl1:'Nombre del novio', lbl2:'Nombre de la novia', iglesia:true,  chambelan:false, corte:false, padrinos:true,  frase:true},
+  'boda-floral':    {lbl1:'Nombre del novio', lbl2:'Nombre de la novia', iglesia:true,  chambelan:false, corte:false, padrinos:true,  frase:true},
+  'quincea-azul':   {lbl1:'Nombre',           lbl2:null,                 iglesia:false, chambelan:true,  corte:true,  padrinos:true,  frase:true},
+  'quincea-rosa':   {lbl1:'Nombre',           lbl2:null,                 iglesia:false, chambelan:true,  corte:true,  padrinos:true,  frase:true},
+  'cumple-infantil':{lbl1:'Nombre del festejado/a', lbl2:'Años que cumple', iglesia:false, chambelan:false, corte:false, padrinos:false, frase:false},
+};
+
+function selectTpl(tpl, el){
+  currentTpl = tpl;
+  document.querySelectorAll('.tpl-opt').forEach(function(o){ o.classList.remove('active'); });
+  el.classList.add('active');
+  var cfg = tplCfg[tpl];
+  document.getElementById('lbl-nombre1').textContent = cfg.lbl1;
+  document.getElementById('fg-nombre2').style.display = cfg.lbl2 ? '' : 'none';
+  if(cfg.lbl2) document.getElementById('lbl-nombre2').textContent = cfg.lbl2;
+  document.getElementById('fg-iglesia').style.display = cfg.iglesia ? '' : 'none';
+  toggle('sec-padrinos', cfg.padrinos);
+  toggle('sec-frase',    cfg.frase);
+  toggle('sec-chambelan',cfg.chambelan);
+  toggle('sec-corte',    cfg.corte);
+  if(cfg.padrinos && padrinos.length===0){ padrinos=[{n:'',r:'Padrino'},{n:'',r:'Madrina'}]; renderPadrinos(); }
+  if(cfg.corte && corteData.length===0){ corteData=[]; for(var i=0;i<7;i++) corteData.push({d:'',c:''}); renderCorte(); }
+}
+function toggle(id, show){ document.getElementById(id).classList.toggle('show', show); }
+
+// ─── PADRINOS ───
+function renderPadrinos(){
+  var el=document.getElementById('padrinosList'); el.innerHTML='';
+  padrinos.forEach(function(p,i){
+    var d=document.createElement('div'); d.className='dynamic-entry padrino';
+    d.innerHTML='<input type="text" placeholder="Nombre" value="'+p.n+'" oninput="padrinos['+i+'].n=this.value;liveUpdate()">'+
+      '<select onchange="padrinos['+i+'].r=this.value;liveUpdate()">'+
+        '<option'+(p.r==='Padrino'?' selected':'')+'>Padrino</option>'+
+        '<option'+(p.r==='Madrina'?' selected':'')+'>Madrina</option>'+
+      '</select>'+
+      '<button class="btn-rm" onclick="padrinos.splice('+i+',1);renderPadrinos();liveUpdate()"><i class="fas fa-times"></i></button>';
+    el.appendChild(d);
+  });
+}
+function addPadrino(){ padrinos.push({n:'',r:'Padrino'}); renderPadrinos(); }
+
+// ─── CORTE ───
+function renderCorte(){
+  var el=document.getElementById('corteList'); el.innerHTML='';
+  corteData.forEach(function(p,i){
+    var d=document.createElement('div'); d.className='dynamic-entry corte';
+    d.innerHTML='<div class="corte-num">'+(i+1)+'</div>'+
+      '<input type="text" placeholder="Dama" value="'+p.d+'" oninput="corteData['+i+'].d=this.value;liveUpdate()">'+
+      '<input type="text" placeholder="Chambelán" value="'+p.c+'" oninput="corteData['+i+'].c=this.value;liveUpdate()">';
+    el.appendChild(d);
+  });
+}
+
+// ─── SLUG ───
+function updateSlugPreview(){
+  var slug = document.getElementById('fileSlug').value.trim().toLowerCase().replace(/\s+/g,'-');
+  document.getElementById('fileSlug').value = slug;
+  document.getElementById('slugPreview').textContent = slug
+    ? 'impactodigitalsv.neocities.org/'+slug
+    : 'impactodigitalsv.neocities.org/...';
+}
+
+// ─── LIVE UPDATE (preview rápido mientras escribe) ───
+var liveTimer;
+function liveUpdate(){ clearTimeout(liveTimer); liveTimer=setTimeout(function(){ /* solo actualiza preview si ya hay un HTML generado */ if(generatedHTML) generateHTML(true); },400); }
+
+// ─── GENERADOR PRINCIPAL ───
+function generateHTML(silent){
+  var cfg = tplCfg[currentTpl];
+  var n1   = v('nombre1');
+  var n2   = v('nombre2');
+  var fecha= v('fecha');
+  var hora = v('hora') || '—';
+  var lugar= v('lugar') || '—';
+  var iglesia = v('iglesia') || '';
+  var vest = v('vestimenta') || '';
+  var photo= v('photoUrl') || '';
+  var frase= v('frase') || '';
+  var fraseAutor = v('fraseAutor') || '';
+  var chambelanName = v('chambelan') || '';
+  var slug = v('fileSlug') || 'invitacion';
+  var fechaDisplay = fecha ? formatDate(fecha) : '— · — · —';
+
+  // Validación básica si no es silent
+  if(!silent){
+    if(!n1){ alert('Ingresa el nombre principal'); document.getElementById('nombre1').focus(); return; }
+    if(!slug){ alert('Ingresa el nombre del archivo (slug)'); document.getElementById('fileSlug').focus(); return; }
+  }
+
+  // Construir secciones HTML dinámicas
+  var padrinosHTML = '';
+  if(cfg.padrinos && padrinos.length){
+    var grupos = {Padrino:[], Madrina:[]};
+    padrinos.forEach(function(p){ if(p.n) grupos[p.r]? grupos[p.r].push(p.n) : null; });
+    if(grupos.Padrino.length || grupos.Madrina.length){
+      padrinosHTML = buildPadrinosSection(grupos);
+    }
+  }
+
+  var fraseHTML = '';
+  if(cfg.frase && frase){
+    fraseHTML = `
+    <div style="background:linear-gradient(135deg,${currentTpl.startsWith('quincea-azul')?'#e0eaff,#eef4ff':'#fce8ef,#fdf0f5'});border-left:3px solid #d4a040;padding:16px 18px;margin:0 0 20px;border-radius:0 4px 4px 0;text-align:left;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:${currentTpl.startsWith('quincea-azul')?'#1a2a5c':'#5c2a48'};font-style:italic;line-height:1.8;">"${frase}"</div>
+      ${fraseAutor?`<div style="font-size:10px;letter-spacing:2px;color:${currentTpl.startsWith('quincea-azul')?'#4070c0':'#b07090'};text-transform:uppercase;margin-top:6px;">— ${fraseAutor}</div>`:''}
+    </div>`;
+  }
+
+  var chambelanHTML = '';
+  if(cfg.chambelan && chambelanName){
+    chambelanHTML = `
+    <div style="margin:0 0 18px;">
+      <div style="font-size:10px;letter-spacing:4px;color:${currentTpl==='quincea-azul'?'#1a3a8f':'#8b3070'};text-transform:uppercase;margin-bottom:10px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center;"><span style="display:inline-block;width:30px;height:0.5px;background:#8ab0e0;"></span>Chambelán de Honor<span style="display:inline-block;width:30px;height:0.5px;background:#8ab0e0;"></span></div>
+      <div style="background:linear-gradient(135deg,${currentTpl==='quincea-azul'?'#1a3a8f,#2a5cbf':'#8b3070,#b04090'});border-radius:4px;padding:14px 18px;text-align:center;">
+        <span style="font-size:9px;letter-spacing:4px;color:#d4a040;text-transform:uppercase;display:block;margin-bottom:4px;">✦ Su Chambelán de Honor ✦</span>
+        <div style="font-family:'Great Vibes',cursive;font-size:30px;color:white;line-height:1.1;">${chambelanName}</div>
+      </div>
+    </div>`;
+  }
+
+  var corteHTML = '';
+  if(cfg.corte && corteData.some(function(p){ return p.d||p.c; })){
+    corteHTML = buildCorteSection();
+  }
+
+  var iglesiaSec = iglesia ? `
+      <div style="display:flex;align-items:flex-start;gap:12px;margin:10px 0;text-align:left;">
+        <span style="font-size:14px;min-width:22px;text-align:center;padding-top:2px;">⛪</span>
+        <div>
+          <span style="font-size:9px;letter-spacing:3px;color:${currentTpl.startsWith('quincea')?'#4070c0':'#8a6820'};text-transform:uppercase;display:block;margin-bottom:2px;">Ceremonia</span>
+          <span style="font-size:14px;color:${currentTpl.startsWith('quincea')?'#1a2a5c':'#2a1e08'};line-height:1.4;">${iglesia}</span>
+        </div>
+      </div>` : '';
+
+  var vestSec = vest ? `
+      <div style="display:flex;align-items:flex-start;gap:12px;margin:10px 0;text-align:left;">
+        <span style="font-size:14px;min-width:22px;text-align:center;padding-top:2px;">👗</span>
+        <div>
+          <span style="font-size:9px;letter-spacing:3px;color:${currentTpl.startsWith('quincea')?'#4070c0':'#8a6820'};text-transform:uppercase;display:block;margin-bottom:2px;">Vestimenta</span>
+          <span style="font-size:14px;color:${currentTpl.startsWith('quincea')?'#1a2a5c':'#2a1e08'};line-height:1.4;">${vest}</span>
+        </div>
+      </div>` : '';
+
+  // Construir el HTML completo según plantilla
+  generatedHTML = buildFullInvitation({
+    tpl: currentTpl, n1, n2, fechaDisplay, hora, lugar, photo,
+    padrinosHTML, fraseHTML, chambelanHTML, corteHTML,
+    iglesiaSec, vestSec, fechaRaw: fecha, slug
+  });
+
+  // Mostrar preview
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('phoneFrame').style.display='';
+  var iframe = document.getElementById('previewFrame');
+  iframe.srcdoc = generatedHTML;
+
+  // Mostrar link y botón descarga
+  if(!silent){
+    var linkEl = document.getElementById('linkPreview');
+    linkEl.classList.add('show');
+    document.getElementById('linkUrl').textContent = 'impactodigitalsv.neocities.org/'+slug;
+    document.getElementById('btnDownload').disabled = false;
+  }
+}
+
+function v(id){ var el=document.getElementById(id); return el?el.value.trim():''; }
+
+function formatDate(d){
+  if(!d) return '';
+  var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var parts=d.split('-');
+  return parseInt(parts[2])+' · '+months[parseInt(parts[1])-1]+' · '+parts[0];
+}
+
+function buildPadrinosSection(grupos){
+  var padrCol = grupos.Padrino.map(function(n){ return '<div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;color:#1a2a5c;line-height:1.8;font-style:italic;">'+n+'</div>'; }).join('');
+  var madCol  = grupos.Madrina.map(function(n){ return '<div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;color:#1a2a5c;line-height:1.8;font-style:italic;">'+n+'</div>'; }).join('');
+  var accent  = currentTpl.startsWith('quincea-azul') ? '#4070c0' : currentTpl.startsWith('quincea') ? '#b07090' : '#8a6820';
+  var bg      = currentTpl.startsWith('quincea-azul') ? '#e8f0ff,#f0f5ff' : currentTpl.startsWith('quincea') ? '#fce8f5,#fff5e8' : '#f8f2e0,#fdf8ee';
+  var bd      = currentTpl.startsWith('quincea-azul') ? '#8ab0e0' : currentTpl.startsWith('quincea') ? '#e0b8d0' : '#c8b060';
+  return `<div style="margin:0 0 20px;">
+    <div style="font-size:10px;letter-spacing:4px;color:${accent};text-transform:uppercase;margin-bottom:10px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center;"><span style="display:inline-block;width:30px;height:0.5px;background:${bd};"></span>Padrinos y Madrinas<span style="display:inline-block;width:30px;height:0.5px;background:${bd};"></span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="background:linear-gradient(135deg,${bg});border:0.5px solid ${bd};padding:12px 10px;border-radius:2px;text-align:center;">
+        <span style="font-size:10px;letter-spacing:3px;color:#d4a040;text-transform:uppercase;display:block;margin-bottom:8px;">✦ Padrinos</span>${padrCol}
+      </div>
+      <div style="background:linear-gradient(135deg,${bg});border:0.5px solid ${bd};padding:12px 10px;border-radius:2px;text-align:center;">
+        <span style="font-size:10px;letter-spacing:3px;color:#d4a040;text-transform:uppercase;display:block;margin-bottom:8px;">✦ Madrinas</span>${madCol}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildCorteSection(){
+  var bd = currentTpl==='quincea-azul'?'#8ab0e0':'#e0b8d0';
+  var ac = currentTpl==='quincea-azul'?'#4070c0':'#b07090';
+  var bg = currentTpl==='quincea-azul'?'#e8f0ff,#f0f5ff':'#fce8f5,#fff5e8';
+  var rows = corteData.map(function(p,i){
+    if(!p.d && !p.c) return '';
+    return `<div style="display:grid;grid-template-columns:1fr 30px 1fr;gap:4px;align-items:center;margin-bottom:6px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#2a4070;font-style:italic;text-align:right;line-height:1.3;">${p.d||'—'}<br><span style="font-size:9px;color:#8ab0e0;letter-spacing:1px;">${i+1}ª dama</span></div>
+      <div style="text-align:center;color:#d4a040;font-size:14px;">✦</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#1a3a8f;font-style:italic;text-align:left;line-height:1.3;">${p.c||'—'}<br><span style="font-size:9px;color:#8ab0e0;letter-spacing:1px;">${i+1}er chamb.</span></div>
+    </div>`;
+  }).join('');
+  return `<div style="margin:0 0 18px;">
+    <div style="font-size:10px;letter-spacing:4px;color:${ac};text-transform:uppercase;margin-bottom:10px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center;"><span style="display:inline-block;width:30px;height:0.5px;background:${bd};"></span>Corte de Honor<span style="display:inline-block;width:30px;height:0.5px;background:${bd};"></span></div>
+    <div style="background:linear-gradient(135deg,${bg});border:0.5px solid ${bd};padding:14px 10px 10px;border-radius:2px;">
+      <div style="display:grid;grid-template-columns:1fr 30px 1fr;gap:4px;margin-bottom:10px;">
+        <div style="font-size:9px;letter-spacing:3px;color:#d4a040;text-transform:uppercase;text-align:center;padding:4px 0;border-bottom:1px solid ${bd};">Damas</div>
+        <div style="border-bottom:1px solid #d4a040;"></div>
+        <div style="font-size:9px;letter-spacing:3px;color:#d4a040;text-transform:uppercase;text-align:center;padding:4px 0;border-bottom:1px solid ${bd};">Chambelanes</div>
+      </div>
+      ${rows}
+    </div>
+  </div>`;
+}
+
+// ─── HTML COMPLETO DE LA INVITACIÓN ───
+function buildFullInvitation(d){
+  var isQuincea = d.tpl.startsWith('quincea');
+  var isAzul    = d.tpl === 'quincea-azul';
+  var isBoda    = d.tpl.startsWith('boda');
+  var isNupcial = d.tpl === 'boda-nupcial';
+  var isCumple  = d.tpl === 'cumple-infantil';
+
+  // Colores por plantilla
+  var primary = isAzul ? '#1a3a8f' : isQuincea ? '#8b3070' : isBoda ? '#3a2a08' : '#a03060';
+  var accent  = isAzul ? '#6090d8' : isQuincea ? '#c8809a' : '#c8a040';
+  var gold    = '#d4a040';
+  var bgCard  = isAzul ? 'linear-gradient(160deg,#f8faff,#f4f8ff)' : isQuincea ? 'linear-gradient(160deg,#fffaf8,#fff7fc)' : isBoda ? 'linear-gradient(160deg,#fefcf8,#faf8f2)' : 'linear-gradient(160deg,#fff8f0,#fff0f8)';
+  var borderC = isAzul ? '#9ab0e0' : isQuincea ? '#e0b0d0' : isBoda ? '#c8b880' : '#f0a0c0';
+  var stripeBg= isAzul ? 'linear-gradient(90deg,#2a5cbf,#6090d8,#d4a040,#6090d8,#2a5cbf)' : isQuincea ? 'linear-gradient(90deg,#b060a0,#e0a0c8,#d4a040,#e0a0c8,#b060a0)' : isBoda ? 'linear-gradient(90deg,#8a6820,#d4a040,#f0c860,#d4a040,#8a6820)' : 'linear-gradient(90deg,#c04080,#f080b0,#f0c040,#f080b0,#c04080)';
+  var detBg   = isAzul ? 'linear-gradient(135deg,#e8f0ff,#f0f5ff)' : isQuincea ? 'linear-gradient(135deg,#fce8f5,#fff5e8)' : isBoda ? 'linear-gradient(135deg,#f8f2e0,#fdf8ee)' : 'linear-gradient(135deg,#ffe0f0,#fff0e0)';
+  var detBd   = isAzul ? '#8ab0e0' : isQuincea ? '#e0b8d0' : isBoda ? '#c8b060' : '#f0a0c0';
+  var detLbl  = isAzul ? '#4070c0' : isQuincea ? '#c080a0' : isBoda ? '#8a6820' : '#c06090';
+  var detVal  = isAzul ? '#1a2a5c' : isQuincea ? '#5c2a48' : isBoda ? '#2a1e08' : '#5c1a38';
+  var countBd = isAzul ? '#8ab0e0' : isQuincea ? '#e0b8d0' : '#c8b060';
+  var countClr= isAzul ? '#1a3a8f' : isQuincea ? '#8b3070' : '#3a2a08';
+  var footClr = isAzul ? '#4070c0' : isQuincea ? '#c080a0' : '#8a6820';
+
+  // Foto
+  var photoHTML = d.photo
+    ? `<img src="${d.photo}" alt="Foto" style="width:100%;height:100%;object-fit:cover;border-radius:4px;display:block;">`
+    : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#f0e8d0,#e0d0b0);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:#999;font-family:'DM Sans',sans-serif;font-size:12px;font-style:italic;border-radius:4px;">📷<span>Foto del cliente</span></div>`;
+
+  // Título principal
+  var titleHTML = '';
+  if(isCumple){
+    titleHTML = `
+      <div style="text-align:center;padding:20px 24px 0;">
+        <div style="font-size:10px;letter-spacing:4px;color:${accent};text-transform:uppercase;margin-bottom:4px;">¡Estás invitado!</div>
+        <div style="font-family:'Great Vibes',cursive;font-size:52px;color:${primary};line-height:1;">${d.n1}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${accent};">cumple ${d.n2} años</div>
+      </div>`;
+  } else if(isQuincea){
+    titleHTML = `
+      <div style="text-align:center;padding:8px 24px 0;">
+        <div style="font-family:'Great Vibes',cursive;font-size:52px;color:${primary};line-height:1;">${d.n1}</div>
+      </div>`;
+  } else {
+    titleHTML = `
+      <div style="text-align:center;padding:8px 24px 0;">
+        <div style="font-family:'Great Vibes',cursive;font-size:54px;color:${primary};line-height:1.05;">${d.n1}<span style="display:block;font-size:34px;color:${gold};margin:-4px 0;">&</span>${d.n2}</div>
+      </div>`;
+  }
+
+  // Encabezado decorativo por plantilla
+  var headerDecor = buildHeaderDecor(d.tpl, gold, accent, primary);
+
+  return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invitación · ${d.n1}${d.n2?' & '+d.n2:''}</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+</head><body style="margin:0;padding:0;background:${isAzul?'linear-gradient(135deg,#e8f0ff,#f0f4ff)':isQuincea?'linear-gradient(135deg,#fdf0f8,#f8f0ff)':isBoda?'linear-gradient(135deg,#f5f0e8,#faf6ee)':'linear-gradient(135deg,#fff0f8,#fff8f0)'};min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Cormorant Garamond',serif;">
+<div style="background:${bgCard};border:1.5px solid ${borderC};border-radius:4px;max-width:480px;width:100%;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.12);">
+  <div style="position:absolute;top:0;left:0;right:0;height:6px;background:${stripeBg};"></div>
+
+  <!-- HEADER DECORATIVO -->
+  ${headerDecor}
+
+  <!-- TÍTULO -->
+  ${titleHTML}
+
+  <div style="display:flex;align-items:center;gap:10px;margin:8px 32px;">
+    <hr style="flex:1;border:none;border-top:1px solid ${detBd};">
+    <div style="width:8px;height:8px;background:${gold};transform:rotate(45deg);border-radius:1px;"></div>
+    <hr style="flex:1;border:none;border-top:1px solid ${detBd};">
+  </div>
+
+  <!-- FOTO -->
+  <div style="display:flex;justify-content:center;padding:16px 24px 8px;">
+    <div style="width:260px;height:300px;position:relative;">
+      ${photoHTML}
+      <div style="position:absolute;top:-3px;left:-3px;width:40px;height:40px;pointer-events:none;">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M3 37 L3 9 Q3 3 9 3 L37 3" stroke="${gold}" stroke-width="2.5" fill="none"/><circle cx="3" cy="3" r="3.5" fill="${gold}"/></svg>
+      </div>
+      <div style="position:absolute;top:-3px;right:-3px;width:40px;height:40px;pointer-events:none;transform:scaleX(-1);">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M3 37 L3 9 Q3 3 9 3 L37 3" stroke="${gold}" stroke-width="2.5" fill="none"/><circle cx="3" cy="3" r="3.5" fill="${gold}"/></svg>
+      </div>
+      <div style="position:absolute;bottom:-3px;left:-3px;width:40px;height:40px;pointer-events:none;transform:scaleY(-1);">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M3 37 L3 9 Q3 3 9 3 L37 3" stroke="${gold}" stroke-width="2.5" fill="none"/><circle cx="3" cy="3" r="3.5" fill="${gold}"/></svg>
+      </div>
+      <div style="position:absolute;bottom:-3px;right:-3px;width:40px;height:40px;pointer-events:none;transform:scale(-1,-1);">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M3 37 L3 9 Q3 3 9 3 L37 3" stroke="${gold}" stroke-width="2.5" fill="none"/><circle cx="3" cy="3" r="3.5" fill="${gold}"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div style="padding:12px 36px 28px;text-align:center;">
+    <p style="font-size:15px;color:${primary};font-style:italic;font-weight:300;line-height:1.9;margin-bottom:20px;">
+      ${isCumple ? 'Con mucha alegría te invitamos a compartir<br>este momento tan especial.' : isQuincea ? 'Con el corazón lleno de alegría y gratitud,<br>tenemos el honor de invitarte a celebrar<br>este momento tan especial en mi vida.' : 'Con la bendición de Dios y la alegría<br>de nuestras familias, tenemos el honor<br>de invitarle a nuestra unión en matrimonio.'}
+    </p>
+
+    ${d.padrinosHTML}
+    ${d.fraseHTML}
+    ${d.chambelanHTML}
+    ${d.corteHTML}
+
+    <!-- DETALLES -->
+    <div style="background:${detBg};border:0.5px solid ${detBd};padding:18px 22px;margin:0 0 18px;border-radius:2px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin:10px 0;text-align:left;">
+        <span style="font-size:14px;min-width:22px;text-align:center;padding-top:2px;">🗓</span>
+        <div><span style="font-size:9px;letter-spacing:3px;color:${detLbl};text-transform:uppercase;display:block;margin-bottom:2px;">Fecha</span>
+        <span style="font-size:14px;color:${detVal};line-height:1.4;">${d.fechaDisplay}</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;margin:10px 0;text-align:left;">
+        <span style="font-size:14px;min-width:22px;text-align:center;padding-top:2px;">⏰</span>
+        <div><span style="font-size:9px;letter-spacing:3px;color:${detLbl};text-transform:uppercase;display:block;margin-bottom:2px;">Hora</span>
+        <span style="font-size:14px;color:${detVal};line-height:1.4;">${d.hora}</span></div>
+      </div>
+      ${d.iglesiaSec}
+      <div style="display:flex;align-items:flex-start;gap:12px;margin:10px 0;text-align:left;">
+        <span style="font-size:14px;min-width:22px;text-align:center;padding-top:2px;">📍</span>
+        <div><span style="font-size:9px;letter-spacing:3px;color:${detLbl};text-transform:uppercase;display:block;margin-bottom:2px;">Lugar</span>
+        <span style="font-size:14px;color:${detVal};line-height:1.4;">${d.lugar}</span></div>
+      </div>
+      ${d.vestSec}
+    </div>
+
+    <!-- CUENTA REGRESIVA -->
+    <div style="display:flex;justify-content:center;gap:12px;margin:16px 0;">
+      <div style="text-align:center;background:white;border:1px solid ${countBd};border-radius:4px;padding:10px 12px;min-width:56px;">
+        <span style="font-size:24px;font-weight:300;color:${countClr};display:block;line-height:1;" id="cd-d">--</span>
+        <span style="font-size:8px;letter-spacing:2px;color:${detLbl};text-transform:uppercase;display:block;margin-top:3px;">días</span>
+      </div>
+      <div style="text-align:center;background:white;border:1px solid ${countBd};border-radius:4px;padding:10px 12px;min-width:56px;">
+        <span style="font-size:24px;font-weight:300;color:${countClr};display:block;line-height:1;" id="cd-h">--</span>
+        <span style="font-size:8px;letter-spacing:2px;color:${detLbl};text-transform:uppercase;display:block;margin-top:3px;">horas</span>
+      </div>
+      <div style="text-align:center;background:white;border:1px solid ${countBd};border-radius:4px;padding:10px 12px;min-width:56px;">
+        <span style="font-size:24px;font-weight:300;color:${countClr};display:block;line-height:1;" id="cd-m">--</span>
+        <span style="font-size:8px;letter-spacing:2px;color:${detLbl};text-transform:uppercase;display:block;margin-top:3px;">minutos</span>
+      </div>
+      <div style="text-align:center;background:white;border:1px solid ${countBd};border-radius:4px;padding:10px 12px;min-width:56px;">
+        <span style="font-size:24px;font-weight:300;color:${countClr};display:block;line-height:1;" id="cd-s">--</span>
+        <span style="font-size:8px;letter-spacing:2px;color:${detLbl};text-transform:uppercase;display:block;margin-top:3px;">seg</span>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <button onclick="document.getElementById('rsvp').classList.toggle('open')"
+      style="display:inline-block;background:${isAzul?'linear-gradient(135deg,#2a5cbf,#d4a040)':isQuincea?'linear-gradient(135deg,#a04080,#d4a040)':isBoda?'linear-gradient(135deg,#3a2a08,#c8a040)':'linear-gradient(135deg,#c04080,#f0a040)'};color:white;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:12px 32px;border:none;border-radius:2px;cursor:pointer;margin-top:4px;">
+      Confirmar Asistencia
+    </button>
+  </div>
+
+  <!-- RSVP PANEL -->
+  <div id="rsvp" style="display:none;background:${isAzul?'#f4f8ff':isQuincea?'#fff8fc':'#faf8f2'};border-top:1px solid ${detBd};padding:20px 36px;">
+    <div id="rsvp-form">
+      <label style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${detLbl};display:block;margin-bottom:5px;">Nombre completo</label>
+      <input type="text" placeholder="Tu nombre" style="width:100%;border:1px solid ${detBd};background:white;font-family:'Cormorant Garamond',serif;font-size:14px;color:${detVal};padding:8px 12px;border-radius:2px;margin-bottom:12px;outline:none;">
+      <label style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${detLbl};display:block;margin-bottom:5px;">¿Asistirás?</label>
+      <select style="width:100%;border:1px solid ${detBd};background:white;font-family:'Cormorant Garamond',serif;font-size:14px;color:${detVal};padding:8px 12px;border-radius:2px;margin-bottom:12px;outline:none;">
+        <option>— Selecciona —</option><option>Sí, con mucho gusto</option><option>Lamentablemente no podré</option>
+      </select>
+      <label style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${detLbl};display:block;margin-bottom:5px;">Acompañantes</label>
+      <select style="width:100%;border:1px solid ${detBd};background:white;font-family:'Cormorant Garamond',serif;font-size:14px;color:${detVal};padding:8px 12px;border-radius:2px;margin-bottom:14px;outline:none;">
+        <option>Solo yo</option><option>+1</option><option>+2</option><option>+3 o más</option>
+      </select>
+      <button onclick="document.getElementById('rsvp-form').style.display='none';document.getElementById('rsvp-thanks').style.display='block';"
+        style="width:100%;background:${countClr};color:white;border:none;padding:12px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;border-radius:2px;cursor:pointer;">
+        Enviar Confirmación
+      </button>
+    </div>
+    <div id="rsvp-thanks" style="display:none;text-align:center;font-style:italic;color:${countClr};font-size:16px;padding:8px 0;">
+      ¡Gracias por confirmar! 🎉<br>¡Te esperamos con mucho cariño!
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:${footClr};letter-spacing:2px;text-align:center;padding:10px 24px 18px;font-style:italic;">
+    · Con amor · ${d.n1}${d.n2?' & '+d.n2:''} ·
+  </p>
+</div>
+<script>
+(function(){
+  var t=new Date('${d.fechaRaw}T00:00:00');
+  function tick(){
+    var diff=t-new Date();
+    if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='0';});return;}
+    var el;
+    el=document.getElementById('cd-d');if(el)el.textContent=Math.floor(diff/86400000);
+    el=document.getElementById('cd-h');if(el)el.textContent=Math.floor((diff%86400000)/3600000);
+    el=document.getElementById('cd-m');if(el)el.textContent=Math.floor((diff%3600000)/60000);
+    el=document.getElementById('cd-s');if(el)el.textContent=Math.floor((diff%60000)/1000);
+  }
+  tick();setInterval(tick,1000);
+  var rsvp=document.getElementById('rsvp');
+  if(rsvp){ var btn=rsvp.previousElementSibling&&rsvp.previousElementSibling.querySelector('button'); }
+  document.querySelectorAll('button').forEach(function(b){
+    if(b.textContent.trim()==='Confirmar Asistencia'){
+      b.addEventListener('click',function(){rsvp.style.display=rsvp.style.display==='none'?'block':'none';});
+    }
+  });
+})();
+<\/script>
+</body></html>`;
+}
+
+function buildHeaderDecor(tpl, gold, accent, primary){
+  if(tpl==='boda-nupcial'){
+    return `<div style="text-align:center;padding:28px 24px 0;">
+      <svg viewBox="0 0 420 100" width="100%" height="100" xmlns="http://www.w3.org/2000/svg">
+        <rect x="58" y="30" width="10" height="42" rx="1" fill="#f8f2e0" stroke="#c8b060" stroke-width="0.8"/>
+        <path d="M63 30 Q65 22 63 14" fill="#e8a020" opacity="0.9"/>
+        <rect x="74" y="40" width="8" height="32" rx="1" fill="#f8f2e0" stroke="#c8b060" stroke-width="0.8"/>
+        <path d="M78 40 Q80 33 78 26" fill="#e8a020" opacity="0.9"/>
+        <rect x="340" y="30" width="10" height="42" rx="1" fill="#f8f2e0" stroke="#c8b060" stroke-width="0.8"/>
+        <path d="M345 30 Q347 22 345 14" fill="#e8a020" opacity="0.9"/>
+        <rect x="326" y="40" width="8" height="32" rx="1" fill="#f8f2e0" stroke="#c8b060" stroke-width="0.8"/>
+        <path d="M330 40 Q332 33 330 26" fill="#e8a020" opacity="0.9"/>
+        <circle cx="196" cy="55" r="24" fill="none" stroke="${gold}" stroke-width="3"/>
+        <circle cx="224" cy="55" r="24" fill="none" stroke="${gold}" stroke-width="3"/>
+        <polygon points="210,18 212,24 218,24 213,28 215,34 210,30 205,34 207,28 202,24 208,24" fill="${gold}" opacity="0.9"/>
+        <g fill="#d4b860" opacity="0.7" transform="translate(130,38)">
+          <ellipse cx="0" cy="0" rx="10" ry="6" transform="rotate(-15)"/>
+          <ellipse cx="12" cy="-4" rx="8" ry="4" transform="rotate(-25)"/>
+          <circle cx="-8" cy="2" r="3.5"/>
+        </g>
+        <g fill="#d4b860" opacity="0.7" transform="translate(290,38) scale(-1,1)">
+          <ellipse cx="0" cy="0" rx="10" ry="6" transform="rotate(-15)"/>
+          <ellipse cx="12" cy="-4" rx="8" ry="4" transform="rotate(-25)"/>
+          <circle cx="-8" cy="2" r="3.5"/>
+        </g>
+      </svg>
+      <p style="font-size:10px;letter-spacing:4px;color:${gold};text-transform:uppercase;margin:4px 0;">Save the Date</p>
+      <p style="font-size:11px;letter-spacing:4px;color:#8a6820;text-transform:uppercase;margin:2px 0 8px;">Unidos en Matrimonio</p>
+    </div>`;
+  }
+  if(tpl==='boda-floral'){
+    return `<div style="text-align:center;padding:28px 24px 0;">
+      <svg viewBox="0 0 420 90" width="100%" height="90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M210 88 Q185 65 155 45" stroke="#9bb87a" stroke-width="1.4" fill="none"/>
+        <path d="M210 88 Q235 65 265 45" stroke="#9bb87a" stroke-width="1.4" fill="none"/>
+        <path d="M210 88 Q165 58 120 35" stroke="#9bb87a" stroke-width="1" fill="none"/>
+        <path d="M210 88 Q255 58 300 35" stroke="#9bb87a" stroke-width="1" fill="none"/>
+        <circle cx="155" cy="30" r="18" fill="#f0b8cc" opacity="0.3"/><circle cx="155" cy="30" r="12" fill="#e8a0b8" opacity="0.55"/><circle cx="155" cy="30" r="7" fill="#d4788a" opacity="0.8"/><circle cx="155" cy="30" r="4" fill="#c05070"/>
+        <circle cx="265" cy="30" r="18" fill="#f0b8cc" opacity="0.3"/><circle cx="265" cy="30" r="12" fill="#e8a0b8" opacity="0.55"/><circle cx="265" cy="30" r="7" fill="#d4788a" opacity="0.8"/><circle cx="265" cy="30" r="4" fill="#c05070"/>
+        <circle cx="210" cy="20" r="24" fill="#f5c0d8" opacity="0.2"/><circle cx="210" cy="20" r="17" fill="#eda8cc" opacity="0.45"/><circle cx="210" cy="20" r="11" fill="#d47898" opacity="0.8"/><circle cx="210" cy="20" r="6" fill="#be4870"/>
+        <circle cx="115" cy="30" r="9" fill="#f8d0e8" opacity="0.6"/><circle cx="115" cy="30" r="5" fill="#e890b8"/>
+        <circle cx="305" cy="30" r="9" fill="#f8d0e8" opacity="0.6"/><circle cx="305" cy="30" r="5" fill="#e890b8"/>
+      </svg>
+      <p style="font-size:10px;letter-spacing:4px;color:#c8809a;text-transform:uppercase;margin:2px 0 8px;">Juntos para siempre</p>
+    </div>`;
+  }
+  // Quinceañera (azul o rosa)
+  var crownColor = tpl==='quincea-azul' ? '#6090d8' : '#f0b0d0';
+  var xvColor    = tpl==='quincea-azul' ? '#1a3a8f' : '#8b3070';
+  return `<div style="text-align:center;padding:22px 24px 0;">
+    <svg viewBox="0 0 420 80" width="100%" height="80" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="210,5 212,12 219,12 213,16 215,23 210,19 205,23 207,16 201,12 208,12" fill="${gold}" opacity="0.9"/>
+      <polygon points="80,20 81.5,25 87,25 82.5,28 84,33 80,30 76,33 77.5,28 73,25 78.5,25" fill="${gold}" opacity="0.7"/>
+      <polygon points="340,20 341.5,25 347,25 342.5,28 344,33 340,30 336,33 337.5,28 333,25 338.5,25" fill="${gold}" opacity="0.7"/>
+      <circle cx="60" cy="50" r="16" fill="none" stroke="${crownColor}" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="60" cy="50" r="9" fill="none" stroke="${crownColor}" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="360" cy="50" r="16" fill="none" stroke="${crownColor}" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="360" cy="50" r="9" fill="none" stroke="${crownColor}" stroke-width="0.5" opacity="0.4"/>
+      <g transform="translate(150,50)"><circle cx="0" cy="-7" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="7" cy="-2" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="4" cy="6" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="-4" cy="6" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="-7" cy="-2" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="0" cy="0" r="4" fill="${gold}"/></g>
+      <g transform="translate(270,50)"><circle cx="0" cy="-7" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="7" cy="-2" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="4" cy="6" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="-4" cy="6" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="-7" cy="-2" r="4" fill="${crownColor}" opacity="0.8"/><circle cx="0" cy="0" r="4" fill="${gold}"/></g>
+    </svg>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:2px;">
+      <svg width="44" height="34" viewBox="0 0 48 36" xmlns="http://www.w3.org/2000/svg"><path d="M4 30 L4 16 L14 24 L24 8 L34 24 L44 16 L44 30 Z" fill="${gold}" stroke="#b8882a" stroke-width="1"/><circle cx="24" cy="8" r="3.5" fill="#e8c060"/><circle cx="4" cy="16" r="2.5" fill="${crownColor}"/><circle cx="44" cy="16" r="2.5" fill="${crownColor}"/><rect x="3" y="29" width="42" height="5" rx="2" fill="#c8902c"/><circle cx="14" cy="31.5" r="2" fill="${crownColor}"/><circle cx="24" cy="31.5" r="2" fill="#f0d070"/><circle cx="34" cy="31.5" r="2" fill="${crownColor}"/></svg>
+      <div style="font-family:'Great Vibes',cursive;font-size:50px;color:${xvColor};line-height:1;">XV</div>
+      <svg width="44" height="34" viewBox="0 0 48 36" xmlns="http://www.w3.org/2000/svg"><path d="M4 30 L4 16 L14 24 L24 8 L34 24 L44 16 L44 30 Z" fill="${gold}" stroke="#b8882a" stroke-width="1"/><circle cx="24" cy="8" r="3.5" fill="#e8c060"/><circle cx="4" cy="16" r="2.5" fill="${crownColor}"/><circle cx="44" cy="16" r="2.5" fill="${crownColor}"/><rect x="3" y="29" width="42" height="5" rx="2" fill="#c8902c"/><circle cx="14" cy="31.5" r="2" fill="${crownColor}"/><circle cx="24" cy="31.5" r="2" fill="#f0d070"/><circle cx="34" cy="31.5" r="2" fill="${crownColor}"/></svg>
+    </div>
+    <p style="font-size:10px;letter-spacing:4px;color:${tpl==='quincea-azul'?'#4070c0':'#c080a0'};text-transform:uppercase;margin:2px 0 6px;">Mis Quince Años</p>
+  </div>`;
+}
+
+// ─── DESCARGAR HTML ───
+function downloadHTML(){
+  if(!generatedHTML) return;
+  var slug = v('fileSlug') || 'invitacion';
+  var blob = new Blob([generatedHTML], {type:'text/html;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = slug + '.html';
+  a.click();
+}
+
+function copyLink(){
+  var slug = v('fileSlug') || 'invitacion';
+  var url = 'https://impactodigitalsv.neocities.org/'+slug;
+  navigator.clipboard.writeText(url).then(function(){
+    var btn = document.querySelector('.link-copy');
+    btn.innerHTML='<i class="fas fa-check"></i> ¡Copiado!';
+    setTimeout(function(){ btn.innerHTML='<i class="fas fa-copy"></i> Copiar link'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>

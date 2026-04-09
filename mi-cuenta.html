@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Cuenta · Impacto Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a0a;--ink2:#111118;
+  --cream:#faf8f4;--warm:#f5f0e8;
+  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0e6d0;
+  --green:#16a34a;--green-l:#f0fdf4;
+  --red:#dc2626;--red-l:#fef2f2;
+  --amber:#f59e0b;--amber-l:#fffbeb;
+  --blue:#2563eb;--blue-l:#eff6ff;
+  --border:rgba(255,255,255,0.08);--muted:rgba(255,255,255,0.45);
+  --shadow:0 8px 32px rgba(0,0,0,.3);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-height:100vh}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--ink);height:60px;display:flex;align-items:center;padding:0 clamp(16px,4vw,40px);justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06)}
+.tb-brand{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;text-decoration:none}
+.tb-brand em{font-style:italic;color:var(--gold)}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-user{display:flex;align-items:center;gap:8px}
+.tb-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--ink)}
+.tb-name{font-size:13px;color:rgba(255,255,255,.65);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:500px){.tb-name{display:none}}
+.tb-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:.15s;text-decoration:none;white-space:nowrap}
+.tb-ghost{background:rgba(255,255,255,.07);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.12)}
+.tb-ghost:hover{color:#fff;background:rgba(255,255,255,.12)}
+
+/* ── HERO CLIENTE ── */
+.hero-c{background:var(--ink);padding:clamp(28px,5vw,48px) clamp(16px,4vw,40px);position:relative;overflow:hidden}
+.hero-c::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 80% 50%,rgba(200,169,106,0.12),transparent 60%)}
+.hero-c::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.hero-text{flex:1;min-width:240px}
+.hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:#fff;line-height:1.08;letter-spacing:-.02em}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-badges{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.hbadge{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:5px}
+.hbadge-ok{background:rgba(22,163,74,.15);color:#4ade80;border:1px solid rgba(22,163,74,.2)}
+.hbadge-pen{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.hbadge-info{background:rgba(200,169,106,.12);color:var(--gold);border:1px solid rgba(200,169,106,.2)}
+
+/* ── TABS ── */
+.tabs-wrap{background:rgba(10,10,10,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:90;overflow-x:auto}
+.tabs{display:flex;max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.tab{padding:16px 20px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:6px}
+.tab:hover{color:#fff}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-badge{background:var(--amber);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:16px;text-align:center}
+
+/* ── CONTENT ── */
+.content{max-width:1100px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(16px,4vw,40px)}
+.page{display:none}
+.page.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARDS ── */
+.card{background:rgba(255,255,255,.025);border-radius:18px;border:1px solid var(--border);padding:24px 28px;margin-bottom:20px;backdrop-filter:blur(12px)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:#fff}
+.card-sub{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* ── ESTADO BADGE ── */
+.estado{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.estado-pen{background:var(--amber-l);color:#92400e}
+.estado-ok{background:var(--green-l);color:#14532d}
+.estado-rev{background:var(--blue-l);color:#1e3a8a}
+.estado-can{background:#f1f5f9;color:#64748b}
+
+/* ── COTIZACIÓN ── */
+.cot-empty{text-align:center;padding:48px 24px;color:var(--muted)}
+.cot-empty i{font-size:2.5rem;opacity:.2;margin-bottom:12px;display:block}
+.cot-list{display:flex;flex-direction:column;gap:14px}
+.cot-item{background:rgba(0,0,0,0.3);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.05)}
+.cot-icon{width:44px;height:44px;border-radius:12px;background:rgba(200,169,106,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);flex-shrink:0}
+.cot-info{flex:1;min-width:180px}
+.cot-name{font-weight:600;font-size:14px;color:#fff}
+.cot-det{font-size:12px;color:var(--muted);margin-top:2px}
+.cot-price{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold)}
+.cot-price small{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);display:block;font-weight:400}
+
+/* ── PLANNER ── */
+.planner-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.planner-grid{grid-template-columns:1fr}}
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,.05);transition:.2s;cursor:pointer}
+.task-item:hover{border-color:var(--gold)}
+.task-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s}
+.task-item.done .task-check{background:var(--green);border-color:var(--green);color:#fff}
+.task-item.done .task-name{text-decoration:line-through;color:var(--muted)}
+.task-name{font-size:13px;font-weight:500;flex:1;color:#fff}
+.task-cat{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.prog-bar-wrap{background:rgba(255,255,255,.1);border-radius:20px;height:8px;margin:12px 0}
+.prog-bar{height:8px;border-radius:20px;background:linear-gradient(90deg,var(--gold),#ffe1a0);transition:.4s}
+.budget-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.budget-row:last-child{border-bottom:none}
+.budget-label{color:var(--muted);font-weight:500}
+.budget-amount{font-weight:600;color:#fff}
+.budget-amount input{color:#fff;outline:none;}
+
+/* ── INVITACIÓN ── */
+.inv-preview{border-radius:16px;overflow:hidden;border:1px solid var(--border);aspect-ratio:9/16;max-width:320px;margin:0 auto;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--ink2),#1a1207)}
+.inv-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn-gold{padding:11px 20px;border-radius:10px;background:var(--gold);color:var(--ink);font-size:12px;font-weight:700;border:none;cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-gold:hover{background:#ffe1a0}
+.btn-soft{padding:11px 20px;border-radius:10px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-soft:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── SOLICITUD FORM ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+.fld{margin-bottom:16px}
+.fld label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.1);font-family:'DM Sans',sans-serif;font-size:13px;color:#fff;background:rgba(0,0,0,0.3);outline:none;transition:.2s}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);background:rgba(0,0,0,0.6)}
+.fld textarea{resize:vertical;min-height:80px}
+.sbtn{padding:13px 24px;border-radius:11px;border:none;background:var(--gold);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.sbtn:hover{background:var(--gold-l);color:var(--ink)}
+
+/* ── PAQUETE SELECTOR ── */
+.pkg-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
+.pkg-opt{border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;cursor:pointer;transition:.2s;text-align:center;background:rgba(0,0,0,0.3)}
+.pkg-opt:hover{border-color:var(--gold)}
+.pkg-opt.sel{border-color:var(--gold);background:rgba(200,169,106,.15)}
+.pkg-opt-name{font-weight:600;font-size:13px;margin-bottom:2px;color:#fff}
+.pkg-opt-price{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold)}
+
+/* ── SERVICIOS CHECK ── */
+.svc-checks{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.svc-check{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.1);background:rgba(0,0,0,0.3);cursor:pointer;transition:.2s}
+.svc-check:hover{border-color:var(--gold)}
+.svc-check.on{border-color:var(--gold);background:rgba(200,169,106,.15)}
+.svc-check input{accent-color:var(--gold)}
+.svc-check-name{flex:1;font-size:13px;font-weight:500;color:#fff}
+.svc-check-price{font-size:12px;font-weight:600;color:var(--gold)}
+
+/* ── PRECIO DINÁMICO ── */
+.precio-live{background:rgba(10,10,10,0.8);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px;text-align:center;margin-top:16px}
+.precio-live-lbl{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.precio-live-val{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold);line-height:1}
+.precio-live-det{font-size:11px;color:rgba(255,255,255,.3);margin-top:6px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;font-size:12px;font-weight:600;z-index:9999;transform:translateY(60px);opacity:0;transition:.3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{background:var(--green)}
+#toast.err{background:var(--red)}
+
+/* ── LOADING ── */
+.loading-screen{position:fixed;inset:0;background:var(--ink2);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px}
+.loading-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:#fff}
+.loading-logo em{color:var(--gold);font-style:italic}
+.loading-spin{width:28px;height:28px;border:2px solid rgba(200,169,106,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-logo">Impacto <em>Digital</em></div>
+  <div class="loading-spin"></div>
+</div>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a href="index.html" class="tb-brand">Impacto <em>Digital</em></a>
+  <div class="tb-right">
+    <a href="eventos.html" class="tb-btn tb-ghost"><i class="fas fa-calendar"></i>Eventos</a>
+    <div class="tb-user">
+      <div class="tb-avatar" id="tbAvatar">?</div>
+      <span class="tb-name" id="tbNombre">...</span>
+    </div>
+    <button class="tb-btn tb-ghost" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</nav>
+
+<!-- HERO CLIENTE -->
+<div class="hero-c">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Portal del cliente</div>
+      <h1 class="hero-h1">Hola, <em id="heroNombre">...</em></h1>
+      <div class="hero-badges" id="heroBadges">
+        <span class="hbadge hbadge-info"><i class="fas fa-circle-notch fa-spin" style="font-size:9px"></i> Cargando tu información</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="tb-btn" style="background:var(--gold);color:var(--ink);padding:10px 20px;font-size:12px" onclick="activarTab('cotizar')">
+        <i class="fas fa-calculator"></i> Nueva Cotización
+      </button>
+      <a href="https://wa.me/50372419889" target="_blank" class="tb-btn tb-ghost" style="padding:10px 20px;font-size:12px">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" id="tab-resumen" onclick="activarTab('resumen')"><i class="fas fa-home"></i>Inicio</div>
+    <div class="tab" id="tab-cotizacion" onclick="activarTab('cotizacion')"><i class="fas fa-file-invoice-dollar"></i>Mi Cotización</div>
+    <div class="tab" id="tab-cotizar" onclick="activarTab('cotizar')"><i class="fas fa-calculator"></i>Cotizar</div>
+    <div class="tab" id="tab-planner" onclick="activarTab('planner')"><i class="fas fa-tasks"></i>Mi Planner</div>
+    <div class="tab" id="tab-invitacion" onclick="activarTab('invitacion')"><i class="fas fa-envelope-open-text"></i>Invitación</div>
+    <div class="tab" id="tab-galeria" onclick="activarTab('galeria')"><i class="fas fa-images"></i>Mi Galería</div>
+  </div>
+</div>
+
+<!-- ══════════ CONTENT ══════════ -->
+<div class="content">
+
+  <!-- ── RESUMEN ── -->
+  <div class="page active" id="page-resumen">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px">
+      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3)">
+        <div style="font-size:2rem;margin-bottom:6px">📋</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600" id="res-cot-estado">—</div>
+        <div style="font-size:12px;color:var(--muted)">Estado de cotización</div>
+      </div>
+      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3)">
+        <div style="font-size:2rem;margin-bottom:6px">💌</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600" id="res-inv-estado">—</div>
+        <div style="font-size:12px;color:var(--muted)">Invitación digital</div>
+      </div>
+      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3)">
+        <div style="font-size:2rem;margin-bottom:6px">✅</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600" id="res-tasks">0%</div>
+        <div style="font-size:12px;color:var(--muted)">Planner completado</div>
+      </div>
+      <div class="card" style="padding:20px;text-align:center;cursor:pointer;border-color:rgba(200,169,106,0.3)" onclick="activarTab('cotizar')">
+        <div style="font-size:2rem;margin-bottom:6px">➕</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--gold-d)">Nueva Solicitud</div>
+        <div style="font-size:12px;color:var(--muted)">Cotizar un servicio</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Actividad reciente</div><div class="card-sub">Últimas actualizaciones de tu cuenta</div></div>
+      </div>
+      <div id="actividadList" style="font-size:13px;color:var(--muted);line-height:2.2"></div>
+    </div>
+  </div>
+
+  <!-- ── MI COTIZACIÓN ── -->
+  <div class="page" id="page-cotizacion">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Mi Cotización de Evento</div><div class="card-sub">Propuesta personalizada de Impacto Digital</div></div>
+        <div id="cot-estado-badge"></div>
+      </div>
+      <div id="cot-content">
+        <div class="cot-empty">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <div style="font-weight:600;margin-bottom:6px">Aún no tienes cotización</div>
+          <div style="font-size:13px">Ve a la pestaña <strong>Cotizar</strong> para enviar tu solicitud.</div>
+          <button class="btn-gold" style="margin-top:16px" onclick="activarTab('cotizar')"><i class="fas fa-arrow-right"></i>Hacer cotización</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="cot-historial-card" style="display:none">
+      <div class="card-title" style="margin-bottom:16px">Historial de solicitudes</div>
+      <div id="cot-historial"></div>
+    </div>
+  </div>
+
+  <!-- ── COTIZAR (NUEVA SOLICITUD) ── -->
+  <div class="page" id="page-cotizar">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Nueva Cotización</div><div class="card-sub">Selecciona los servicios que deseas — el precio se calcula automáticamente</div></div>
+      </div>
+
+      <!-- TIPO DE EVENTO -->
+      <div class="fld">
+        <label>Tipo de evento</label>
+        <select id="cTipo">
+          <option value="">— Selecciona —</option>
+          <option value="Boda">Boda</option>
+          <option value="Quinceañera">Quinceañera</option>
+          <option value="Bautizo">Bautizo</option>
+          <option value="Graduación">Graduación</option>
+          <option value="Corporativo">Evento Corporativo</option>
+          <option value="Sesión fotográfica">Sesión fotográfica individual</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+
+      <div class="form-grid">
+        <div class="fld">
+          <label>Fecha del evento</label>
+          <input type="date" id="cFecha">
+        </div>
+        <div class="fld">
+          <label>Lugar del evento</label>
+          <input type="text" id="cLugar" placeholder="Salón, municipio...">
+        </div>
+      </div>
+
+      <!-- PAQUETE BASE -->
+      <div class="fld">
+        <label>Paquete base</label>
+        <div class="pkg-options" id="pkgOptions">
+          <div class="pkg-opt" onclick="selPkg(this,'Foto Digital','200')"><div class="pkg-opt-name">Foto Digital</div><div class="pkg-opt-price">$200</div><div style="font-size:10px;color:var(--muted)">Sin video</div></div>
+          <div class="pkg-opt" onclick="selPkg(this,'Foto+Video Digital','275')"><div class="pkg-opt-name">Foto+Video</div><div class="pkg-opt-price">$275</div><div style="font-size:10px;color:var(--muted)">Digital</div></div>
+          <div class="pkg-opt" onclick="selPkg(this,'Plata','300')"><div class="pkg-opt-name">Plata</div><div class="pkg-opt-price">$300</div><div style="font-size:10px;color:var(--muted)">6 hrs</div></div>
+          <div class="pkg-opt" onclick="selPkg(this,'Oro','400')"><div class="pkg-opt-name">Oro</div><div class="pkg-opt-price">$400</div><div style="font-size:10px;color:var(--muted)">+ dron</div></div>
+          <div class="pkg-opt" onclick="selPkg(this,'Diamante','600')"><div class="pkg-opt-name">Diamante</div><div class="pkg-opt-price">$600</div><div style="font-size:10px;color:var(--muted)">8 hrs+</div></div>
+        </div>
+        <input type="hidden" id="cPkg" value="">
+        <input type="hidden" id="cPkgBase" value="0">
+      </div>
+
+      <!-- SERVICIOS ADICIONALES -->
+      <div class="fld">
+        <label>Servicios adicionales</label>
+        <div class="svc-checks">
+          <label class="svc-check"><input type="checkbox" value="40" data-name="Hora adicional de filmación" onchange="calcTotal()"><span class="svc-check-name">Hora adicional de filmación</span><span class="svc-check-price">+$40</span></label>
+          <label class="svc-check"><input type="checkbox" value="100" data-name="Transmisión en vivo (1 dispositivo)" onchange="calcTotal()"><span class="svc-check-name">Transmisión en vivo</span><span class="svc-check-price">+$100</span></label>
+          <label class="svc-check"><input type="checkbox" value="0.75" data-name="Fotos impresas adicionales 4x6" onchange="calcTotal()"><span class="svc-check-name">Fotos impresas 4×6 adicionales</span><span class="svc-check-price">$0.75 c/u</span></label>
+          <label class="svc-check"><input type="checkbox" value="8" data-name="Camisas sublimadas" onchange="calcTotal()"><span class="svc-check-name">Camisas sublimadas para quinceañera</span><span class="svc-check-price">$8 c/u</span></label>
+          <label class="svc-check"><input type="checkbox" value="3" data-name="Tarjetas de invitación normales" onchange="calcTotal()"><span class="svc-check-name">Tarjetas de invitación (estilo normal)</span><span class="svc-check-price">$3.00 c/u</span></label>
+          <label class="svc-check"><input type="checkbox" value="3.5" data-name="Tarjetas de invitación premium" onchange="calcTotal()"><span class="svc-check-name">Tarjetas de invitación (Premium)</span><span class="svc-check-price">$3.50 c/u</span></label>
+        </div>
+      </div>
+
+      <!-- PRECIO DINÁMICO -->
+      <div class="precio-live">
+        <div class="precio-live-lbl">Total estimado</div>
+        <div class="precio-live-val" id="precioLive">$0</div>
+        <div class="precio-live-det" id="precioLiveDet">Selecciona un paquete para ver el precio</div>
+      </div>
+
+      <!-- NOTAS -->
+      <div class="fld" style="margin-top:16px">
+        <label>Notas adicionales</label>
+        <textarea id="cNotas" placeholder="Cuéntanos sobre tu evento, detalles especiales, preguntas..."></textarea>
+      </div>
+
+      <button class="sbtn" onclick="enviarCotizacion()"><i class="fas fa-paper-plane"></i>Enviar solicitud de cotización</button>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px">El administrador revisará tu solicitud y te confirmará el precio final por WhatsApp.</p>
+    </div>
+  </div>
+
+  <!-- ── PLANNER ── -->
+  <div class="page" id="page-planner">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Mi Event / Wedding Planner</div>
+          <div class="card-sub">Organiza cada detalle de tu evento — se guarda automáticamente</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-soft" onclick="agregarTarea()"><i class="fas fa-plus"></i>Tarea</button>
+          <button class="btn-gold" onclick="guardarPlanner()"><i class="fas fa-save"></i>Guardar</button>
+        </div>
+      </div>
+
+      <!-- Progreso -->
+      <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px">
+          <span>Progreso del planner</span>
+          <span id="plannerPct">0%</span>
+        </div>
+        <div class="prog-bar-wrap"><div class="prog-bar" id="plannerBar" style="width:0%"></div></div>
+      </div>
+
+      <div class="planner-grid">
+        <!-- Checklist -->
+        <div>
+          <div style="font-weight:600;font-size:13px;margin-bottom:12px;letter-spacing:.04em;text-transform:uppercase;font-size:10px;color:var(--muted)">Lista de tareas</div>
+          <div class="task-list" id="taskList">
+            <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">
+              <i class="fas fa-circle-notch fa-spin"></i> Cargando planner...
+            </div>
+          </div>
+        </div>
+        <!-- Presupuesto -->
+        <div>
+          <div style="font-weight:600;font-size:10px;margin-bottom:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Presupuesto por categoría</div>
+          <div class="card" style="padding:16px">
+            <div class="budget-row"><span class="budget-label">Fotografía & Video</span><span class="budget-amount" id="bud-foto">$—</span></div>
+            <div class="budget-row"><span class="budget-label">Salón / Decoración</span><span class="budget-amount"><input type="text" id="bud-salon" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
+            <div class="budget-row"><span class="budget-label">Catering / Pastel</span><span class="budget-amount"><input type="text" id="bud-catering" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
+            <div class="budget-row"><span class="budget-label">Invitaciones</span><span class="budget-amount"><input type="text" id="bud-inv" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
+            <div class="budget-row"><span class="budget-label">Flores / Detalles</span><span class="budget-amount"><input type="text" id="bud-flores" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
+            <div class="budget-row"><span class="budget-label">Otros</span><span class="budget-amount"><input type="text" id="bud-otros" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
+            <div class="budget-row" style="border-top:2px solid var(--border);margin-top:4px;padding-top:14px">
+              <span style="font-weight:700;font-size:14px;color:#fff">Total estimado</span>
+              <span style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold)" id="bud-total">$0</span>
+            </div>
+          </div>
+          <!-- Datos del evento -->
+          <div class="card" style="padding:16px;margin-top:14px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Datos del evento</div>
+            <div class="fld" style="margin-bottom:10px"><label>Nombre del evento</label><input type="text" id="ev-nombre" placeholder="Mi boda / Mi quince" oninput="guardarPlanner()"></div>
+            <div class="fld" style="margin-bottom:10px"><label>Fecha del evento</label><input type="date" id="ev-fecha" oninput="guardarPlanner()"></div>
+            <div class="fld" style="margin-bottom:0"><label>Lugar</label><input type="text" id="ev-lugar" placeholder="Salón, municipio..." oninput="guardarPlanner()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INVITACIÓN ── -->
+  <div class="page" id="page-invitacion">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Mi Invitación Digital</div><div class="card-sub">Comparte con tus invitados por WhatsApp</div></div>
+        <div id="inv-estado-badge"></div>
+      </div>
+      <div id="inv-content">
+        <div class="cot-empty">
+          <i class="fas fa-envelope-open-text"></i>
+          <div style="font-weight:600;margin-bottom:6px">Aún no tienes invitación</div>
+          <div style="font-size:13px">Solicita tu invitación digital o crea una desde el generador.</div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+            <a href="generador.html" class="btn-gold"><i class="fas fa-magic"></i>Crear invitación</a>
+            <button class="btn-soft" onclick="solicitarInvitacion()"><i class="fas fa-paper-plane"></i>Solicitar al admin</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GALERÍA ── -->
+  <div class="page" id="page-galeria">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Mi Galería Privada</div><div class="card-sub">Fotos de tu evento entregadas por Impacto Digital</div></div>
+      </div>
+      <div id="galeria-content">
+        <div class="cot-empty">
+          <i class="fas fa-images"></i>
+          <div style="font-weight:600;margin-bottom:6px">Galería no disponible aún</div>
+          <div style="font-size:13px">Cuando tu evento sea fotografiado, recibirás el acceso a tu galería privada aquí y por WhatsApp.</div>
+          <a href="eventos.html#live" class="btn-soft" style="margin-top:16px;display:inline-flex"><i class="fas fa-arrow-right"></i>Ver galería pública del evento</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     FIREBASE + LÓGICA
+══════════════════════════════════════════ -->
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<script>
+const fbConfig={apiKey:"AIzaSyDDV95jBSlNFjzwP9SzF0oPB_nOkWX3MHY",authDomain:"impacto-digital-pedidos.firebaseapp.com",databaseURL:"https://impacto-digital-pedidos-default-rtdb.firebaseio.com",projectId:"impacto-digital-pedidos",storageBucket:"impacto-digital-pedidos.firebasestorage.app",messagingSenderId:"335233633777",appId:"1:335233633777:web:d1f588d6792ad63318c850"};
+firebase.initializeApp(fbConfig);
+const auth=firebase.auth();
+const db=firebase.database();
+const ADMIN_EMAILS=['admin@impactodigital.sv','gerencia@impactodigital.sv'];
+
+let UID=null,PERFIL=null;
+
+// ── AUTH CHECK ──
+auth.onAuthStateChanged(function(user){
+  if(!user){window.location.href='index.html';return;}
+  if(ADMIN_EMAILS.includes(user.email)){window.location.href='admin.html';return;}
+  UID=user.uid;
+  cargarPerfil(user);
+});
+
+function cargarPerfil(user){
+  db.ref('usuarios/'+UID).once('value').then(function(snap){
+    PERFIL=snap.val()||{nombre:user.displayName||user.email.split('@')[0],email:user.email};
+    var nombre=PERFIL.nombre||PERFIL.email;
+    var ini=nombre.charAt(0).toUpperCase();
+    document.getElementById('tbAvatar').textContent=ini;
+    document.getElementById('tbNombre').textContent=nombre;
+    document.getElementById('heroNombre').textContent=nombre.split(' ')[0];
+    document.getElementById('loadingScreen').style.opacity='0';
+    setTimeout(function(){document.getElementById('loadingScreen').style.display='none';},400);
+    cargarTodo();
+  });
+}
+
+function cargarTodo(){
+  cargarCotizacion();
+  cargarPlanner();
+  cargarInvitacion();
+}
+
+// ── TOAST ──
+function toast(msg,tipo){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='show '+(tipo||'');
+  setTimeout(function(){t.className='';},3000);
+}
+
+// ── TABS ──
+function activarTab(name){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── CERRAR SESIÓN ──
+function cerrarSesion(){
+  auth.signOut().then(function(){window.location.href='index.html';});
+}
+
+// ══════════════════════════════
+//    COTIZACIÓN
+// ══════════════════════════════
+var _pkgNombre='',_pkgBase=0;
+
+function selPkg(el,nombre,precio){
+  document.querySelectorAll('.pkg-opt').forEach(function(o){o.classList.remove('sel')});
+  el.classList.add('sel');
+  _pkgNombre=nombre;_pkgBase=parseFloat(precio);
+  document.getElementById('cPkg').value=nombre;
+  document.getElementById('cPkgBase').value=precio;
+  calcTotal();
+}
+
+function calcTotal(){
+  var base=_pkgBase||0;
+  var extras=0;
+  document.querySelectorAll('.svc-checks input:checked').forEach(function(cb){
+    extras+=parseFloat(cb.value)||0;
+  });
+  var total=base+extras;
+  document.getElementById('precioLive').textContent='$'+total.toFixed(0);
+  var det=_pkgNombre?'Paquete '+_pkgNombre+' $'+_pkgBase:'Selecciona un paquete';
+  if(extras>0)det+=' + adicionales $'+extras.toFixed(2);
+  document.getElementById('precioLiveDet').textContent=det;
+}
+
+function enviarCotizacion(){
+  var tipo=document.getElementById('cTipo').value;
+  var fecha=document.getElementById('cFecha').value;
+  var lugar=document.getElementById('cLugar').value.trim();
+  var pkg=document.getElementById('cPkg').value;
+  var notas=document.getElementById('cNotas').value.trim();
+  if(!tipo||!fecha||!pkg){toast('Completa: tipo de evento, fecha y paquete.','err');return;}
+  var extras=[];
+  document.querySelectorAll('.svc-checks input:checked').forEach(function(cb){
+    extras.push(cb.getAttribute('data-name'));
+  });
+  var total=parseFloat(document.getElementById('precioLive').textContent.replace('$',''))||0;
+  var data={
+    uid:UID,nombre:PERFIL.nombre,email:PERFIL.email,
+    tipoEvento:tipo,fecha:fecha,lugar:lugar,
+    paquete:pkg,precioBase:_pkgBase,
+    adicionales:extras.join(', ')||'Ninguno',
+    totalEstimado:total,notas:notas,
+    estado:'pendiente',creadoEn:Date.now()
+  };
+  db.ref('cotizaciones').push(data).then(function(ref){
+    // Guardar referencia en perfil de usuario
+    db.ref('usuarios/'+UID+'/ultimaCotizacion').set({id:ref.key,estado:'pendiente',total:total,paquete:pkg});
+    toast('✓ Cotización enviada. Te contactaremos pronto.','ok');
+    activarTab('cotizacion');
+    cargarCotizacion();
+  }).catch(function(){toast('Error al enviar. Intenta de nuevo.','err');});
+}
+
+function cargarCotizacion(){
+  db.ref('usuarios/'+UID+'/ultimaCotizacion').once('value').then(function(snap){
+    var d=snap.val();
+    // Actualizar resumen
+    document.getElementById('res-cot-estado').textContent=d?capitalize(d.estado):'Sin solicitud';
+    if(!d){return;}
+    // Mostrar cotización
+    var estados={'pendiente':'estado-pen','en revision':'estado-rev','aprobada':'estado-ok','cancelada':'estado-can'};
+    var eClass=estados[d.estado]||'estado-pen';
+    document.getElementById('cot-estado-badge').innerHTML='<span class="estado '+eClass+'">'+capitalize(d.estado)+'</span>';
+    document.getElementById('cot-content').innerHTML=
+      '<div class="cot-item">'+
+      '<div class="cot-icon"><i class="fas fa-camera-retro"></i></div>'+
+      '<div class="cot-info">'+
+      '<div class="cot-name">Paquete '+escHtml(d.paquete)+'</div>'+
+      '<div class="cot-det">Solicitud enviada · ID: '+escHtml(d.id||'')+'</div>'+
+      '</div>'+
+      '<div style="text-align:right">'+
+      '<div class="cot-price">$'+parseFloat(d.total||0).toFixed(0)+'<small>Estimado pendiente aprobación</small></div>'+
+      '</div></div>';
+    // HeroBadges
+    var badge=d.estado==='aprobada'?'<span class="hbadge hbadge-ok"><i class="fas fa-check-circle"></i> Cotización Aprobada</span>':'<span class="hbadge hbadge-pen"><i class="fas fa-clock"></i> Cotización Pendiente</span>';
+    document.getElementById('heroBadges').innerHTML=badge;
+    document.getElementById('actividadList').innerHTML=
+      '<div style="padding:8px 0;border-bottom:1px solid var(--border)">📋 Cotización enviada — Paquete <strong>'+escHtml(d.paquete)+'</strong></div>'+
+      '<div style="padding:8px 0;color:var(--muted)">Estado actual: <strong>'+capitalize(d.estado)+'</strong></div>';
+  });
+}
+
+// ══════════════════════════════
+//    PLANNER
+// ══════════════════════════════
+var TASKS_DEFAULT=[
+  {id:'t1',nombre:'Elegir fotógrafo',cat:'Fotografía',done:false},
+  {id:'t2',nombre:'Reservar salón',cat:'Venue',done:false},
+  {id:'t3',nombre:'Lista de invitados',cat:'Invitados',done:false},
+  {id:'t4',nombre:'Elegir vestido/traje',cat:'Vestuario',done:false},
+  {id:'t5',nombre:'Cotizar catering',cat:'Catering',done:false},
+  {id:'t6',nombre:'Diseñar invitaciones',cat:'Invitaciones',done:false},
+  {id:'t7',nombre:'Contratar música/DJ',cat:'Entretenimiento',done:false},
+  {id:'t8',nombre:'Definir decoración',cat:'Decoración',done:false},
+  {id:'t9',nombre:'Cronograma del día',cat:'Organización',done:false},
+  {id:'t10',nombre:'Confirmar asistentes',cat:'Invitados',done:false},
+];
+var plannerData=null;
+
+function cargarPlanner(){
+  db.ref('planners/'+UID).once('value').then(function(snap){
+    plannerData=snap.val();
+    if(!plannerData){
+      plannerData={tasks:TASKS_DEFAULT,budget:{salon:'',catering:'',inv:'',flores:'',otros:''},evento:{nombre:'',fecha:'',lugar:''}};
+    }
+    renderPlanner();
+  });
+}
+
+function renderPlanner(){
+  var tasks=plannerData.tasks||[];
+  var done=tasks.filter(function(t){return t.done;}).length;
+  var pct=tasks.length?Math.round((done/tasks.length)*100):0;
+  document.getElementById('plannerPct').textContent=pct+'%';
+  document.getElementById('plannerBar').style.width=pct+'%';
+  document.getElementById('res-tasks').textContent=pct+'%';
+  var html='';
+  tasks.forEach(function(t,i){
+    html+='<div class="task-item'+(t.done?' done':'')+'" onclick="toggleTask('+i+')">'+
+      '<div class="task-check">'+(t.done?'<i class="fas fa-check" style="font-size:10px"></i>':'')+' </div>'+
+      '<div><div class="task-name">'+escHtml(t.nombre)+'</div><div class="task-cat">'+escHtml(t.cat)+'</div></div>'+
+      '</div>';
+  });
+  document.getElementById('taskList').innerHTML=html||'<div style="text-align:center;padding:20px;color:var(--muted)">No hay tareas</div>';
+  // Budget
+  var b=plannerData.budget||{};
+  document.getElementById('bud-salon').value=b.salon||'';
+  document.getElementById('bud-catering').value=b.catering||'';
+  document.getElementById('bud-inv').value=b.inv||'';
+  document.getElementById('bud-flores').value=b.flores||'';
+  document.getElementById('bud-otros').value=b.otros||'';
+  calcBudget();
+  // Evento
+  var ev=plannerData.evento||{};
+  document.getElementById('ev-nombre').value=ev.nombre||'';
+  document.getElementById('ev-fecha').value=ev.fecha||'';
+  document.getElementById('ev-lugar').value=ev.lugar||'';
+}
+
+function toggleTask(i){
+  plannerData.tasks[i].done=!plannerData.tasks[i].done;
+  renderPlanner();
+  guardarPlanner(true);
+}
+
+function guardarPlanner(silencioso){
+  if(!plannerData)return;
+  plannerData.budget={
+    salon:document.getElementById('bud-salon').value,
+    catering:document.getElementById('bud-catering').value,
+    inv:document.getElementById('bud-inv').value,
+    flores:document.getElementById('bud-flores').value,
+    otros:document.getElementById('bud-otros').value
+  };
+  plannerData.evento={
+    nombre:document.getElementById('ev-nombre').value,
+    fecha:document.getElementById('ev-fecha').value,
+    lugar:document.getElementById('ev-lugar').value
+  };
+  calcBudget();
+  db.ref('planners/'+UID).set(plannerData).then(function(){
+    if(!silencioso)toast('✓ Planner guardado','ok');
+  });
+}
+
+function calcBudget(){
+  var campos=['salon','catering','inv','flores','otros'];
+  var total=0;
+  campos.forEach(function(c){
+    var v=parseFloat((document.getElementById('bud-'+c)||{}).value)||0;
+    total+=v;
+  });
+  // Agregar cotización de foto si existe
+  db.ref('usuarios/'+UID+'/ultimaCotizacion').once('value').then(function(snap){
+    var d=snap.val();
+    var fotoTotal=d?parseFloat(d.total||0):0;
+    document.getElementById('bud-foto').textContent=fotoTotal?'$'+fotoTotal.toFixed(0):'$—';
+    document.getElementById('bud-total').textContent='$'+(total+fotoTotal).toFixed(0);
+  });
+}
+
+function agregarTarea(){
+  var nombre=prompt('Nombre de la nueva tarea:');
+  if(!nombre||!nombre.trim())return;
+  var cat=prompt('Categoría (Fotografía, Venue, Invitados, etc.):','General')||'General';
+  if(!plannerData)plannerData={tasks:[],budget:{},evento:{}};
+  plannerData.tasks.push({id:'t'+Date.now(),nombre:nombre.trim(),cat:cat.trim(),done:false});
+  renderPlanner();
+  guardarPlanner(true);
+}
+
+// ══════════════════════════════
+//    INVITACIÓN
+// ══════════════════════════════
+function cargarInvitacion(){
+  db.ref('invitaciones').orderByChild('uid').equalTo(UID).limitToLast(1).once('value').then(function(snap){
+    var inv=null;
+    snap.forEach(function(c){inv=c.val();inv.id=c.key;});
+    document.getElementById('res-inv-estado').textContent=inv?capitalize(inv.estado||'Activa'):'Sin invitación';
+    if(!inv)return;
+    var link='https://impactodigitalsv.neocities.org/generador.html?inv='+inv.id;
+    document.getElementById('inv-content').innerHTML=
+      '<div style="text-align:center;padding:20px">'+
+      '<div style="font-size:1.1rem;font-weight:600;margin-bottom:8px">'+escHtml(inv.nombre||'Tu invitación')+'</div>'+
+      '<div class="inv-preview"><div style="color:var(--gold);font-family:\'Cormorant Garamond\',serif;font-size:1.4rem;padding:24px;text-align:center">'+escHtml(inv.nombre||'Tu invitación')+'</div></div>'+
+      '<div class="inv-actions" style="justify-content:center">'+
+      '<a href="'+link+'" target="_blank" class="btn-gold"><i class="fas fa-external-link-alt"></i>Ver invitación</a>'+
+      '<button class="btn-soft" onclick="compartirInvitacion(\''+link+'\')"><i class="fab fa-whatsapp"></i>Compartir</button>'+
+      '</div></div>';
+  });
+}
+
+function compartirInvitacion(link){
+  var url='https://wa.me/?text='+encodeURIComponent('🎉 ¡Estás invitado! Ver mi invitación digital: '+link);
+  window.open(url,'_blank');
+}
+
+function solicitarInvitacion(){
+  db.ref('solicitudes_invitacion').push({
+    uid:UID,nombre:PERFIL.nombre,email:PERFIL.email,
+    telefono:PERFIL.telefono||'',estado:'pendiente',creadoEn:Date.now()
+  }).then(function(){
+    toast('✓ Solicitud enviada. Te contactaremos pronto.','ok');
+  });
+}
+
+// ── UTILS ──
+function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'';}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+</script>
+</body>
+</html>

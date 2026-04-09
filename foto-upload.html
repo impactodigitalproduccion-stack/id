@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sube tus fotos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#b8935a;--gold-light:#e8d5b0;--ink:#0d0d0d;--paper:#faf8f4;--muted:#8a7e6e;--border:#e0d8cc}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-height:100vh}
+
+/* ── HERO ── */
+.hero{position:relative;padding:40px 20px 30px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(184,147,90,.25),transparent 65%)}
+.hero-badge{display:inline-block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(184,147,90,.4);padding:4px 12px;border-radius:20px;margin-bottom:14px;position:relative}
+.hero-name{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;position:relative;margin-bottom:6px}
+.hero-date{font-size:13px;color:rgba(255,255,255,.45);position:relative;margin-bottom:4px}
+.hero-desc{font-size:12px;color:rgba(255,255,255,.3);position:relative}
+.hero-counter{margin-top:16px;font-size:12px;color:rgba(255,255,255,.4);position:relative}
+.hero-counter span{color:var(--gold);font-weight:600}
+
+/* ── NOMBRE INVITADO ── */
+.nombre-section{max-width:420px;margin:0 auto 20px;padding:0 16px}
+.nombre-inp{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:.2s;text-align:center}
+.nombre-inp:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
+.nombre-inp::placeholder{color:rgba(255,255,255,.3)}
+
+/* ── DROP ZONE ── */
+.upload-zone{max-width:420px;margin:0 auto;padding:0 16px 30px}
+.drop-area{border:2px dashed rgba(184,147,90,.4);border-radius:20px;padding:36px 20px;text-align:center;cursor:pointer;transition:.25s;position:relative;background:rgba(255,255,255,.03)}
+.drop-area:hover,.drop-area.drag{border-color:var(--gold);background:rgba(184,147,90,.08)}
+.drop-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{font-size:2.8rem;margin-bottom:12px;opacity:.7}
+.drop-title{font-size:16px;font-weight:600;margin-bottom:5px}
+.drop-sub{font-size:12px;color:rgba(255,255,255,.35)}
+.drop-sub strong{color:var(--gold)}
+
+/* ── PREVIEW GRID ── */
+.preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;max-width:420px;margin-left:auto;margin-right:auto;padding:0 16px}
+.preview-item{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden}
+.preview-img{width:100%;height:100%;object-fit:cover}
+.preview-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:.2s}
+.preview-item:hover .preview-overlay{opacity:1}
+.preview-del{background:#dc2626;color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+.preview-status{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:10px;font-weight:600}
+.status-waiting{color:rgba(255,255,255,.5)}
+.status-uploading{color:var(--gold)}
+.status-done{color:#22c55e}
+.status-err{color:#ef4444}
+
+/* ── PROGRESS ── */
+.progress-bar{height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:8px;overflow:hidden}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .3s;width:0%}
+
+/* ── UPLOAD BTN ── */
+.upload-btn{width:100%;max-width:420px;margin:16px auto 0;display:block;background:var(--gold);color:#fff;border:none;padding:15px;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;letter-spacing:.02em}
+.upload-btn:hover{background:#a07844;transform:translateY(-1px)}
+.upload-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.upload-count{font-size:12px;color:rgba(255,255,255,.4);text-align:center;margin-top:8px}
+
+/* ── SUCCESS STATE ── */
+.success-state{display:none;text-align:center;padding:40px 20px;max-width:420px;margin:0 auto}
+.success-icon{font-size:4rem;margin-bottom:16px}
+.success-title{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:8px}
+.success-sub{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px}
+.success-more{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.15);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;margin-right:8px}
+.success-more:hover{background:rgba(255,255,255,.14)}
+.success-gallery{background:var(--gold);color:#fff;border:none;padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;text-decoration:none;display:inline-block}
+.success-gallery:hover{background:#a07844}
+
+/* ── ERROR STATE ── */
+.evento-error{display:none;text-align:center;padding:60px 20px}
+.evento-error-icon{font-size:3rem;margin-bottom:14px;opacity:.4}
+
+/* ── FOOTER ── */
+.upload-footer{text-align:center;padding:20px;font-size:11px;color:rgba(255,255,255,.2)}
+.upload-footer a{color:var(--gold);text-decoration:none;opacity:.7}
+
+/* CERRADO banner */
+.closed-banner{background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.2);border-radius:12px;padding:14px 16px;text-align:center;margin:0 16px 20px;max-width:420px;margin-left:auto;margin-right:auto}
+.closed-banner p{font-size:13px;color:rgba(255,255,255,.4)}
+</style>
+</head>
+<body>
+
+<div id="loading" style="text-align:center;padding:80px 20px;color:rgba(255,255,255,.3)">
+  <i class="fa-solid fa-circle-notch fa-spin" style="font-size:2rem;margin-bottom:12px;display:block"></i>
+  Cargando evento...
+</div>
+
+<div id="evento-error" class="evento-error">
+  <div class="evento-error-icon">⚠️</div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px">Evento no encontrado</div>
+  <p style="font-size:13px;color:rgba(255,255,255,.35)">El enlace puede haber expirado o el evento fue eliminado.</p>
+</div>
+
+<div id="app" style="display:none">
+  <!-- Hero -->
+  <div class="hero" id="hero">
+    <div class="hero-badge" id="hero-badge">📸 Evento</div>
+    <div class="hero-name" id="hero-name">Cargando...</div>
+    <div class="hero-date" id="hero-date"></div>
+    <div class="hero-desc" id="hero-desc"></div>
+    <div class="hero-counter"><span id="foto-count">0</span> fotos compartidas</div>
+  </div>
+
+  <!-- Closed banner -->
+  <div class="closed-banner" id="closed-banner" style="display:none">
+    <p>🔒 Este evento ya no acepta nuevas fotos. Puedes ver la galería.</p>
+  </div>
+
+  <!-- Nombre invitado -->
+  <div class="nombre-section" id="upload-section">
+    <input type="text" class="nombre-inp" id="inv-nombre" placeholder="Tu nombre (opcional)" maxlength="40">
+  </div>
+
+  <!-- Drop zone -->
+  <div class="upload-zone" id="upload-zone">
+    <div class="drop-area" id="drop-area">
+      <input type="file" id="file-input" accept="image/*" multiple>
+      <div class="drop-icon">📷</div>
+      <div class="drop-title">Toca para agregar fotos</div>
+      <div class="drop-sub">o arrastra tus imágenes aquí<br><strong>Múltiples fotos a la vez</strong></div>
+    </div>
+    <div class="progress-bar" id="main-progress" style="display:none"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-grid" id="preview-grid"></div>
+
+  <!-- Upload button -->
+  <button class="upload-btn" id="upload-btn" style="display:none;padding:0 16px" onclick="subirTodo()">
+    <i class="fa-solid fa-cloud-arrow-up" style="margin-right:8px"></i>Subir <span id="btn-count">0</span> foto(s)
+  </button>
+  <div class="upload-count" id="upload-info"></div>
+
+  <!-- Success -->
+  <div class="success-state" id="success-state">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">¡Fotos compartidas!</div>
+    <div class="success-sub">Gracias por contribuir a este momento especial.<br>Todas las fotos estarán disponibles en la galería.</div>
+    <button class="success-more" onclick="resetUpload()"><i class="fa-solid fa-plus"></i> Agregar más</button>
+    <a id="galeria-link" class="success-gallery" href="#" target="_blank"><i class="fa-solid fa-images"></i> Ver galería</a>
+  </div>
+</div>
+
+<div class="upload-footer">Impulsado por <a href="foto-admin.html">FotoStudio</a></div>
+
+<script>
+const FB = {
+  apiKey:"AIzaSyAub-lwo0l1B8-_97VvTYwPOrgID7nfWHY",
+  authDomain:"impactoeventos.firebaseapp.com",
+  databaseURL:"https://impactoeventos-default-rtdb.firebaseio.com",
+  projectId:"impactoeventos",
+  storageBucket:"impactoeventos.firebasestorage.app",
+  messagingSenderId:"519198615427",
+  appId:"1:519198615427:web:81b9c4d4dee6aa4483f8b6"
+};
+firebase.initializeApp(FB);
+const db = firebase.database();
+const storage = firebase.storage();
+const ROOT = 'foto_studio_eventos';
+
+const TIPOS_ICON = { boda:'💍 Boda', quinceañera:'👑 Quinceañera', corporativo:'🏢 Corporativo', cumpleaños:'🎂 Cumpleaños', otro:'📸 Sesión' };
+
+const eventoID = new URLSearchParams(location.search).get('evento');
+let _evento = null;
+let _files = []; // {file, previewUrl, id, status}
+let _uploading = false;
+
+// ═══════════════════════════════
+// INIT
+// ═══════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  if (!eventoID) { mostrarError(); return; }
+
+  db.ref(`${ROOT}/${eventoID}`).once('value', s => {
+    _evento = s.val();
+    if (!_evento) { mostrarError(); return; }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    // Fill hero
+    const tipo = _evento.tipo || 'otro';
+    document.getElementById('hero-badge').textContent = TIPOS_ICON[tipo] || '📸 Evento';
+    document.getElementById('hero-name').textContent = _evento.nombre || 'Evento';
+    document.getElementById('hero-date').textContent = _evento.fecha || '';
+    document.getElementById('hero-desc').textContent = _evento.descripcion || '';
+
+    // Galería link
+    const base = location.origin + location.pathname.replace('foto-upload.html','');
+    document.getElementById('galeria-link').href = base + `foto-galeria.html?evento=${eventoID}`;
+
+    // Photo count listener
+    db.ref(`${ROOT}/${eventoID}/fotos`).on('value', s => {
+      const n = s.numChildren();
+      document.getElementById('foto-count').textContent = n;
+    });
+
+    // Closed state
+    if (!_evento.activo) {
+      document.getElementById('closed-banner').style.display = 'block';
+      document.getElementById('upload-section').style.display = 'none';
+      document.getElementById('upload-zone').style.display = 'none';
+    }
+  });
+
+  // File input
+  document.getElementById('file-input').addEventListener('change', e => handleFiles(e.target.files));
+
+  // Drag & drop
+  const dropArea = document.getElementById('drop-area');
+  dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('drag'); });
+  dropArea.addEventListener('dragleave', () => dropArea.classList.remove('drag'));
+  dropArea.addEventListener('drop', e => {
+    e.preventDefault();
+    dropArea.classList.remove('drag');
+    handleFiles(e.dataTransfer.files);
+  });
+});
+
+function mostrarError() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('evento-error').style.display = 'block';
+}
+
+// ═══════════════════════════════
+// FILE HANDLING
+// ═══════════════════════════════
+function handleFiles(fileList) {
+  if (!_evento?.activo) return;
+  const nuevos = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+  if (!nuevos.length) return;
+
+  nuevos.forEach(file => {
+    const id = Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    const url = URL.createObjectURL(file);
+    _files.push({ file, previewUrl: url, id, status: 'waiting' });
+  });
+
+  renderPreviews();
+  updateBtn();
+}
+
+function renderPreviews() {
+  const grid = document.getElementById('preview-grid');
+  grid.innerHTML = _files.map((f, i) => `
+    <div class="preview-item" id="item-${f.id}">
+      <img class="preview-img" src="${f.previewUrl}">
+      <div class="preview-overlay">
+        ${f.status === 'waiting' ? `<button class="preview-del" onclick="removeFile(${i})">✕</button>` : ''}
+      </div>
+      <div class="preview-status status-${f.status}">
+        ${f.status === 'waiting' ? '' : f.status === 'uploading' ? '⬆' : f.status === 'done' ? '✓' : '✗'}
+      </div>
+    </div>`).join('');
+}
+
+function removeFile(i) {
+  URL.revokeObjectURL(_files[i].previewUrl);
+  _files.splice(i, 1);
+  renderPreviews();
+  updateBtn();
+}
+
+function updateBtn() {
+  const waiting = _files.filter(f => f.status === 'waiting').length;
+  const btn = document.getElementById('upload-btn');
+  btn.style.display = _files.length ? 'block' : 'none';
+  document.getElementById('btn-count').textContent = waiting;
+  btn.disabled = waiting === 0 || _uploading;
+}
+
+// ═══════════════════════════════
+// UPLOAD
+// ═══════════════════════════════
+async function subirTodo() {
+  if (_uploading) return;
+  const toUpload = _files.filter(f => f.status === 'waiting');
+  if (!toUpload.length) return;
+  _uploading = true;
+
+  const nombre = (document.getElementById('inv-nombre').value || 'invitado').trim();
+  const progressBar = document.getElementById('main-progress');
+  const progressFill = document.getElementById('progress-fill');
+  progressBar.style.display = 'block';
+  document.getElementById('upload-btn').disabled = true;
+
+  let done = 0;
+  for (const item of toUpload) {
+    item.status = 'uploading';
+    renderPreviews();
+    try {
+      const ext = item.file.name.split('.').pop();
+      const fname = `${Date.now()}_${Math.random().toString(36).slice(2,6)}.${ext}`;
+      const ref = storage.ref(`foto_eventos/${eventoID}/${fname}`);
+      const snap = await ref.put(item.file);
+      const url = await snap.ref.getDownloadURL();
+      await db.ref(`${ROOT}/${eventoID}/fotos`).push({
+        url, nombre: item.file.name, size: item.file.size,
+        tipo: item.file.type, subido_por: nombre, timestamp: Date.now()
+      });
+      item.status = 'done';
+    } catch (e) {
+      console.error(e);
+      item.status = 'err';
+    }
+    done++;
+    progressFill.style.width = (done / toUpload.length * 100) + '%';
+    renderPreviews();
+  }
+
+  _uploading = false;
+  const allDone = _files.every(f => f.status === 'done');
+  if (allDone) {
+    setTimeout(() => {
+      document.getElementById('preview-grid').style.display = 'none';
+      document.getElementById('upload-btn').style.display = 'none';
+      document.getElementById('upload-zone').style.display = 'none';
+      document.getElementById('nombre-section').style.display = 'none';
+      document.getElementById('success-state').style.display = 'block';
+    }, 600);
+  } else {
+    updateBtn();
+  }
+}
+
+function resetUpload() {
+  _files = [];
+  _uploading = false;
+  document.getElementById('preview-grid').innerHTML = '';
+  document.getElementById('preview-grid').style.display = 'grid';
+  document.getElementById('upload-btn').style.display = 'none';
+  document.getElementById('upload-zone').style.display = 'block';
+  document.getElementById('upload-section').style.display = 'block';
+  document.getElementById('success-state').style.display = 'none';
+  document.getElementById('main-progress').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('file-input').value = '';
+}
+</script>
+</body>
+</html>

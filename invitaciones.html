@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitaciones Digitales · Impacto Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Great+Vibes&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a0a;--ink2:#111118;
+  --cream:#faf8f4;--warm:#f5f0e8;
+  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0e6d0;
+  --rose:#c4687a;
+  --border:rgba(200,169,106,0.2);
+  --muted:#8a7d6a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,169,106,0.1);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;text-decoration:none;}
+.nav-logo em{font-style:italic;color:var(--gold);}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.5);text-decoration:none;transition:.2s;letter-spacing:.06em;}
+.nav-back:hover{color:var(--gold);}
+.hero{min-height:56vh;display:flex;align-items:center;justify-content:center;background:var(--ink2);position:relative;overflow:hidden;padding-top:70px;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 20% 50%,rgba(200,169,106,0.08) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 80% 60%,rgba(196,104,122,0.06) 0%,transparent 50%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:64px 64px;}
+.hero-content{position:relative;z-index:1;text-align:center;padding:56px 24px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:32px;height:1px;background:var(--gold);opacity:.45;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;color:#fff;line-height:1;letter-spacing:-.03em;margin-bottom:14px;}
+.hero-title em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:16px;color:rgba(255,255,255,0.38);line-height:1.85;max-width:560px;margin:0 auto 36px;font-weight:300;}
+.badge-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:50px;border:1px solid rgba(200,169,106,0.2);font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:.05em;}
+.badge i{color:var(--gold);font-size:10px;}
+.how-sec{padding:80px 24px;background:#fff;}
+.wrap{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--ink);line-height:1.12;margin-bottom:12px;}
+.stitle em{font-style:italic;color:var(--gold);}
+.sdesc{color:var(--muted);font-size:14px;line-height:1.85;margin-bottom:52px;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+@media(max-width:780px){.steps{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.steps{grid-template-columns:1fr;}}
+.step{text-align:center;padding:28px 20px;}
+.step-num{width:52px;height:52px;border-radius:50%;background:var(--gold-l);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--gold-d);}
+.step h4{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;margin-bottom:8px;color:var(--ink);}
+.step p{font-size:13px;color:var(--muted);line-height:1.75;}
+.templates-sec{padding:80px 24px;background:var(--cream);}
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:48px;}
+.filter-btn{padding:8px 22px;border-radius:50px;border:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;transition:.2s;letter-spacing:.04em;}
+.filter-btn:hover,.filter-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.cat-block{margin-bottom:64px;}
+.cat-label{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.cat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.cat-title-label{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);}
+.cat-sub-label{font-size:12px;color:var(--muted);}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media(max-width:900px){.photo-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.photo-grid{grid-template-columns:1fr;}}
+.photo-card{border-radius:20px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:2/3;transition:.35s cubic-bezier(.22,.61,.36,1);}
+.photo-card:hover{transform:translateY(-6px);box-shadow:0 36px 90px rgba(0,0,0,0.28);}
+.photo-card img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:.5s ease;}
+.photo-card:hover img{transform:scale(1.04);object-position:center center;}
+.photo-card-gradient{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.18) 35%, transparent 60%);}
+.photo-card-name{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-family:'Great Vibes',cursive;font-size:1.9rem;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.7);pointer-events:none;}
+.photo-card-overlay{position:absolute;inset:0;background:rgba(10,10,10,0);display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;}
+.photo-card:hover .photo-card-overlay{background:rgba(10,10,10,0.55);opacity:1;}
+/* Botones del overlay — dos en columna */
+.card-btn-group{display:flex;flex-direction:column;gap:9px;align-items:center;}
+.photo-card-ver-btn{padding:9px 22px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;border:none;cursor:pointer;letter-spacing:.04em;transition:.3s;min-width:140px;text-align:center;}
+.btn-preview{background:var(--gold);color:var(--ink);transform:translateY(8px);}
+.btn-solicitar{background:#fff;color:var(--ink);transform:translateY(8px);}
+.photo-card:hover .photo-card-ver-btn{transform:translateY(0);}
+.photo-card-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:50px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;backdrop-filter:blur(8px);}
+.pb-boda{background:rgba(200,169,106,0.25);color:#f0e8c0;border:1px solid rgba(200,169,106,0.4);}
+.pb-quincea{background:rgba(196,104,122,0.25);color:#ffd0dc;border:1px solid rgba(196,104,122,0.4);}
+.pb-cumple{background:rgba(255,150,80,0.25);color:#ffe0c0;border:1px solid rgba(255,150,80,0.4);}
+.pb-bautizo{background:rgba(100,160,220,0.25);color:#d0e8ff;border:1px solid rgba(100,160,220,0.4);}
+.photo-card-coming{background:linear-gradient(135deg,#f0ede8,#e8e4dc);display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:2/3;border-radius:20px;border:2px dashed rgba(200,169,106,0.3);}
+.coming-emoji{font-size:32px;margin-bottom:10px;}
+.coming-lbl{font-size:11px;color:var(--muted);font-style:italic;text-align:center;line-height:1.5;}
+
+/* ═══════════════════════════════════════════
+   PREVIEW MODAL — Invitación de muestra
+═══════════════════════════════════════════ */
+.preview-modal{position:fixed;inset:0;z-index:9998;background:rgba(10,10,10,0.9);backdrop-filter:blur(14px);display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;opacity:0;pointer-events:none;transition:.3s;}
+.preview-modal.open{opacity:1;pointer-events:all;}
+.preview-wrap{margin:auto;position:relative;width:100%;max-width:480px;}
+.preview-close{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:#fff;border:none;font-size:15px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.preview-close:hover{background:var(--gold);color:#fff;}
+.preview-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.4);margin-top:14px;letter-spacing:.05em;}
+.preview-cta{display:flex;justify-content:center;margin-top:16px;}
+.preview-cta button{padding:13px 32px;border-radius:50px;background:var(--gold);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;letter-spacing:.04em;}
+.preview-cta button:hover{background:#e0c080;}
+
+/* ── Invitación base ── */
+.inv-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.5);}
+.inv-photo{width:100%;height:auto;max-height:none;object-fit:contain;display:block;background:#000;}
+.inv-body{padding:32px 28px;}
+.inv-eyebrow{font-size:9px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.inv-names{font-family:'Great Vibes',cursive;font-size:3rem;text-align:center;line-height:1.1;margin-bottom:6px;}
+.inv-divider{display:flex;align-items:center;gap:10px;margin:14px 0;}
+.inv-divider::before,.inv-divider::after{content:'';flex:1;height:1px;}
+.inv-divider-icon{font-size:16px;}
+.inv-details{text-align:center;}
+.inv-date-big{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px;}
+.inv-info-row{font-size:12px;color:var(--muted);margin-bottom:3px;display:flex;align-items:center;justify-content:center;gap:6px;}
+.inv-info-row i{font-size:10px;}
+.inv-frase{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;line-height:1.6;text-align:center;padding:18px 20px;border-radius:12px;margin:18px 0;}
+.inv-padrinos{margin-top:16px;}
+.inv-padrinos-title{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.inv-padrino-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.inv-padrino-item{text-align:center;padding:8px;border-radius:10px;}
+.inv-padrino-rol{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;}
+.inv-padrino-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;}
+.inv-rsvp{margin-top:20px;text-align:center;padding:14px;border-radius:12px;}
+.inv-rsvp-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px;}
+.inv-rsvp-phone{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;}
+.inv-vestimenta{font-size:11px;text-align:center;margin-top:10px;padding:8px;border-radius:8px;}
+.inv-corte{margin-top:16px;}
+.inv-corte-title{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.inv-corte-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.inv-corte-item{text-align:center;padding:7px;border-radius:10px;}
+.inv-corte-num{font-size:9px;font-weight:700;margin-bottom:2px;letter-spacing:.1em;}
+.inv-corte-names{font-family:'Cormorant Garamond',serif;font-size:.88rem;}
+.inv-countdown{display:flex;justify-content:center;gap:12px;margin-top:16px;}
+.inv-count-item{text-align:center;}
+.inv-count-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;line-height:1;}
+.inv-count-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+/* ── Boda ── */
+.inv-boda .inv-eyebrow{color:var(--gold-d);}
+.inv-boda .inv-names{color:var(--ink);}
+.inv-boda .inv-divider::before,.inv-boda .inv-divider::after{background:var(--gold);opacity:.4;}
+.inv-boda .inv-frase{background:var(--gold-l);color:var(--ink);}
+.inv-boda .inv-padrinos-title{color:var(--gold-d);}
+.inv-boda .inv-padrino-item{background:#faf8f4;}
+.inv-boda .inv-padrino-rol{color:var(--gold-d);}
+.inv-boda .inv-rsvp{background:var(--ink);color:#fff;}
+.inv-boda .inv-rsvp-phone{color:var(--gold);}
+.inv-boda .inv-vestimenta{background:#f5f0e8;color:var(--muted);}
+
+/* ── Quinceañera ── */
+.inv-quincea .inv-eyebrow{color:#9b3055;}
+.inv-quincea .inv-names{color:#6b1a35;}
+.inv-quincea .inv-divider::before,.inv-quincea .inv-divider::after{background:#d4788a;opacity:.5;}
+.inv-quincea .inv-frase{background:#fdf0f4;color:#6b1a35;}
+.inv-quincea .inv-padrinos-title{color:#9b3055;}
+.inv-quincea .inv-padrino-item{background:#fdf0f4;}
+.inv-quincea .inv-padrino-rol{color:#9b3055;}
+.inv-quincea .inv-corte-title{color:#9b3055;}
+.inv-quincea .inv-corte-item{background:#fdf0f4;}
+.inv-quincea .inv-corte-num{color:#9b3055;}
+.inv-quincea .inv-rsvp{background:#6b1a35;color:#fff;}
+.inv-quincea .inv-rsvp-phone{color:#f7b8c8;}
+.inv-quincea .inv-vestimenta{background:#fdf0f4;color:#9b3055;}
+.inv-quincea .inv-count-num{color:#9b3055;}
+.inv-quincea .inv-photo{}
+
+/* ── Bautizo ── */
+.inv-bautizo .inv-eyebrow{color:#2563a8;}
+.inv-bautizo .inv-names{color:#1a4070;}
+.inv-bautizo .inv-divider::before,.inv-bautizo .inv-divider::after{background:#5090c8;opacity:.4;}
+.inv-bautizo .inv-frase{background:#eef4fb;color:#1a4070;}
+.inv-bautizo .inv-padrinos-title{color:#2563a8;}
+.inv-bautizo .inv-padrino-item{background:#eef4fb;}
+.inv-bautizo .inv-padrino-rol{color:#2563a8;}
+.inv-bautizo .inv-rsvp{background:#1a3a60;color:#fff;}
+.inv-bautizo .inv-rsvp-phone{color:#90c0f0;}
+.inv-bautizo .inv-vestimenta{background:#eef4fb;color:#2563a8;}
+
+/* ── Cumpleaños ── */
+.inv-cumple .inv-eyebrow{color:#c05018;}
+.inv-cumple .inv-names{color:#7a2e08;}
+.inv-cumple .inv-divider::before,.inv-cumple .inv-divider::after{background:#e08040;opacity:.5;}
+.inv-cumple .inv-frase{background:#fff8f2;color:#7a2e08;}
+.inv-cumple .inv-rsvp{background:#7a2e08;color:#fff;}
+.inv-cumple .inv-rsvp-phone{color:#ffb88a;}
+.inv-cumple .inv-vestimenta{background:#fff8f2;color:#c05018;}
+.inv-cumple .inv-count-num{color:#c05018;}
+
+/* ═══════════════════════════════════════════
+   ANIMATED TEMPLATES SECTION
+═══════════════════════════════════════════ */
+.anim-sec{padding:90px 24px;background:var(--ink2);position:relative;overflow:hidden;}
+.anim-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(200,169,106,0.06),transparent 60%);}
+.anim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;}
+@media(max-width:1000px){.anim-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.anim-grid{grid-template-columns:1fr;}}
+
+/* ── Tarjeta animada base ── */
+.anim-card{border-radius:22px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:9/16;transition:.4s cubic-bezier(.22,.61,.36,1);box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.anim-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 40px 100px rgba(0,0,0,0.7);}
+.anim-card-badge{position:absolute;top:14px;left:50%;transform:translateX(-50%);padding:5px 18px;border-radius:50px;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;z-index:10;white-space:nowrap;}
+.anim-card-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;background:rgba(0,0,0,0.45);transition:.3s;z-index:20;}
+.anim-card:hover .anim-card-overlay{opacity:1;}
+.anim-card-btns{display:flex;flex-direction:column;gap:10px;align-items:center;}
+.anim-btn-prev{padding:10px 26px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;border:none;cursor:pointer;letter-spacing:.05em;min-width:150px;text-align:center;transition:.2s;}
+.anim-btn-prev.gold{background:var(--gold);color:var(--ink);}
+.anim-btn-prev.white{background:#fff;color:var(--ink);}
+.anim-btn-prev:hover{filter:brightness(1.1);}
+.anim-label{position:absolute;bottom:0;left:0;right:0;padding:28px 16px 18px;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);text-align:center;z-index:5;}
+.anim-label-name{font-family:'Great Vibes',cursive;font-size:1.8rem;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.8);line-height:1.1;}
+.anim-label-type{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-top:4px;}
+
+/* ══ BODA ANIMADA — Oro & Mármol ══ */
+.inv-anim-boda{width:100%;height:100%;background:linear-gradient(160deg,#1a1208 0%,#0d0d0d 40%,#1a1208 100%);position:relative;display:flex;flex-direction:column;align-items:center;padding:70px 20px 20px;font-family:'Cormorant Garamond',serif;}
+.boda-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.boda-particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:0;animation:floatUp var(--dur,6s) var(--delay,0s) infinite ease-in;}
+@keyframes floatUp{0%{transform:translateY(100%) scale(0);opacity:0}20%{opacity:.8}80%{opacity:.4}100%{transform:translateY(-120%) scale(1.5);opacity:0}}
+.boda-ring{width:70px;height:70px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin-bottom:14px;position:relative;animation:ringPulse 3s ease-in-out infinite;}
+.boda-ring::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(200,169,106,0.25);animation:ringPulse 3s ease-in-out infinite reverse;}
+@keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,169,106,0.3)}50%{box-shadow:0 0 0 12px rgba(200,169,106,0)}}
+.boda-ring-icon{font-size:26px;animation:spin360 20s linear infinite;}
+@keyframes spin360{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.boda-eyebrow{font-size:8px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;animation:fadeSlideUp 1s ease both;animation-delay:.3s;}
+.boda-names{font-size:2.2rem;font-weight:300;color:#fff;line-height:1;text-align:center;font-style:italic;animation:fadeSlideUp 1s ease both;animation-delay:.5s;}
+.boda-names span{color:var(--gold);}
+.boda-divider{display:flex;align-items:center;gap:8px;margin:12px 0;width:100%;}
+.boda-divider::before,.boda-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
+.boda-divider-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
+.boda-date{font-size:1rem;color:rgba(255,255,255,0.7);text-align:center;letter-spacing:.1em;animation:fadeSlideUp 1s ease both;animation-delay:.7s;}
+.boda-place{font-size:.8rem;color:rgba(255,255,255,0.4);text-align:center;margin-top:4px;letter-spacing:.06em;}
+.boda-flowers{display:flex;justify-content:center;gap:6px;margin-top:10px;font-size:18px;animation:fadeIn 1.5s ease both;animation-delay:1s;}
+.boda-flower{animation:sway var(--s,3s) ease-in-out infinite var(--d,0s);}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.boda-countdown-mini{display:flex;gap:10px;margin-top:12px;animation:fadeSlideUp 1s ease both;animation-delay:.9s;}
+.boda-cd-item{text-align:center;background:rgba(200,169,106,0.08);border:1px solid rgba(200,169,106,0.2);border-radius:8px;padding:6px 10px;min-width:42px;}
+.boda-cd-num{font-size:1.3rem;font-weight:600;color:var(--gold);line-height:1;}
+.boda-cd-lbl{font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+.boda-ornament{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:180px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);animation:expandWidth 2s ease both;}
+@keyframes expandWidth{from{width:0;opacity:0}to{width:180px;opacity:1}}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ══ QUINCEAÑERA ANIMADA — Rosa & Magia ══ */
+.inv-anim-quincea{width:100%;height:100%;background:linear-gradient(170deg,#1a0510 0%,#2a0820 50%,#1a0510 100%);position:relative;display:flex;flex-direction:column;align-items:center;padding:70px 20px 20px;overflow:hidden;}
+.quincea-sparkles{position:absolute;inset:0;pointer-events:none;}
+.quincea-sparkle{position:absolute;width:4px;height:4px;border-radius:50%;animation:sparkleAnim var(--dur,4s) var(--delay,0s) infinite;}
+@keyframes sparkleAnim{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+.quincea-crown{font-size:42px;margin-bottom:8px;animation:crownFloat 3s ease-in-out infinite;}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.quincea-circle{width:90px;height:90px;border-radius:50%;border:2px solid rgba(255,180,200,0.4);position:absolute;top:52px;animation:circleExpand 3s ease-in-out infinite;}
+.quincea-circle2{width:110px;height:110px;border-radius:50%;border:1px solid rgba(255,150,180,0.2);position:absolute;top:42px;animation:circleExpand 3s ease-in-out infinite reverse;animation-delay:.5s;}
+@keyframes circleExpand{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:1}}
+.quincea-eyebrow{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#f0a0c0;margin-bottom:6px;font-family:'DM Sans',sans-serif;font-weight:600;animation:fadeSlideUp 1s ease both .3s;}
+.quincea-xv{font-family:'Great Vibes',cursive;font-size:3.5rem;color:#ffc0d8;line-height:1;animation:fadeSlideUp 1s ease both .4s;text-shadow:0 0 30px rgba(255,150,180,0.5);}
+.quincea-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;font-style:italic;color:#fff;animation:fadeSlideUp 1s ease both .5s;margin-top:2px;}
+.quincea-divider{display:flex;align-items:center;gap:6px;margin:10px 0;width:100%;}
+.quincea-divider::before,.quincea-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(255,150,180,0.6),transparent);}
+.quincea-rose{font-size:14px;}
+.quincea-date{font-size:.9rem;color:rgba(255,255,255,0.6);font-family:'Cormorant Garamond',serif;text-align:center;animation:fadeSlideUp 1s ease both .7s;}
+.quincea-place{font-size:.75rem;color:rgba(255,255,255,0.35);text-align:center;margin-top:3px;font-family:'DM Sans',sans-serif;}
+.quincea-petals{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.quincea-petal{position:absolute;top:-10%;font-size:12px;animation:petalFall var(--dur,8s) var(--delay,0s) infinite linear;}
+@keyframes petalFall{0%{transform:translateY(-5%) rotate(0deg);opacity:0}10%{opacity:.8}90%{opacity:.4}100%{transform:translateY(110%) rotate(360deg);opacity:0}}
+.quincea-cd{display:flex;gap:8px;margin-top:10px;animation:fadeSlideUp 1s ease both .9s;}
+.quincea-cd-item{text-align:center;background:rgba(255,150,180,0.1);border:1px solid rgba(255,150,180,0.25);border-radius:8px;padding:5px 8px;min-width:38px;}
+.quincea-cd-num{font-size:1.2rem;font-weight:600;color:#ffc0d8;font-family:'Cormorant Garamond',serif;line-height:1;}
+.quincea-cd-lbl{font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-family:'DM Sans',sans-serif;}
+
+/* ══ BAUTIZO ANIMADO — Cielo & Luz ══ */
+.inv-anim-bautizo{width:100%;height:100%;background:linear-gradient(170deg,#e8f4ff 0%,#f0f8ff 40%,#ddeeff 100%);position:relative;display:flex;flex-direction:column;align-items:center;padding:70px 20px 20px;overflow:hidden;}
+.bautizo-bubbles{position:absolute;inset:0;pointer-events:none;}
+.bautizo-bubble{position:absolute;border-radius:50%;border:1px solid rgba(100,160,220,0.3);animation:bubbleRise var(--dur,6s) var(--delay,0s) infinite ease-in;}
+@keyframes bubbleRise{0%{transform:translateY(110%) scale(.5);opacity:0}20%{opacity:.7}80%{opacity:.3}100%{transform:translateY(-20%) scale(1);opacity:0}}
+.bautizo-dove{font-size:44px;animation:doveFloat 4s ease-in-out infinite;margin-bottom:6px;}
+@keyframes doveFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-10px) rotate(5deg)}}
+.bautizo-halo{width:80px;height:80px;border-radius:50%;border:2px solid rgba(100,160,220,0.4);position:absolute;top:48px;animation:haloGlow 3s ease-in-out infinite;}
+@keyframes haloGlow{0%,100%{box-shadow:0 0 0 0 rgba(100,160,220,0.3);opacity:.7}50%{box-shadow:0 0 20px 8px rgba(100,160,220,0.15);opacity:1}}
+.bautizo-eyebrow{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:#2563a8;font-family:'DM Sans',sans-serif;font-weight:600;margin-bottom:6px;animation:fadeSlideUp 1s ease both .3s;}
+.bautizo-name{font-family:'Great Vibes',cursive;font-size:2.8rem;color:#1a4070;line-height:1.1;text-align:center;animation:fadeSlideUp 1s ease both .4s;}
+.bautizo-sub{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:#4070a0;animation:fadeSlideUp 1s ease both .5s;margin-top:2px;}
+.bautizo-divider{display:flex;align-items:center;gap:8px;margin:10px 0;width:100%;}
+.bautizo-divider::before,.bautizo-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(100,160,220,0.5),transparent);}
+.bautizo-cross{font-size:14px;color:#5090c8;}
+.bautizo-date{font-size:.9rem;color:#2a5080;font-family:'Cormorant Garamond',serif;text-align:center;font-weight:600;animation:fadeSlideUp 1s ease both .7s;}
+.bautizo-place{font-size:.75rem;color:#6090b8;text-align:center;margin-top:3px;font-family:'DM Sans',sans-serif;}
+.bautizo-verse{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.82rem;color:#4070a0;text-align:center;padding:10px 14px;background:rgba(100,160,220,0.08);border-radius:10px;border-left:3px solid rgba(100,160,220,0.4);margin-top:10px;line-height:1.5;animation:fadeSlideUp 1s ease both .9s;}
+.bautizo-padrinos{margin-top:10px;text-align:center;animation:fadeSlideUp 1s ease both 1s;}
+.bautizo-padrinos-title{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5090c8;font-family:'DM Sans',sans-serif;font-weight:600;margin-bottom:5px;}
+.bautizo-padrino-name{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:#1a4070;line-height:1.4;}
+.bautizo-stars{position:absolute;pointer-events:none;}
+.bautizo-star{position:absolute;font-size:10px;animation:twinkle var(--dur,3s) var(--delay,0s) infinite;}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.9;transform:scale(1.2)}}
+
+/* ══ CUMPLEAÑOS ANIMADO — Fiesta & Color ══ */
+.inv-anim-cumple{width:100%;height:100%;background:linear-gradient(160deg,#1a0800 0%,#200d00 50%,#1a0800 100%);position:relative;display:flex;flex-direction:column;align-items:center;padding:70px 20px 20px;overflow:hidden;}
+.cumple-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.cumple-piece{position:absolute;top:-5%;width:8px;height:8px;animation:confettiFall var(--dur,6s) var(--delay,0s) infinite linear;}
+.cumple-piece.rect{border-radius:2px;}
+.cumple-piece.circle{border-radius:50%;}
+@keyframes confettiFall{0%{transform:translateY(-5%) rotate(0deg);opacity:1}100%{transform:translateY(110%) rotate(720deg);opacity:.3}}
+.cumple-balloons{display:flex;gap:4px;margin-bottom:6px;font-size:24px;}
+.cumple-balloon{animation:balloonFloat var(--s,2.5s) ease-in-out infinite var(--d,0s);}
+@keyframes balloonFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+.cumple-cake{font-size:44px;animation:cakeBounce 2s ease-in-out infinite;margin-bottom:4px;}
+@keyframes cakeBounce{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.cumple-eyebrow{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:#e07030;font-family:'DM Sans',sans-serif;font-weight:600;margin-bottom:4px;animation:fadeSlideUp 1s ease both .3s;}
+.cumple-name{font-family:'Great Vibes',cursive;font-size:2.8rem;color:#fff;line-height:1.1;text-align:center;animation:fadeSlideUp 1s ease both .4s;text-shadow:0 0 20px rgba(255,150,80,0.5);}
+.cumple-anos{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#ffb080;font-style:italic;animation:fadeSlideUp 1s ease both .5s;}
+.cumple-divider{display:flex;align-items:center;gap:8px;margin:10px 0;width:100%;}
+.cumple-divider::before,.cumple-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(255,150,80,0.6),transparent);}
+.cumple-star-icon{font-size:12px;}
+.cumple-date{font-size:.9rem;color:rgba(255,255,255,0.7);font-family:'Cormorant Garamond',serif;text-align:center;animation:fadeSlideUp 1s ease both .7s;}
+.cumple-place{font-size:.75rem;color:rgba(255,255,255,0.35);text-align:center;margin-top:3px;font-family:'DM Sans',sans-serif;}
+.cumple-cd{display:flex;gap:8px;margin-top:12px;animation:fadeSlideUp 1s ease both .9s;}
+.cumple-cd-item{text-align:center;background:rgba(255,150,80,0.1);border:1px solid rgba(255,150,80,0.3);border-radius:8px;padding:5px 8px;min-width:38px;}
+.cumple-cd-num{font-size:1.2rem;font-weight:600;color:#ffb080;font-family:'Cormorant Garamond',serif;line-height:1;}
+.cumple-cd-lbl{font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-family:'DM Sans',sans-serif;}
+.cumple-rsvp{margin-top:10px;background:rgba(255,150,80,0.12);border:1px solid rgba(255,150,80,0.25);border-radius:10px;padding:8px 14px;text-align:center;animation:fadeSlideUp 1s ease both 1.1s;}
+.cumple-rsvp-lbl{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#e07030;font-family:'DM Sans',sans-serif;font-weight:600;}
+.cumple-rsvp-phone{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#ffb080;}
+
+/* ══ Modal preview animada ══ */
+.anim-preview-modal{position:fixed;inset:0;z-index:9997;background:rgba(5,5,10,0.92);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:.35s;}
+.anim-preview-modal.open{opacity:1;pointer-events:all;}
+.anim-preview-wrap{position:relative;width:100%;max-width:360px;margin:auto;}
+.anim-preview-card{border-radius:22px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.8);aspect-ratio:9/16;}
+.anim-preview-close{position:absolute;top:-16px;right:-16px;width:38px;height:38px;border-radius:50%;background:#fff;border:none;font-size:16px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+.anim-preview-close:hover{background:var(--gold);}
+.anim-preview-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.4);margin-top:14px;letter-spacing:.05em;}
+.anim-preview-cta{display:flex;justify-content:center;margin-top:14px;}
+.anim-preview-cta button{padding:12px 30px;border-radius:50px;background:var(--gold);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.anim-preview-cta button:hover{background:#e0c080;}
+
+/* ═══════════════════════════════════════════
+   PREMIUM SECTION
+═══════════════════════════════════════════ */
+.premium-sec{padding:90px 24px;background:linear-gradient(160deg,#0d0b08 0%,#1a1408 50%,#0d0b08 100%);position:relative;overflow:hidden;}
+.premium-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(200,169,106,0.1),transparent 60%);}
+.premium-badge-top{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:50px;background:rgba(200,169,106,0.12);border:1px solid rgba(200,169,106,0.35);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.premium-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:300;color:#fff;line-height:1.05;margin-bottom:12px;}
+.premium-title em{font-style:italic;color:var(--gold);}
+.premium-desc{font-size:14px;color:rgba(255,255,255,0.35);line-height:1.85;max-width:600px;margin:0 auto 48px;}
+.premium-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:900px;margin:0 auto;}
+@media(max-width:700px){.premium-grid{grid-template-columns:1fr;}}
+.premium-card{border-radius:24px;overflow:hidden;background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.2);position:relative;transition:.35s cubic-bezier(.22,.61,.36,1);}
+.premium-card:hover{transform:translateY(-8px);box-shadow:0 40px 100px rgba(200,169,106,0.15);border-color:rgba(200,169,106,0.5);}
+.premium-card-preview{width:100%;aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer;}
+.premium-card-preview iframe{width:100%;height:100%;border:none;pointer-events:none;transform:scale(1);transform-origin:top left;}
+.premium-card-thumb{width:100%;aspect-ratio:9/16;background:linear-gradient(160deg,#1a1208 0%,#0d0d0d 100%);display:flex;align-items:center;justify-content:center;font-size:48px;cursor:pointer;position:relative;}
+.premium-card-overlay-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,0);opacity:0;transition:.3s;flex-direction:column;gap:10px;}
+.premium-card:hover .premium-card-overlay-btn{background:rgba(10,10,10,0.6);opacity:1;}
+.premium-btn{padding:11px 26px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;border:none;cursor:pointer;letter-spacing:.05em;min-width:160px;text-align:center;transition:.2s;}
+.premium-btn.gold{background:var(--gold);color:var(--ink);}
+.premium-btn.white{background:#fff;color:var(--ink);}
+.premium-btn:hover{filter:brightness(1.1);}
+.premium-card-info{padding:22px 22px 24px;}
+.premium-card-label{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.premium-card-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-bottom:6px;}
+.premium-card-sub{font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;margin-bottom:16px;}
+.premium-card-price{display:inline-flex;align-items:baseline;gap:4px;background:rgba(200,169,106,0.1);border:1px solid rgba(200,169,106,0.25);padding:6px 14px;border-radius:50px;}
+.premium-price-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--gold);}
+.premium-price-lbl{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:.06em;}
+.premium-card-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.premium-tag{position:absolute;top:14px;left:14px;padding:4px 12px;border-radius:50px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(200,169,106,0.25);color:#f0e8c0;border:1px solid rgba(200,169,106,0.5);backdrop-filter:blur(8px);z-index:5;}
+
+/* Modal iframe preview */
+.iframe-modal{position:fixed;inset:0;z-index:9998;background:rgba(5,5,10,0.95);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:.35s;}
+.iframe-modal.open{opacity:1;pointer-events:all;}
+.iframe-wrap{position:relative;width:100%;max-width:420px;margin:auto;}
+.iframe-close{position:absolute;top:-18px;right:-18px;width:40px;height:40px;border-radius:50%;background:#fff;border:none;font-size:16px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+.iframe-close:hover{background:var(--gold);}
+.iframe-inner{border-radius:22px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.8);aspect-ratio:9/16;background:#000;position:relative;}
+.iframe-inner iframe{width:375px;height:100%;border:none;transform:scale(calc(100% / 375));transform-origin:top left;position:absolute;top:0;left:0;}
+.iframe-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.35);margin-top:14px;letter-spacing:.05em;}
+.iframe-cta{display:flex;justify-content:center;margin-top:14px;gap:10px;}
+.iframe-cta button{padding:12px 28px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.iframe-btn-gold{background:var(--gold);color:var(--ink);}
+.iframe-btn-wa{background:#25d366;color:#fff;}
+
+/* FORM MODAL */
+.form-modal{position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,0.85);backdrop-filter:blur(12px);display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;opacity:0;pointer-events:none;transition:.3s;}
+.form-modal.open{opacity:1;pointer-events:all;}
+.form-box{background:#fff;border-radius:24px;width:100%;max-width:640px;padding:40px;position:relative;margin:auto;transform:translateY(30px);transition:.3s;}
+.form-modal.open .form-box{transform:translateY(0);}
+.form-close{position:absolute;top:20px;right:22px;background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;}
+.form-close:hover{color:var(--ink);}
+.form-header{margin-bottom:28px;}
+.form-eyebrow{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--ink);}
+.form-title em{font-style:italic;color:var(--gold);}
+.form-sub{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.6;}
+.fgroup{margin-bottom:18px;}
+.fgroup label{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;padding:12px 15px;border-radius:12px;border:1.5px solid #e8e4dc;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:#faf9f7;outline:none;transition:.2s;resize:vertical;}
+.fgroup input:focus,.fgroup textarea:focus,.fgroup select:focus{border-color:var(--gold);background:#fff;}
+.fgroup textarea{min-height:80px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:480px){.frow{grid-template-columns:1fr;}}
+.fsection{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding:10px 0 6px;border-bottom:1px solid var(--border);margin:20px 0 16px;display:flex;align-items:center;gap:8px;}
+.fsection i{font-size:11px;}
+.padrino-entry{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center;}
+.padrino-entry input{margin:0;}
+.btn-add{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:50px;border:1.5px dashed var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;transition:.2s;margin-top:4px;}
+.btn-add:hover{border-color:var(--gold);color:var(--gold);}
+.btn-remove{width:28px;height:28px;border-radius:50%;border:none;background:#fee2e2;color:#dc2626;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.corte-entry{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center;}
+.corte-num-badge{width:24px;height:24px;border-radius:50%;background:var(--gold-l);color:var(--gold-d);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.photo-upload-area{border:2px dashed var(--border);border-radius:14px;padding:24px;text-align:center;cursor:pointer;transition:.2s;background:#faf9f7;}
+.photo-upload-area:hover{border-color:var(--gold);background:var(--gold-l);}
+.photo-upload-area input{display:none;}
+.photo-upload-area i{font-size:24px;color:var(--gold);margin-bottom:8px;display:block;}
+.photo-upload-area p{font-size:12px;color:var(--muted);}
+.photo-url-input{width:100%;padding:9px 12px;border-radius:8px;border:1.5px solid #e8e4dc;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:.2s;}
+.photo-url-input:focus{border-color:var(--gold);}
+.form-submit-row{display:flex;gap:12px;align-items:center;margin-top:28px;flex-wrap:wrap;}
+.btn-submit{flex:1;padding:15px 28px;border-radius:50px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.coming-sec{padding:70px 24px;background:var(--ink);position:relative;overflow:hidden;}
+.coming-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 50%,rgba(200,169,106,0.07),transparent);}
+.coming-inner{max-width:1100px;margin:0 auto;position:relative;}
+.coming-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
+@media(max-width:700px){.coming-grid{grid-template-columns:1fr;}}
+.coming-card{background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.1);border-radius:16px;padding:22px;display:flex;align-items:flex-start;gap:14px;}
+.coming-icon{width:44px;height:44px;border-radius:12px;background:rgba(200,169,106,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold);flex-shrink:0;}
+.coming-card h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px;}
+.coming-card p{font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;}
+.reveal{opacity:0;transform:translateY(24px);transition:.6s;}
+.reveal.visible{opacity:1;transform:none;}
+footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-top:1px solid rgba(200,169,106,0.08);}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#fff;margin-bottom:8px;}
+.f-logo em{font-style:italic;color:var(--gold);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Impacto <em>Digital</em></a>
+  <a href="index.html" class="nav-back"><i class="fas fa-arrow-left" style="font-size:11px"></i> Inicio</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Impacto Digital · Invitaciones</div>
+    <h1 class="hero-title">Invitaciones<br><em>Digitales</em></h1>
+    <p class="hero-sub">Elige tu plantilla, personaliza cada detalle y compártela en segundos por WhatsApp. Tu evento merece algo extraordinario.</p>
+    <div class="badge-row">
+      <div class="badge"><i class="fas fa-mobile-alt"></i> Responsive</div>
+      <div class="badge"><i class="fas fa-clock"></i> Cuenta regresiva</div>
+      <div class="badge"><i class="fas fa-check-circle"></i> RSVP incluido</div>
+      <div class="badge"><i class="fas fa-share-alt"></i> WhatsApp & Email</div>
+    </div>
+  </div>
+</section>
+
+<section class="how-sec">
+  <div class="wrap">
+    <div class="eyebrow reveal">¿Cómo funciona?</div>
+    <h2 class="stitle reveal">Listo en <em>4 pasos</em></h2>
+    <p class="sdesc reveal">Sin complicaciones. Tú nos das los datos, nosotros entregamos la invitación perfecta.</p>
+    <div class="steps reveal">
+      <div class="step"><div class="step-num">1</div><h4>Elige tu plantilla</h4><p>Boda, quinceañera, bautizo, primera comunión o cumpleaños.</p></div>
+      <div class="step"><div class="step-num">2</div><h4>Completa el formulario</h4><p>Nombres, fecha, lugar, foto, padrinos, corte de honor y más.</p></div>
+      <div class="step"><div class="step-num">3</div><h4>Revisamos y personalizamos</h4><p>Nuestro equipo genera tu invitación. La recibes en 24 horas.</p></div>
+      <div class="step"><div class="step-num">4</div><h4>Comparte y celebra</h4><p>Envía por WhatsApp, Instagram o correo. Tus invitados confirman.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="templates-sec">
+  <div class="wrap">
+    <div class="eyebrow reveal">Plantillas disponibles</div>
+    <h2 class="stitle reveal">Elige tu <em>estilo</em></h2>
+    <p class="sdesc reveal">Haz clic en <strong>Ver plantilla</strong> para previsualizar con datos de ejemplo, o en <strong>Solicitar</strong> para pedir la tuya.</p>
+    <div class="filter-row reveal">
+      <button class="filter-btn active" onclick="filterCat('all',this)">Todas</button>
+      <button class="filter-btn" onclick="filterCat('boda',this)">💍 Bodas</button>
+      <button class="filter-btn" onclick="filterCat('quincea',this)">👑 Quinceañeras</button>
+      <button class="filter-btn" onclick="filterCat('bautizo',this)">🕊️ Bautizos</button>
+      <button class="filter-btn" onclick="filterCat('cumple',this)">🎂 Cumpleaños</button>
+      <button class="filter-btn" onclick="scrollToPremium(this)" style="background:linear-gradient(135deg,#c8a96a,#a07840);color:#fff;border-color:transparent;">⭐ Premium</button>
+    </div>
+
+    <!-- BODAS -->
+    <div class="cat-block reveal" data-section="boda">
+      <div class="cat-label">
+        <div class="cat-icon" style="background:rgba(200,169,106,0.15)">💍</div>
+        <div><div class="cat-title-label">Bodas</div><div class="cat-sub-label">Elige una plantilla abajo</div></div>
+      </div>
+      <div class="photo-grid">
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/V0YdbWRW/young-couple-at-golden-sunset-on-the-beach-woman-i.jpg" alt="Boda playa atardecer">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-boda">Boda</span>
+          <div class="photo-card-name">Alisson &amp; Joan</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('boda-nupcial','https://i.ibb.co/V0YdbWRW/young-couple-at-golden-sunset-on-the-beach-woman-i.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('boda-nupcial')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/1ffYQNdq/latinoamerican-hispanic-couple-in-soft-pastel-outf.jpg" alt="Boda campo flores">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-boda">Boda</span>
+          <div class="photo-card-name">Isabel &amp; Rodrigo</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('boda-floral','https://i.ibb.co/1ffYQNdq/latinoamerican-hispanic-couple-in-soft-pastel-outf.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('boda-floral')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/Tx7cn0H9/young-couple-in-a-cozy-caf-woman-in-cream-off-shou.jpg" alt="Boda otoño blanco">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-boda">Boda</span>
+          <div class="photo-card-name">Adriano &amp; Betsabé</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('boda-nupcial','https://i.ibb.co/Tx7cn0H9/young-couple-in-a-cozy-caf-woman-in-cream-off-shou.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('boda-nupcial')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/Tx7cn0H9/young-couple-in-a-cozy-caf-woman-in-cream-off-shou.jpg" alt="Boda café romántico">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-boda">Boda</span>
+          <div class="photo-card-name">Carlos y María</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('boda-floral','https://i.ibb.co/Tx7cn0H9/young-couple-in-a-cozy-caf-woman-in-cream-off-shou.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('boda-floral')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card-coming"><div class="coming-emoji">💐</div><div class="coming-lbl">Nueva plantilla<br>Boda · Próximamente</div></div>
+      </div>
+    </div>
+
+    <!-- QUINCEAÑERAS -->
+    <div class="cat-block reveal" data-section="quincea">
+      <div class="cat-label">
+        <div class="cat-icon" style="background:rgba(196,104,122,0.12)">👑</div>
+        <div><div class="cat-title-label">XV Años</div><div class="cat-sub-label">Elige una plantilla abajo</div></div>
+      </div>
+      <div class="photo-grid">
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/zWMV145Y/teenage-latina-girl-in-a-royal-blue-strapless-ball.jpg" alt="Quinceañera azul salón">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-quincea">XV Años</span>
+          <div class="photo-card-name">Julia</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('quincea-azul','https://i.ibb.co/zWMV145Y/teenage-latina-girl-in-a-royal-blue-strapless-ball.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('quincea-azul')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/R4QbC6CG/teenage-latina-girl-in-a-romantic-blush-pink-quinc.jpg" alt="Quinceañera rosa">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-quincea">XV Años</span>
+          <div class="photo-card-name">Fátima</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('quincea-rosa','https://i.ibb.co/R4QbC6CG/teenage-latina-girl-in-a-romantic-blush-pink-quinc.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('quincea-rosa')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/gbq39fJR/young-latina-girl-in-a-stunning-red-quinceaera-bal.jpg" alt="Quinceañera roja">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-quincea">XV Años</span>
+          <div class="photo-card-name">Regina</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('quincea-rosa','https://i.ibb.co/gbq39fJR/young-latina-girl-in-a-stunning-red-quinceaera-bal.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('quincea-rosa')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/C5LBfwZm/Gemini-Generated-Image-bata1abata1abata.png" alt="Quinceañera azul glamour">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-quincea">XV Años</span>
+          <div class="photo-card-name">Azul</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('quincea-azul','https://i.ibb.co/C5LBfwZm/Gemini-Generated-Image-bata1abata1abata.png')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('quincea-azul')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card-coming"><div class="coming-emoji">🌸</div><div class="coming-lbl">Nueva plantilla<br>XV Años · Próximamente</div></div>
+      </div>
+    </div>
+
+    <!-- BAUTIZOS -->
+    <div class="cat-block reveal" data-section="bautizo">
+      <div class="cat-label">
+        <div class="cat-icon" style="background:rgba(100,160,220,0.12)">🕊️</div>
+        <div><div class="cat-title-label">Bautizos</div><div class="cat-sub-label">Elige una plantilla abajo</div></div>
+      </div>
+      <div class="photo-grid">
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/RpkVMMZR/smiling-baby-in-traditional-white-mexican-christen.jpg" alt="Bebé bautizo blanco">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-bautizo">Bautizo</span>
+          <div class="photo-card-name">Edén</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('bautizo-clasico','https://i.ibb.co/RpkVMMZR/smiling-baby-in-traditional-white-mexican-christen.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('bautizo-clasico')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/JR49RQMg/baby-girl-in-white-baptism-dress-with-lace-and-rib.jpg" alt="Familia bautizo iglesia">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-bautizo">Bautizo</span>
+          <div class="photo-card-name">Camila</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('bautizo-clasico','https://i.ibb.co/JR49RQMg/baby-girl-in-white-baptism-dress-with-lace-and-rib.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('bautizo-clasico')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/8gx5fkJh/happy-laughing-baby-in-white-christening-outfit-wi.jpg" alt="Bebé riendo bautizo">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-bautizo">Bautizo</span>
+          <div class="photo-card-name">María</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('bautizo-clasico','https://i.ibb.co/8gx5fkJh/happy-laughing-baby-in-white-christening-outfit-wi.jpg')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('bautizo-clasico')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card-coming"><div class="coming-emoji">🕊️</div><div class="coming-lbl">Nueva plantilla<br>Bautizo · Próximamente</div></div>
+      </div>
+    </div>
+
+    <!-- CUMPLEAÑOS -->
+    <div class="cat-block reveal" data-section="cumple">
+      <div class="cat-label">
+        <div class="cat-icon" style="background:rgba(255,150,80,0.12)">🎂</div>
+        <div><div class="cat-title-label">Cumpleaños</div><div class="cat-sub-label">Elige una plantilla abajo</div></div>
+      </div>
+      <div class="photo-grid">
+
+        <div class="photo-card">
+          <img src="https://i.ibb.co/nM4ZBcmW/Chat-GPT-Image-27-mar-2026-23-04-51.png" alt="Cumpleaños niña princesa">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-cumple">Cumpleaños</span>
+          <div class="photo-card-name">Sofía</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('cumple-infantil','https://i.ibb.co/nM4ZBcmW/Chat-GPT-Image-27-mar-2026-23-04-51.png')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card">
+          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80" alt="Cumpleaños niño">
+          <div class="photo-card-gradient"></div>
+          <span class="photo-card-badge pb-cumple">Cumpleaños</span>
+          <div class="photo-card-name">Mateo</div>
+          <div class="photo-card-overlay">
+            <div class="card-btn-group">
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('cumple-infantil','https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-card-coming"><div class="coming-emoji">🎉</div><div class="coming-lbl">Adulto Elegante<br>Próximamente</div></div>
+        <div class="photo-card-coming"><div class="coming-emoji">🏢</div><div class="coming-lbl">Evento Corporativo<br>Próximamente</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PLANTILLAS ANIMADAS
+══════════════════════════════════════ -->
+<section class="anim-sec">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="color:var(--gold)">✨ Nuevo · Plantillas Animadas</div>
+    <h2 class="stitle reveal" style="color:#fff">Invitaciones que <em>cobran vida</em></h2>
+    <p class="sdesc reveal" style="color:rgba(255,255,255,0.4);">Estas plantillas incluyen animaciones, cuenta regresiva en vivo y efectos visuales únicos para cada ocasión.</p>
+
+    <div class="anim-grid reveal">
+
+      <!-- BODA ANIMADA -->
+      <div class="anim-card" onclick="openAnimPreview('boda')">
+        <div class="inv-anim-boda" id="animBoda">
+          <div class="boda-ornament"></div>
+          <div class="boda-particles" id="bodaParticles"></div>
+          <div class="boda-ring"><div class="boda-ring-icon">💍</div></div>
+          <div class="boda-eyebrow">Los invitamos a celebrar</div>
+          <div class="boda-names">Alisson <span>&</span><br>Joan</div>
+          <div class="boda-divider"><div class="boda-divider-diamond"></div></div>
+          <div class="boda-date">Sábado, 14 de Junio · 2025</div>
+          <div class="boda-place">Salón El Jardín · Santa Ana</div>
+          <div class="boda-flowers">
+            <span class="boda-flower" style="--s:3s;--d:0s">🌸</span>
+            <span class="boda-flower" style="--s:2.5s;--d:.4s">🌹</span>
+            <span class="boda-flower" style="--s:3.5s;--d:.8s">🌸</span>
+            <span class="boda-flower" style="--s:2.8s;--d:.2s">🌺</span>
+            <span class="boda-flower" style="--s:3.2s;--d:.6s">🌸</span>
+          </div>
+          <div class="boda-countdown-mini" id="bodaCd">
+            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-d">89</div><div class="boda-cd-lbl">Días</div></div>
+            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-h">14</div><div class="boda-cd-lbl">Hrs</div></div>
+            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-m">32</div><div class="boda-cd-lbl">Min</div></div>
+            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-s">08</div><div class="boda-cd-lbl">Seg</div></div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-boda anim-card-badge">💍 Boda · Animada</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('boda')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('boda-nupcial')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUINCEAÑERA ANIMADA -->
+      <div class="anim-card" onclick="openAnimPreview('quincea')">
+        <div class="inv-anim-quincea" id="animQuincea">
+          <div class="quincea-petals" id="quinceaPetals"></div>
+          <div class="quincea-sparkles" id="quinceaSparkles"></div>
+          <div class="quincea-circle"></div>
+          <div class="quincea-circle2"></div>
+          <div class="quincea-crown">👑</div>
+          <div class="quincea-eyebrow">XV Años · Quinceañera</div>
+          <div class="quincea-xv">XV</div>
+          <div class="quincea-name">Julia Alejandra</div>
+          <div class="quincea-divider"><span class="quincea-rose">🌸</span></div>
+          <div class="quincea-date">Sábado, 7 de Diciembre · 2025</div>
+          <div class="quincea-place">Salón Versailles · San Salvador</div>
+          <div class="quincea-cd" id="quinceaCd">
+            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-d">89</div><div class="quincea-cd-lbl">Días</div></div>
+            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-h">14</div><div class="quincea-cd-lbl">Hrs</div></div>
+            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-m">32</div><div class="quincea-cd-lbl">Min</div></div>
+            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-s">08</div><div class="quincea-cd-lbl">Seg</div></div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-quincea anim-card-badge">👑 Quinceañera · Animada</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('quincea')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('quincea-azul')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAUTIZO ANIMADO -->
+      <div class="anim-card" onclick="openAnimPreview('bautizo')">
+        <div class="inv-anim-bautizo" id="animBautizo">
+          <div class="bautizo-bubbles" id="bautizoBubbles"></div>
+          <div class="bautizo-stars" id="bautizoStars"></div>
+          <div class="bautizo-halo"></div>
+          <div class="bautizo-dove">🕊️</div>
+          <div class="bautizo-eyebrow">Con alegría los invitamos al bautizo de</div>
+          <div class="bautizo-name">Edén Sofía</div>
+          <div class="bautizo-sub">Hija de Carlos & Andrea Molina</div>
+          <div class="bautizo-divider"><span class="bautizo-cross">✝</span></div>
+          <div class="bautizo-date">Domingo, 10 de Agosto · 2025</div>
+          <div class="bautizo-place">Parroquia Santa Lucía · 10:00 AM</div>
+          <div class="bautizo-verse">"Dejen que los niños vengan a mí, y no se lo impidan, porque de ellos es el Reino de Dios."<br><small>— Marcos 10:14</small></div>
+          <div class="bautizo-padrinos">
+            <div class="bautizo-padrinos-title">🙏 Padrinos</div>
+            <div class="bautizo-padrino-name">Carlos Eduardo & Ana Lucía</div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-bautizo anim-card-badge">🕊️ Bautizo · Animado</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('bautizo')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('bautizo-clasico')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUMPLEAÑOS ANIMADO -->
+      <div class="anim-card" onclick="openAnimPreview('cumple')">
+        <div class="inv-anim-cumple" id="animCumple">
+          <div class="cumple-confetti" id="cumpleConfetti"></div>
+          <div class="cumple-balloons">
+            <span class="cumple-balloon" style="--s:2.5s;--d:0s">🎈</span>
+            <span class="cumple-balloon" style="--s:3s;--d:.3s">🎉</span>
+            <span class="cumple-balloon" style="--s:2.8s;--d:.6s">🎈</span>
+          </div>
+          <div class="cumple-cake">🎂</div>
+          <div class="cumple-eyebrow">¡Te invitamos a celebrar!</div>
+          <div class="cumple-name">Sofía</div>
+          <div class="cumple-anos">Cumple sus primeros 5 años 🌟</div>
+          <div class="cumple-divider"><span class="cumple-star-icon">⭐</span></div>
+          <div class="cumple-date">Sábado, 22 de Noviembre · 2025</div>
+          <div class="cumple-place">Patio Familiar · 3:00 PM</div>
+          <div class="cumple-cd" id="cumpleCd">
+            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-d">89</div><div class="cumple-cd-lbl">Días</div></div>
+            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-h">14</div><div class="cumple-cd-lbl">Hrs</div></div>
+            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-m">32</div><div class="cumple-cd-lbl">Min</div></div>
+            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-s">08</div><div class="cumple-cd-lbl">Seg</div></div>
+          </div>
+          <div class="cumple-rsvp">
+            <div class="cumple-rsvp-lbl">📞 Confirmar asistencia</div>
+            <div class="cumple-rsvp-phone">+503 7241-9889</div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-cumple anim-card-badge">🎂 Cumpleaños · Animado</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('cumple')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Modal preview animada -->
+<div class="anim-preview-modal" id="animPreviewModal">
+  <div class="anim-preview-wrap">
+    <button class="anim-preview-close" onclick="closeAnimPreview()"><i class="fas fa-times"></i></button>
+    <div class="anim-preview-card" id="animPreviewCard"></div>
+    <p class="anim-preview-note">✦ Vista previa animada en tiempo real ✦</p>
+    <div class="anim-preview-cta">
+      <button id="animSolicitarBtn"><i class="fas fa-paper-plane"></i> Solicitar esta plantilla</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     INVITACIONES PREMIUM — DE PAGO
+══════════════════════════════════════ -->
+<section class="premium-sec">
+  <div class="wrap" style="text-align:center;position:relative;">
+    <div class="premium-badge-top">⭐ Premium · Invitaciones Completas</div>
+    <h2 class="premium-title reveal">Invitaciones <em>Premium</em><br>que lo dicen todo</h2>
+    <p class="premium-desc reveal">Páginas web completas con portada cinematográfica, cuenta regresiva, galería, mapa, itinerario, RSVP y más. Una experiencia digital única para tu evento.</p>
+
+    <div class="premium-grid reveal">
+
+      <!-- BODA PREMIUM -->
+      <div class="premium-card">
+        <div class="premium-card-thumb" onclick="openIframePreview('invitacion-boda-premium.html','boda-nupcial')">
+          <span class="premium-tag">💍 Boda Premium</span>
+          <div style="text-align:center;">
+            <div style="font-size:52px;margin-bottom:12px;">💍</div>
+            <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:#c8a96a;text-shadow:0 2px 20px rgba(200,169,106,0.5);">Manuel &amp; Carmen</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;letter-spacing:.1em;">BODA · 2025</div>
+          </div>
+          <div class="premium-card-overlay-btn">
+            <button class="premium-btn gold" onclick="event.stopPropagation();openIframePreview('invitacion-boda-premium.html','boda-nupcial')">👁 Ver invitación</button>
+            <button class="premium-btn white" onclick="event.stopPropagation();openPremiumForm('boda-nupcial')">✉ Solicitar</button>
+          </div>
+        </div>
+        <div class="premium-card-info">
+          <div class="premium-card-label">💍 Boda · Oro & Mármol</div>
+          <div class="premium-card-name">Invitación Boda Premium</div>
+          <div class="premium-card-sub">Portada con foto a pantalla completa, cuenta regresiva en vivo, galería de fotos, itinerario del día, mapa interactivo, padrinos, dress code, RSVP por WhatsApp y más.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div class="premium-card-price">
+              <span class="premium-price-val">$35</span>
+              <span class="premium-price-lbl">/ única vez</span>
+            </div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:.04em;">Entrega en 24 hrs</div>
+          </div>
+          <div class="premium-card-btns">
+            <button class="premium-btn gold" style="flex:1" onclick="openIframePreview('invitacion-boda-premium.html','boda-nupcial')">👁 Ver demo</button>
+            <button class="premium-btn white" style="flex:1" onclick="openPremiumForm('boda-nupcial')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUINCEAÑERA PREMIUM -->
+      <div class="premium-card">
+        <div class="premium-card-thumb" onclick="openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')" style="background:linear-gradient(160deg,#18060e 0%,#2a0820 100%);">
+          <span class="premium-tag" style="background:rgba(196,104,122,0.25);color:#ffd0dc;border-color:rgba(196,104,122,0.5);">👑 XV Premium</span>
+          <div style="text-align:center;">
+            <div style="font-size:52px;margin-bottom:12px;">👑</div>
+            <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:#ffc0d8;text-shadow:0 2px 20px rgba(196,104,122,0.5);">Valentina Sofía</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;letter-spacing:.1em;">XV AÑOS · 2025</div>
+          </div>
+          <div class="premium-card-overlay-btn">
+            <button class="premium-btn" style="background:#c4687a;color:#fff;min-width:160px;" onclick="event.stopPropagation();openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')">👁 Ver invitación</button>
+            <button class="premium-btn white" onclick="event.stopPropagation();openPremiumForm('quincea-premium')">✉ Solicitar</button>
+          </div>
+        </div>
+        <div class="premium-card-info">
+          <div class="premium-card-label" style="color:#c4687a;">👑 Quinceañera · Rosa & Oro</div>
+          <div class="premium-card-name">Invitación XV Premium</div>
+          <div class="premium-card-sub">Portada mágica con pétalos animados, cuenta regresiva, chambelán de honor, corte de honor, padrinos, galería, itinerario, RSVP y cierre especial con fotografías.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div class="premium-card-price" style="border-color:rgba(196,104,122,0.3);background:rgba(196,104,122,0.08);">
+              <span class="premium-price-val" style="color:#c4687a;">$35</span>
+              <span class="premium-price-lbl">/ única vez</span>
+            </div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:.04em;">Entrega en 24 hrs</div>
+          </div>
+          <div class="premium-card-btns">
+            <button class="premium-btn" style="flex:1;background:#c4687a;color:#fff;" onclick="openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')">👁 Ver demo</button>
+            <button class="premium-btn white" style="flex:1" onclick="openPremiumForm('quincea-premium')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Features premium -->
+    <div class="reveal" style="margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:750px;margin-left:auto;margin-right:auto;margin-top:52px;">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:8px;">📸</div>
+        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">Galería & Fotos</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Carrusel de imágenes personalizado con tus fotos reales</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:8px;">🗺️</div>
+        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">Mapa & Rutas</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Enlace directo a Google Maps con dirección del evento</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:8px;">📲</div>
+        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">RSVP Inteligente</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Confirmación directa por WhatsApp con un solo clic</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Modal iframe para preview premium -->
+<div class="iframe-modal" id="iframeModal">
+  <div class="iframe-wrap">
+    <button class="iframe-close" onclick="closeIframePreview()"><i class="fas fa-times"></i></button>
+    <div class="iframe-inner" id="iframeInner">
+      <iframe id="iframePreview" src="" title="Vista previa"></iframe>
+    </div>
+    <p class="iframe-note">✦ Abriendo en nueva pestaña para mejor experiencia ✦</p>
+    <div class="iframe-cta">
+      <button class="iframe-btn-gold" id="iframeOpenBtn" onclick="openInNewTab()"><i class="fas fa-external-link-alt"></i> Abrir completa</button>
+      <button class="iframe-btn-wa" id="iframeSolicitarBtn"><i class="fab fa-whatsapp"></i> Solicitar</button>
+    </div>
+  </div>
+</div>
+
+<section class="coming-sec">
+  <div class="coming-inner">
+    <div class="eyebrow" style="color:var(--gold)">Roadmap · Funciones futuras</div>
+    <h2 class="stitle" style="color:#fff">Lo que se viene <em>muy pronto</em></h2>
+    <div class="coming-grid">
+      <div class="coming-card"><div class="coming-icon"><i class="fas fa-paint-brush"></i></div><div><h4>Personalización en vivo</h4><p>El cliente edita su invitación y ve los cambios al instante, sin esperar.</p></div></div>
+      <div class="coming-card"><div class="coming-icon"><i class="fab fa-whatsapp"></i></div><div><h4>Envío automático por WhatsApp</h4><p>Un clic y la invitación se comparte directamente desde la plataforma.</p></div></div>
+      <div class="coming-card"><div class="coming-icon"><i class="fas fa-envelope"></i></div><div><h4>Lista de invitados + correo</h4><p>Sube tu lista, enviamos cada invitación personalizada por nombre y correo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">Impacto <em>Digital</em></div>
+  <p style="font-size:13px;color:rgba(255,255,255,0.25);margin-bottom:8px;">Fotografía & Eventos · El Salvador</p>
+  <p style="font-size:12px;color:rgba(255,255,255,0.15);">© 2025 Impacto Digital · Todos los derechos reservados</p>
+</footer>
+
+<!-- ══════════════════════════════════════
+     PREVIEW MODAL
+══════════════════════════════════════ -->
+<div class="preview-modal" id="previewModal">
+  <div class="preview-wrap">
+    <button class="preview-close" onclick="closePreview()"><i class="fas fa-times"></i></button>
+    <div id="previewContent"></div>
+    <p class="preview-note">✦ Vista previa con datos de ejemplo · Los datos serán los tuyos ✦</p>
+    <div class="preview-cta">
+      <button id="previewSolicitarBtn" onclick="onPreviewSolicitar()">
+        <i class="fas fa-paper-plane"></i> Solicitar esta plantilla
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FORM MODAL
+══════════════════════════════════════ -->
+<div class="form-modal" id="formModal">
+  <div class="form-box">
+    <button class="form-close" onclick="closeForm()"><i class="fas fa-times"></i></button>
+    <div class="form-header">
+      <div class="form-eyebrow" id="formEyebrow">Boda · Nupcial Elegante</div>
+      <h2 class="form-title">Personaliza tu <em>invitación</em></h2>
+      <p class="form-sub">Completa los datos y nuestro equipo te entrega tu invitación en menos de 24 horas.</p>
+    </div>
+    <div class="fsection"><i class="fas fa-user"></i> Datos principales</div>
+    <div id="fieldNombres">
+      <div class="frow">
+        <div class="fgroup"><label id="label1">Nombre 1</label><input type="text" id="nombre1" placeholder="Ej. Sofía"></div>
+        <div class="fgroup"><label id="label2">Nombre 2</label><input type="text" id="nombre2" placeholder="Ej. Alejandro"></div>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label>Fecha del evento</label><input type="date" id="fecha"></div>
+      <div class="fgroup"><label>Hora</label><input type="text" id="hora" placeholder="Ej. 6:00 PM"></div>
+    </div>
+    <div class="fgroup"><label>Lugar / Salón</label><input type="text" id="lugar" placeholder="Ej. Salón El Jardín, San Salvador"></div>
+    <div class="fgroup" id="fieldIglesia" style="display:none"><label>Iglesia / Lugar de ceremonia</label><input type="text" id="iglesia" placeholder="Ej. Iglesia El Carmen"></div>
+    <div class="fgroup"><label>Vestimenta sugerida</label><input type="text" id="vestimenta" placeholder="Ej. Formal · Colores: Azul y Dorado"></div>
+    <div class="fsection"><i class="fas fa-image"></i> Foto</div>
+    <div class="photo-upload-area" onclick="document.getElementById('photoFile').click()">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>Haz clic para subir una foto <span style="color:var(--gold)">o arrastra aquí</span></p>
+      <p style="font-size:11px;margin-top:4px;">JPG, PNG · Máx. 5MB</p>
+      <input type="file" id="photoFile" accept="image/*" onchange="handlePhotoFile(this)">
+    </div>
+    <div style="text-align:center;margin:10px 0 6px;font-size:11px;color:var(--muted);">— o pega el enlace de la foto —</div>
+    <input class="photo-url-input" type="url" id="photoUrl" placeholder="https://i.ibb.co/...">
+    <div id="sectionPadrinos">
+      <div class="fsection"><i class="fas fa-hands"></i> Padrinos y madrinas</div>
+      <div id="padrinosList"></div>
+      <button class="btn-add" onclick="addPadrino()"><i class="fas fa-plus"></i> Agregar padrino / madrina</button>
+    </div>
+    <div id="sectionFrase">
+      <div class="fsection"><i class="fas fa-quote-left"></i> Frase de agradecimiento</div>
+      <div class="fgroup"><textarea id="frase" placeholder="Ej. Hoy no solo celebro mis quince años, celebro cada persona que me ha rodeado de amor, fe y esperanza."></textarea></div>
+    </div>
+    <div id="sectionChambelan" style="display:none">
+      <div class="fsection"><i class="fas fa-star"></i> Chambelán de honor</div>
+      <div class="fgroup"><label>Nombre del chambelán de honor</label><input type="text" id="chambelan" placeholder="Ej. Diego Alejandro Vásquez"></div>
+    </div>
+    <div id="sectionCorte" style="display:none">
+      <div class="fsection"><i class="fas fa-users"></i> Corte de honor</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Ingresa los nombres de cada pareja (dama y chambelán).</p>
+      <div id="corteList"></div>
+    </div>
+    <div class="fsection"><i class="fas fa-envelope"></i> Tu contacto</div>
+    <div class="frow">
+      <div class="fgroup"><label>Tu nombre</label><input type="text" id="contactName" placeholder="Nombre del organizador"></div>
+      <div class="fgroup"><label>WhatsApp</label><input type="tel" id="contactWa" placeholder="+503 0000-0000"></div>
+    </div>
+    <div class="fgroup"><label>Correo electrónico</label><input type="email" id="contactEmail" placeholder="tucorreo@gmail.com"></div>
+    <div class="fgroup"><label>Notas adicionales</label><textarea id="notas" placeholder="Cualquier detalle extra que quieras agregar..."></textarea></div>
+    <div class="form-submit-row">
+      <button class="btn-submit" onclick="submitForm()" style="background:#25d366;">
+        <i class="fab fa-whatsapp"></i> Enviar solicitud por WhatsApp
+      </button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:14px;">Al enviar se abrirá WhatsApp con todos tus datos listos. Te respondemos en menos de 24 horas. 🎉</p>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   PREVIEW TEMPLATES — datos de muestra
+══════════════════════════════════════ */
+var currentPreviewTpl = '';
+
+var previewData = {
+  'boda-nupcial': {
+    cls: 'inv-boda',
+    eyebrow: '💍 Los invitamos a celebrar su boda',
+    names: 'Alisson & Joan',
+    date: 'Sábado, 14 de Junio de 2025',
+    time: '6:00 PM',
+    place: 'Salón El Jardín · Santa Ana',
+    iglesia: 'Parroquia San Pedro Apóstol · 4:00 PM',
+    vestimenta: '👗 Vestimenta formal · Colores: Dorado y Marfil',
+    frase: '"Que este amor que hoy juramos sea el hogar que siempre buscamos."',
+    padrinos: [
+      {rol:'Padrinos de Velación', nombre:'Roberto & Carmen Vásquez'},
+      {rol:'Padrinos de Lazo', nombre:'Eduardo & Leticia Morales'},
+      {rol:'Padrinos de Arras', nombre:'Carlos & Diana López'},
+      {rol:'Padrinos de Brindis', nombre:'Héctor & Sofía Rivas'}
+    ],
+    rsvp: '+503 7241-9889',
+    countdown: true,
+    corte: null,
+    chambelan: null
+  },
+  'boda-floral': {
+    cls: 'inv-boda',
+    eyebrow: '🌸 Con amor los invitamos',
+    names: 'Isabel & Rodrigo',
+    date: 'Viernes, 20 de Septiembre de 2025',
+    time: '5:00 PM',
+    place: 'Hacienda Las Flores · La Libertad',
+    iglesia: 'Iglesia El Carmen · 3:30 PM',
+    vestimenta: '👗 Etiqueta · Colores: Rosa y Verde Menta',
+    frase: '"El amor no mira con los ojos, sino con el alma."',
+    padrinos: [
+      {rol:'Padrinos de Velación', nombre:'Miguel & Rosa Gutiérrez'},
+      {rol:'Padrinos de Lazo', nombre:'Luis & Patricia Hernández'}
+    ],
+    rsvp: '+503 7241-9889',
+    countdown: true,
+    corte: null,
+    chambelan: null
+  },
+  'quincea-azul': {
+    cls: 'inv-quincea',
+    eyebrow: '👑 XV Años · Quinceañera',
+    names: 'Julia Alejandra',
+    date: 'Sábado, 7 de Diciembre de 2025',
+    time: '7:00 PM',
+    place: 'Salón Versailles · San Salvador',
+    iglesia: null,
+    vestimenta: '💙 Colores: Azul Real y Dorado',
+    frase: '"Hoy comienzo un nuevo capítulo llena de sueños, amor y fe. Gracias por ser parte de este momento."',
+    padrinos: [
+      {rol:'Padrinos de Corona', nombre:'Tío Roberto & Tía Carmen'},
+      {rol:'Padrinos de Ramo', nombre:'Tío Eduardo & Tía Leticia'},
+      {rol:'Padrinos de Vals', nombre:'Primo Carlos & Prima Diana'}
+    ],
+    chambelan: 'Diego Alejandro Martínez',
+    corte: [
+      {dama:'Valentina López',chambelan:'Samuel Flores'},
+      {dama:'Gabriela Torres',chambelan:'Andrés Rivas'},
+      {dama:'Melissa Reyes',chambelan:'José Hernández'},
+      {dama:'Daniela Cruz',chambelan:'Pablo Moreno'},
+      {dama:'Fernanda Vega',chambelan:'Luis Castillo'},
+      {dama:'Camila Díaz',chambelan:'Rodrigo Peña'},
+      {dama:'Andrea Soto',chambelan:'Martín Ruiz'}
+    ],
+    rsvp: '+503 7241-9889',
+    countdown: true
+  },
+  'quincea-rosa': {
+    cls: 'inv-quincea',
+    eyebrow: '🌸 XV Años · Quinceañera',
+    names: 'Fátima Isabela',
+    date: 'Viernes, 15 de Agosto de 2025',
+    time: '6:30 PM',
+    place: 'Hotel Real Intercontinental · San Salvador',
+    iglesia: null,
+    vestimenta: '🌹 Colores: Rosa Blush y Champagne',
+    frase: '"Cada flor que elegí para este día representa el amor que todos ustedes me han dado. Gracias, los llevo en mi corazón."',
+    padrinos: [
+      {rol:'Padrinos de Tiara', nombre:'Abuelos Pérez'},
+      {rol:'Padrinos de Ramo', nombre:'Tía María & Tío Fabio'}
+    ],
+    chambelan: 'Emilio Sebastián García',
+    corte: [
+      {dama:'Lucía Martínez',chambelan:'Carlos Vásquez'},
+      {dama:'Natalia Ramos',chambelan:'Javier López'},
+      {dama:'Regina Flores',chambelan:'Santiago Mora'},
+      {dama:'Valeria Cruz',chambelan:'Ismael Ríos'}
+    ],
+    rsvp: '+503 7241-9889',
+    countdown: true
+  },
+  'bautizo-clasico': {
+    cls: 'inv-bautizo',
+    eyebrow: '🕊️ Con alegría los invitamos al bautizo de',
+    names: 'Edén Sofía',
+    date: 'Domingo, 10 de Agosto de 2025',
+    time: '11:00 AM',
+    place: 'Casa Familiar · Colonia Escalón, San Salvador',
+    iglesia: 'Parroquia Santa Lucía · 10:00 AM',
+    vestimenta: '🤍 Vestimenta: Casual elegante · Tonos blancos y azules',
+    frase: '"Con inmensa gratitud a Dios, compartimos la llegada de nuestra pequeña. Cada uno de ustedes es parte de este milagro."',
+    padrinos: [
+      {rol:'Padrino', nombre:'Carlos Eduardo Molina'},
+      {rol:'Madrina', nombre:'Ana Lucía Portillo'}
+    ],
+    rsvp: '+503 7241-9889',
+    countdown: false,
+    corte: null,
+    chambelan: null
+  },
+  'cumple-infantil': {
+    cls: 'inv-cumple',
+    eyebrow: '🎉 ¡Te invitamos a celebrar!',
+    names: 'Sofía',
+    date: 'Sábado, 22 de Noviembre de 2025',
+    time: '3:00 PM',
+    place: 'Patio Familiar · Colonia Las Flores, Soyapango',
+    iglesia: null,
+    vestimenta: '🎀 Temática: Princesas · ¡Ven disfrazado!',
+    frase: null,
+    padrinos: null,
+    rsvp: '+503 7241-9889',
+    countdown: true,
+    corte: null,
+    chambelan: null,
+    anos: '5'
+  }
+};
+
+function openPreview(tpl, imgUrl) {
+  currentPreviewTpl = tpl;
+  var d = previewData[tpl];
+  var html = buildInvCard(d, imgUrl);
+  document.getElementById('previewContent').innerHTML = html;
+  startCountdown(d);
+  document.getElementById('previewModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePreview() {
+  document.getElementById('previewModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function onPreviewSolicitar() {
+  closePreview();
+  setTimeout(function(){ openForm(currentPreviewTpl); }, 200);
+}
+
+function buildInvCard(d, imgUrl) {
+  var h = '<div class="inv-card ' + d.cls + '">';
+  h += '<img class="inv-photo" src="' + imgUrl + '" alt="Foto de muestra" onerror="this.style.display=\'none\'">';
+  h += '<div class="inv-body">';
+  h += '<div class="inv-eyebrow">' + d.eyebrow + '</div>';
+  h += '<div class="inv-names">' + d.names + (d.anos ? '<br><span style="font-size:1.5rem"> · ' + d.anos + ' años</span>' : '') + '</div>';
+  h += '<div class="inv-divider"><span class="inv-divider-icon">✦</span></div>';
+  h += '<div class="inv-details">';
+  h += '<div class="inv-date-big">' + d.date + '</div>';
+  h += '<div class="inv-info-row"><i class="fas fa-clock"></i>' + d.time + '</div>';
+  if (d.iglesia) h += '<div class="inv-info-row"><i class="fas fa-church"></i>' + d.iglesia + '</div>';
+  h += '<div class="inv-info-row"><i class="fas fa-map-marker-alt"></i>' + d.place + '</div>';
+  h += '</div>';
+  if (d.vestimenta) h += '<div class="inv-vestimenta">' + d.vestimenta + '</div>';
+
+  // Countdown
+  if (d.countdown) {
+    h += '<div class="inv-countdown" id="invCountdown">';
+    h += '<div class="inv-count-item"><div class="inv-count-num" id="cd-d">--</div><div class="inv-count-label">Días</div></div>';
+    h += '<div class="inv-count-item"><div class="inv-count-num" id="cd-h">--</div><div class="inv-count-label">Horas</div></div>';
+    h += '<div class="inv-count-item"><div class="inv-count-num" id="cd-m">--</div><div class="inv-count-label">Minutos</div></div>';
+    h += '</div>';
+  }
+
+  if (d.frase) h += '<div class="inv-frase">' + d.frase + '</div>';
+
+  // Chambelán
+  if (d.chambelan) {
+    h += '<div style="text-align:center;margin:10px 0">';
+    h += '<div style="font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px;color:#9b3055">⭐ Chambelán de Honor</div>';
+    h += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.15rem;font-weight:600">' + d.chambelan + '</div>';
+    h += '</div>';
+  }
+
+  // Padrinos
+  if (d.padrinos && d.padrinos.length) {
+    h += '<div class="inv-padrinos">';
+    h += '<div class="inv-padrinos-title">🙏 Nuestros Padrinos</div>';
+    h += '<div class="inv-padrino-grid">';
+    d.padrinos.forEach(function(p) {
+      h += '<div class="inv-padrino-item"><div class="inv-padrino-rol">' + p.rol + '</div><div class="inv-padrino-name">' + p.nombre + '</div></div>';
+    });
+    h += '</div></div>';
+  }
+
+  // Corte
+  if (d.corte && d.corte.length) {
+    h += '<div class="inv-corte">';
+    h += '<div class="inv-corte-title">💃🕺 Corte de Honor</div>';
+    h += '<div class="inv-corte-grid">';
+    d.corte.forEach(function(p, i) {
+      h += '<div class="inv-corte-item"><div class="inv-corte-num">Pareja ' + (i+1) + '</div><div class="inv-corte-names">' + p.dama + '<br>' + p.chambelan + '</div></div>';
+    });
+    h += '</div></div>';
+  }
+
+  // RSVP
+  h += '<div class="inv-rsvp"><div class="inv-rsvp-label">📞 Confirmar asistencia · RSVP</div><div class="inv-rsvp-phone">' + d.rsvp + '</div></div>';
+  h += '</div></div>';
+  return h;
+}
+
+function startCountdown(d) {
+  if (!d.countdown) return;
+  // Use a fixed sample date 90 days ahead
+  var target = new Date();
+  target.setDate(target.getDate() + 90);
+  function update() {
+    var now = new Date();
+    var diff = target - now;
+    if (diff < 0) return;
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var dEl = document.getElementById('cd-d');
+    var hEl = document.getElementById('cd-h');
+    var mEl = document.getElementById('cd-m');
+    if (dEl) dEl.textContent = days;
+    if (hEl) hEl.textContent = hours;
+    if (mEl) mEl.textContent = mins;
+  }
+  update();
+  setInterval(update, 30000);
+}
+
+/* ══════════════════════════════════════
+   FORM LOGIC
+══════════════════════════════════════ */
+var currentTpl='', padrinos=[], corteData=[];
+var tplConfig={
+  'boda-nupcial':    {label:'Boda · Nupcial Elegante',      label1:'Nombre del novio',          label2:'Nombre de la novia', iglesia:true,  chambelan:false,corte:false},
+  'boda-floral':     {label:'Boda · Romántica Floral',      label1:'Nombre del novio',          label2:'Nombre de la novia', iglesia:true,  chambelan:false,corte:false},
+  'quincea-azul':    {label:'Quinceañera · Azul & Dorado',  label1:'Nombre de la quinceañera',  label2:null,                 iglesia:false, chambelan:true, corte:true},
+  'quincea-rosa':    {label:'Quinceañera · Rosa & Dorado',  label1:'Nombre de la quinceañera',  label2:null,                 iglesia:false, chambelan:true, corte:true},
+  'bautizo-clasico': {label:'Bautizo · Clásico Blanco',     label1:'Nombre del bebé',           label2:null,                 iglesia:true,  chambelan:false,corte:false},
+  'cumple-infantil': {label:'Cumpleaños · Infantil',        label1:'Nombre del festejado/a',    label2:'Años que cumple',    iglesia:false, chambelan:false,corte:false}
+};
+
+function openForm(tpl) {
+  currentTpl = tpl;
+  var cfg = tplConfig[tpl];
+  document.getElementById('formEyebrow').textContent = cfg.label;
+  document.getElementById('label1').textContent = cfg.label1;
+  var n2wrap = document.getElementById('nombre2').parentElement;
+  if (cfg.label2) {
+    n2wrap.style.display = '';
+    document.getElementById('label2').textContent = cfg.label2;
+    document.getElementById('nombre2').placeholder = cfg.label2 === 'Años que cumple' ? 'Ej. 5' : 'Ej. Alejandro';
+    n2wrap.parentElement.style.gridTemplateColumns = '1fr 1fr';
+  } else {
+    n2wrap.style.display = 'none';
+    n2wrap.parentElement.style.gridTemplateColumns = '1fr';
+  }
+  document.getElementById('fieldIglesia').style.display = cfg.iglesia ? '' : 'none';
+  document.getElementById('sectionChambelan').style.display = cfg.chambelan ? '' : 'none';
+  document.getElementById('sectionCorte').style.display = cfg.corte ? '' : 'none';
+  document.getElementById('sectionPadrinos').style.display = tpl === 'cumple-infantil' ? 'none' : '';
+  document.getElementById('sectionFrase').style.display = tpl === 'cumple-infantil' ? 'none' : '';
+  if (tpl !== 'cumple-infantil') { padrinos = [{nombre:'',rol:'Padrino'},{nombre:'',rol:'Madrina'}]; renderPadrinos(); }
+  if (cfg.corte) { corteData = []; for (var i=1;i<=7;i++) corteData.push({dama:'',chambelan:''}); renderCorte(); }
+  document.getElementById('formModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeForm() {
+  document.getElementById('formModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderPadrinos() {
+  var el = document.getElementById('padrinosList'); el.innerHTML = '';
+  padrinos.forEach(function(p,i) {
+    var div = document.createElement('div'); div.className = 'padrino-entry';
+    div.innerHTML = '<input type="text" placeholder="Nombre completo" value="'+p.nombre+'" oninput="padrinos['+i+'].nombre=this.value"><select onchange="padrinos['+i+'].rol=this.value"><option'+(p.rol==='Padrino'?' selected':'')+'>Padrino</option><option'+(p.rol==='Madrina'?' selected':'')+'>Madrina</option></select><button class="btn-remove" onclick="removePadrino('+i+')"><i class="fas fa-times"></i></button>';
+    el.appendChild(div);
+  });
+}
+function addPadrino() { padrinos.push({nombre:'',rol:'Padrino'}); renderPadrinos(); }
+function removePadrino(i) { padrinos.splice(i,1); renderPadrinos(); }
+
+function renderCorte() {
+  var el = document.getElementById('corteList'); el.innerHTML = '';
+  corteData.forEach(function(p,i) {
+    var div = document.createElement('div'); div.className = 'corte-entry';
+    div.innerHTML = '<div style="position:relative"><input type="text" placeholder="Nombre de la dama" value="'+p.dama+'" oninput="corteData['+i+'].dama=this.value" style="padding-right:28px"><span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted)">Dama</span></div><div style="position:relative"><input type="text" placeholder="Nombre del chambelán" value="'+p.chambelan+'" oninput="corteData['+i+'].chambelan=this.value" style="padding-right:60px"><span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted)">Chambelán</span></div><div class="corte-num-badge">'+(i+1)+'</div>';
+    el.appendChild(div);
+  });
+}
+
+function handlePhotoFile(input) {
+  if (input.files && input.files[0]) {
+    var area = input.closest('.photo-upload-area');
+    area.querySelector('i').style.display = 'none';
+    area.querySelector('p').textContent = '✓ Foto cargada: ' + input.files[0].name;
+  }
+}
+
+function buildSummary() {
+  var cfg = tplConfig[currentTpl], lines = [];
+  lines.push('🎉 *SOLICITUD DE INVITACIÓN DIGITAL*');
+  lines.push('📋 Plantilla: ' + cfg.label); lines.push('');
+  lines.push('👤 ' + cfg.label1 + ': ' + (document.getElementById('nombre1').value||'—'));
+  if (cfg.label2) lines.push('👤 ' + cfg.label2 + ': ' + (document.getElementById('nombre2').value||'—'));
+  lines.push('📅 Fecha: ' + (document.getElementById('fecha').value||'—'));
+  lines.push('⏰ Hora: ' + (document.getElementById('hora').value||'—'));
+  lines.push('📍 Lugar: ' + (document.getElementById('lugar').value||'—'));
+  if (cfg.iglesia) lines.push('⛪ Ceremonia: ' + (document.getElementById('iglesia').value||'—'));
+  if (document.getElementById('vestimenta').value) lines.push('👗 Vestimenta: ' + document.getElementById('vestimenta').value);
+  var photoUrl = document.getElementById('photoUrl').value;
+  if (photoUrl) lines.push('📷 Foto: ' + photoUrl);
+  if (cfg.chambelan) lines.push('⭐ Chambelán: ' + (document.getElementById('chambelan').value||'—'));
+  if (padrinos.length && currentTpl !== 'cumple-infantil') { lines.push(''); lines.push('🙏 *PADRINOS:*'); padrinos.forEach(function(p) { if(p.nombre) lines.push('  · ' + p.rol + ': ' + p.nombre); }); }
+  if (cfg.corte && corteData.length) { lines.push(''); lines.push('💃🕺 *CORTE DE HONOR:*'); corteData.forEach(function(p,i) { if(p.dama||p.chambelan) lines.push('  Pareja '+(i+1)+': '+(p.dama||'—')+' & '+(p.chambelan||'—')); }); }
+  var frase = document.getElementById('frase') && document.getElementById('frase').value;
+  if (frase) lines.push('\n💬 Frase: "' + frase + '"');
+  lines.push(''); lines.push('📞 *CONTACTO:*');
+  lines.push('Nombre: ' + (document.getElementById('contactName').value||'—'));
+  lines.push('WhatsApp: ' + (document.getElementById('contactWa').value||'—'));
+  lines.push('Email: ' + (document.getElementById('contactEmail').value||'—'));
+  var notas = document.getElementById('notas').value; if (notas) lines.push('Notas: ' + notas);
+  return lines.join('\n');
+}
+
+var WA_NUM = '50372419889';
+
+function validateForm() {
+  var name = document.getElementById('contactName').value.trim(),
+      wa = document.getElementById('contactWa').value.trim(),
+      n1 = document.getElementById('nombre1').value.trim(),
+      fecha = document.getElementById('fecha').value;
+  if (!n1) { highlight('nombre1','Ingresa el nombre principal'); return false; }
+  if (!fecha) { highlight('fecha','Selecciona la fecha del evento'); return false; }
+  if (!name) { highlight('contactName','Ingresa tu nombre de contacto'); return false; }
+  if (!wa) { highlight('contactWa','Ingresa tu WhatsApp'); return false; }
+  return true;
+}
+
+function highlight(id, msg) {
+  var el = document.getElementById(id);
+  el.style.borderColor = '#dc2626'; el.focus(); el.placeholder = msg;
+  setTimeout(function(){ el.style.borderColor=''; }, 3000);
+}
+
+function submitForm() {
+  if (!validateForm()) return;
+  window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(buildSummary()), '_blank');
+  var box = document.querySelector('.form-box');
+  box.innerHTML = '<div style="text-align:center;padding:40px 20px;"><div style="width:72px;height:72px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px;">✅</div><div style="font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">¡Solicitud enviada!</div><h2 style="font-family:\'Cormorant Garamond\',serif;font-size:1.9rem;font-weight:600;color:var(--ink);margin-bottom:12px;">Te contactamos <em style="font-style:italic;color:var(--gold)">pronto</em></h2><p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:28px;">Recibimos tu solicitud por WhatsApp.<br>Nuestro equipo te entrega la invitación<br>lista en menos de <strong>24 horas</strong>.</p><button onclick="closeForm()" style="padding:13px 36px;border-radius:50px;background:var(--ink);color:#fff;border:none;font-family:\'DM Sans\',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cerrar</button></div>';
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.cat-block').forEach(function(block){
+    block.style.display = (cat === 'all' || block.dataset.section === cat) ? '' : 'none';
+  });
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeForm(); closePreview(); closeAnimPreview(); } });
+document.getElementById('formModal').addEventListener('click', function(e){ if(e.target===this) closeForm(); });
+document.getElementById('previewModal').addEventListener('click', function(e){ if(e.target===this) closePreview(); });
+document.getElementById('animPreviewModal').addEventListener('click', function(e){ if(e.target===this) closeAnimPreview(); });
+
+var obs = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+
+
+function scrollToPremium(btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelector('.premium-sec').scrollIntoView({behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════
+   PREMIUM PREVIEW & FORM
+══════════════════════════════════════ */
+var currentPremiumUrl = '';
+var currentPremiumTpl = '';
+
+var premiumFormData = {
+  'boda-nupcial': {label:'Boda Premium · Oro & Mármol', color:'#c8a96a'},
+  'quincea-premium': {label:'XV Años Premium · Rosa & Oro', color:'#c4687a'}
+};
+
+function openIframePreview(url, tpl) {
+  currentPremiumUrl = url;
+  currentPremiumTpl = tpl;
+  // Abrir en nueva pestaña directamente (mejor experiencia)
+  window.open(url, '_blank');
+}
+
+function openInNewTab() {
+  if (currentPremiumUrl) window.open(currentPremiumUrl, '_blank');
+}
+
+function closeIframePreview() {
+  document.getElementById('iframeModal').classList.remove('open');
+  document.getElementById('iframePreview').src = '';
+  document.body.style.overflow = '';
+}
+
+function openPremiumForm(tpl) {
+  currentTpl = tpl;
+  var cfg = premiumFormData[tpl] || {label:'Invitación Premium', color:'#c8a96a'};
+  document.getElementById('formEyebrow').textContent = cfg.label;
+  document.getElementById('formEyebrow').style.color = cfg.color;
+  document.getElementById('label1').textContent = tpl === 'quincea-premium' ? 'Nombre de la quinceañera' : 'Nombre del novio';
+  var n2wrap = document.getElementById('nombre2').parentElement;
+  if (tpl === 'quincea-premium') {
+    n2wrap.style.display = 'none';
+    n2wrap.parentElement.style.gridTemplateColumns = '1fr';
+  } else {
+    n2wrap.style.display = '';
+    document.getElementById('label2').textContent = 'Nombre de la novia';
+    document.getElementById('nombre2').placeholder = 'Ej. Carmen';
+    n2wrap.parentElement.style.gridTemplateColumns = '1fr 1fr';
+  }
+  document.getElementById('fieldIglesia').style.display = tpl === 'boda-nupcial' ? '' : 'none';
+  document.getElementById('sectionChambelan').style.display = tpl === 'quincea-premium' ? '' : 'none';
+  document.getElementById('sectionCorte').style.display = tpl === 'quincea-premium' ? '' : 'none';
+  document.getElementById('sectionPadrinos').style.display = '';
+  document.getElementById('sectionFrase').style.display = '';
+  padrinos = [{nombre:'',rol:'Padrino'},{nombre:'',rol:'Madrina'}];
+  renderPadrinos();
+  if (tpl === 'quincea-premium') { corteData = []; for(var i=0;i<7;i++) corteData.push({dama:'',chambelan:''}); renderCorte(); }
+  document.getElementById('formModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+
+// ── Live countdown ──
+var cdTarget = new Date(); cdTarget.setDate(cdTarget.getDate()+89);
+function liveCD(){
+  var diff=cdTarget-new Date(), d=Math.floor(diff/86400000),
+      h=Math.floor((diff%86400000)/3600000),
+      m=Math.floor((diff%3600000)/60000),
+      s=Math.floor((diff%60000)/1000);
+  ['b','q','c'].forEach(function(p){
+    var ids=[p+'cd-d',p+'cd-h',p+'cd-m',p+'cd-s'], vals=[d,h,m,s];
+    ids.forEach(function(id,i){ var el=document.getElementById(id); if(el) el.textContent=('0'+vals[i]).slice(-2); });
+  });
+}
+liveCD(); setInterval(liveCD,1000);
+
+// ── Boda particles ──
+(function(){
+  var c=document.getElementById('bodaParticles'); if(!c) return;
+  for(var i=0;i<18;i++){
+    var p=document.createElement('div'); p.className='boda-particle';
+    p.style.cssText='left:'+Math.random()*100+'%;--dur:'+(4+Math.random()*5)+'s;--delay:'+(Math.random()*6)+'s;bottom:0;';
+    c.appendChild(p);
+  }
+})();
+
+// ── Quinceañera petals & sparkles ──
+(function(){
+  var p=document.getElementById('quinceaPetals'); if(!p) return;
+  var petals=['🌸','🌺','✿','❀','🌷'];
+  for(var i=0;i<14;i++){
+    var el=document.createElement('div'); el.className='quincea-petal';
+    el.textContent=petals[Math.floor(Math.random()*petals.length)];
+    el.style.cssText='left:'+(5+Math.random()*90)+'%;--dur:'+(6+Math.random()*6)+'s;--delay:'+(Math.random()*8)+'s;';
+    p.appendChild(el);
+  }
+  var sp=document.getElementById('quinceaSparkles'); if(!sp) return;
+  var colors=['#ffb8d0','#ff90b8','#ffd0e8','#ff6090','#fff0f8'];
+  for(var j=0;j<20;j++){
+    var s=document.createElement('div'); s.className='quincea-sparkle';
+    s.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';width:'+(2+Math.random()*4)+'px;height:'+(2+Math.random()*4)+'px;--dur:'+(2+Math.random()*4)+'s;--delay:'+(Math.random()*4)+'s;';
+    sp.appendChild(s);
+  }
+})();
+
+// ── Bautizo bubbles & stars ──
+(function(){
+  var b=document.getElementById('bautizoBubbles'); if(!b) return;
+  var sizes=[16,22,30,14,26,18,35];
+  for(var i=0;i<10;i++){
+    var el=document.createElement('div'); el.className='bautizo-bubble';
+    var sz=sizes[Math.floor(Math.random()*sizes.length)];
+    el.style.cssText='left:'+(5+Math.random()*90)+'%;bottom:0;width:'+sz+'px;height:'+sz+'px;--dur:'+(5+Math.random()*5)+'s;--delay:'+(Math.random()*6)+'s;';
+    b.appendChild(el);
+  }
+  var st=document.getElementById('bautizoStars'); if(!st) return;
+  for(var j=0;j<12;j++){
+    var s=document.createElement('div'); s.className='bautizo-star';
+    s.textContent='✦';
+    s.style.cssText='left:'+(5+Math.random()*90)+'%;top:'+(5+Math.random()*80)+'%;color:rgba(100,160,220,0.5);--dur:'+(2+Math.random()*3)+'s;--delay:'+(Math.random()*3)+'s;';
+    st.appendChild(s);
+  }
+})();
+
+// ── Cumpleaños confetti ──
+(function(){
+  var c=document.getElementById('cumpleConfetti'); if(!c) return;
+  var colors=['#ff6030','#ffb030','#ff3060','#30b0ff','#50e050','#ff80c0','#ffe030'];
+  var types=['rect','circle'];
+  for(var i=0;i<22;i++){
+    var el=document.createElement('div'); el.className='cumple-piece '+types[Math.floor(Math.random()*2)];
+    el.style.cssText='left:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';--dur:'+(4+Math.random()*5)+'s;--delay:'+(Math.random()*7)+'s;width:'+(5+Math.random()*7)+'px;height:'+(5+Math.random()*7)+'px;';
+    c.appendChild(el);
+  }
+})();
+
+// ── Animated preview modal ──
+var currentAnimTpl = '';
+var animFormMap = {'boda':'boda-nupcial','quincea':'quincea-azul','bautizo':'bautizo-clasico','cumple':'cumple-infantil'};
+
+function openAnimPreview(type){
+  currentAnimTpl = type;
+  var src = document.getElementById('anim'+type.charAt(0).toUpperCase()+type.slice(1));
+  if(!src) return;
+  var clone = src.parentElement.cloneNode(true);
+  // Remove overlay from clone
+  var ov = clone.querySelector('.anim-card-overlay'); if(ov) ov.remove();
+  var badge = clone.querySelector('.anim-card-badge'); if(badge) badge.remove();
+  clone.style.cssText='border-radius:22px;overflow:hidden;width:100%;aspect-ratio:9/16;';
+  var card = document.getElementById('animPreviewCard');
+  card.innerHTML=''; card.appendChild(clone);
+  document.getElementById('animSolicitarBtn').onclick = function(){ closeAnimPreview(); setTimeout(function(){ openForm(animFormMap[currentAnimTpl]); },200); };
+  document.getElementById('animPreviewModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  // Re-init particles inside clone
+  reinitParticles(clone, type);
+}
+
+function closeAnimPreview(){
+  document.getElementById('animPreviewModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function reinitParticles(clone, type){
+  if(type==='boda'){
+    var c=clone.querySelector('#bodaParticles'); if(!c) return;
+    c.innerHTML='';
+    for(var i=0;i<18;i++){
+      var p=document.createElement('div'); p.className='boda-particle';
+      p.style.cssText='left:'+Math.random()*100+'%;--dur:'+(4+Math.random()*5)+'s;--delay:'+(Math.random()*6)+'s;bottom:0;';
+      c.appendChild(p);
+    }
+  }
+  if(type==='quincea'){
+    var pp=clone.querySelector('#quinceaPetals'); if(pp){ pp.innerHTML=''; var petals=['🌸','🌺','✿','❀','🌷']; for(var i=0;i<14;i++){var el=document.createElement('div');el.className='quincea-petal';el.textContent=petals[Math.floor(Math.random()*petals.length)];el.style.cssText='left:'+(5+Math.random()*90)+'%;--dur:'+(6+Math.random()*6)+'s;--delay:'+(Math.random()*8)+'s;';pp.appendChild(el);} }
+    var sp=clone.querySelector('#quinceaSparkles'); if(sp){ sp.innerHTML=''; var colors=['#ffb8d0','#ff90b8','#ffd0e8','#ff6090','#fff0f8']; for(var j=0;j<20;j++){var s=document.createElement('div');s.className='quincea-sparkle';s.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';width:'+(2+Math.random()*4)+'px;height:'+(2+Math.random()*4)+'px;--dur:'+(2+Math.random()*4)+'s;--delay:'+(Math.random()*4)+'s;';sp.appendChild(s);} }
+  }
+  if(type==='bautizo'){
+    var b=clone.querySelector('#bautizoBubbles'); if(b){ b.innerHTML=''; var sizes=[16,22,30,14,26,18,35]; for(var i=0;i<10;i++){var el=document.createElement('div');el.className='bautizo-bubble';var sz=sizes[Math.floor(Math.random()*sizes.length)];el.style.cssText='left:'+(5+Math.random()*90)+'%;bottom:0;width:'+sz+'px;height:'+sz+'px;--dur:'+(5+Math.random()*5)+'s;--delay:'+(Math.random()*6)+'s;';b.appendChild(el);} }
+  }
+  if(type==='cumple'){
+    var cc=clone.querySelector('#cumpleConfetti'); if(cc){ cc.innerHTML=''; var colors=['#ff6030','#ffb030','#ff3060','#30b0ff','#50e050','#ff80c0','#ffe030']; for(var i=0;i<22;i++){var el=document.createElement('div');el.className='cumple-piece rect';el.style.cssText='left:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';--dur:'+(4+Math.random()*5)+'s;--delay:'+(Math.random()*7)+'s;width:'+(5+Math.random()*7)+'px;height:'+(5+Math.random()*7)+'px;';cc.appendChild(el);} }
+  }
+}
+</script>
+</body>
+</html>

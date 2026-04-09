@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FotoStudio — Panel de Eventos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d0d0d; --paper:#faf8f4; --gold:#b8935a; --gold-light:#e8d5b0;
+  --warm:#f5f0e8; --muted:#8a7e6e; --border:#e0d8cc; --card:#fff;
+  --shadow:0 2px 20px rgba(0,0,0,.07);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--ink);min-height:100vh}
+
+/* ── AUTH ── */
+#auth-wall{position:fixed;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.auth-box{width:100%;max-width:360px;text-align:center}
+.auth-logo{font-family:'Playfair Display',serif;font-size:2.4rem;color:#fff;letter-spacing:-.02em;margin-bottom:4px}
+.auth-sub{font-size:12px;color:#666;letter-spacing:.2em;text-transform:uppercase;margin-bottom:36px}
+.auth-inp{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 18px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;letter-spacing:.1em;text-align:center;outline:none;transition:.2s;margin-bottom:12px}
+.auth-inp:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
+.auth-btn{width:100%;background:var(--gold);color:#fff;border:none;padding:14px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.05em;transition:.2s}
+.auth-btn:hover{background:#a07844}
+.auth-err{color:#ff6b6b;font-size:12px;margin-top:8px;display:none}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--ink);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{font-family:'Playfair Display',serif;color:#fff;font-size:1.2rem;letter-spacing:-.01em}
+.logo span{color:var(--gold)}
+.topbar-actions{display:flex;gap:10px;align-items:center}
+.btn{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:#a07844}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2)}.btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.btn-outline{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}.btn-outline:hover{background:var(--gold);color:#fff}
+.btn-danger{background:#fee2e2;color:#dc2626;border:1px solid #fecaca}.btn-danger:hover{background:#dc2626;color:#fff}
+.btn-sm{padding:5px 11px;font-size:11px}
+
+/* ── MAIN ── */
+.main{padding:28px;max-width:1100px;margin:0 auto}
+.page-title{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.stat-card{background:var(--card);border-radius:14px;padding:18px 20px;border:1px solid var(--border)}
+.stat-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--ink)}
+.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px}
+
+/* ── EVENTS GRID ── */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.event-card{background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);transition:.2s;cursor:pointer}
+.event-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.event-thumb{height:130px;background:linear-gradient(135deg,#1a1a1a 0%,#333 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.event-thumb-icon{font-size:3rem;opacity:.4}
+.event-type-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#fff;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+.event-status{position:absolute;top:10px;right:10px;width:9px;height:9px;border-radius:50%;border:2px solid rgba(255,255,255,.3)}
+.event-status.activo{background:#22c55e}
+.event-status.cerrado{background:#94a3b8}
+.event-body{padding:16px}
+.event-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:3px;line-height:1.3}
+.event-date{font-size:11px;color:var(--muted);margin-bottom:10px}
+.event-meta{display:flex;gap:12px;font-size:11px;color:var(--muted)}
+.event-meta span{display:flex;align-items:center;gap:4px}
+.event-meta i{color:var(--gold);font-size:10px}
+.event-actions{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:7px}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:3rem;margin-bottom:14px;opacity:.3}
+.empty-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--ink);margin-bottom:6px}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,13,13,.7);backdrop-filter:blur(6px);z-index:200;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--card);border-radius:20px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.2)}
+.modal-wide{max-width:680px}
+.mhead{padding:20px 22px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.mtitle{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700}
+.mcls{background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.mcls:hover{background:var(--warm);color:var(--ink)}
+.mbody{padding:20px 22px}
+.mfoot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.fi{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--warm);outline:none;transition:.15s}
+.fi:focus{border-color:var(--gold);background:#fff}
+select.fi{cursor:pointer}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ── EVENT DETAIL MODAL ── */
+.detail-hero{background:var(--ink);border-radius:12px;padding:20px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
+.detail-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(184,147,90,.3),transparent 60%)}
+.detail-hero-type{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;position:relative}
+.detail-hero-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;position:relative;margin-bottom:4px}
+.detail-hero-date{font-size:12px;color:rgba(255,255,255,.5);position:relative}
+.detail-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.ds{background:var(--warm);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border)}
+.ds-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}
+.ds-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* ── QR ── */
+.qr-wrap{background:var(--warm);border-radius:12px;padding:20px;text-align:center;border:1px solid var(--border);margin-bottom:14px}
+.qr-title{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+#qrcode{display:inline-block}
+#qrcode canvas,#qrcode img{border-radius:8px}
+.qr-url{font-size:10px;color:var(--muted);margin-top:8px;word-break:break-all;background:var(--border);border-radius:6px;padding:6px 10px}
+
+/* ── LINK ROW ── */
+.link-row{display:flex;align-items:center;gap:8px;background:var(--warm);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.link-row i{color:var(--gold);font-size:13px;flex-shrink:0}
+.link-row-label{font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);letter-spacing:.08em;min-width:60px;flex-shrink:0}
+.link-row-url{font-size:11px;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link-copy{background:var(--gold);color:#fff;border:none;padding:5px 10px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;flex-shrink:0;font-family:'DM Sans',sans-serif;transition:.15s}
+.link-copy:hover{background:#a07844}
+
+/* ── GALLERY PREVIEW ── */
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.gallery-thumb{aspect-ratio:1;border-radius:8px;object-fit:cover;width:100%;cursor:pointer;transition:.15s}
+.gallery-thumb:hover{opacity:.85;transform:scale(1.02)}
+
+/* ── BADGE ── */
+.badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase}
+.badge-boda{background:#fce7f3;color:#be185d}
+.badge-quinceañera{background:#ede9fe;color:#6d28d9}
+.badge-corporativo{background:#dbeafe;color:#1d4ed8}
+.badge-cumpleaños{background:#fef3c7;color:#92400e}
+.badge-otro{background:#f1f5f9;color:#475569}
+
+#toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+#toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<!-- AUTH WALL -->
+<div id="auth-wall">
+  <div class="auth-box">
+    <div class="auth-logo">Foto<span style="color:var(--gold)">Studio</span></div>
+    <div class="auth-sub">Panel de administración</div>
+    <input type="password" class="auth-inp" id="auth-pin" placeholder="Contraseña de acceso" onkeydown="if(event.key==='Enter')login()">
+    <button class="auth-btn" onclick="login()">Ingresar →</button>
+    <div class="auth-err" id="auth-err">Contraseña incorrecta</div>
+    <div style="font-size:11px;color:#444;margin-top:20px">Contraseña por defecto: <strong style="color:#888">foto2026</strong></div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar" id="app" style="display:none">
+  <div class="logo">Foto<span>Studio</span></div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost btn-sm" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+    <button class="btn btn-gold btn-sm" onclick="abrirCrear()"><i class="fa-solid fa-plus"></i> Nuevo Evento</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main-content" style="display:none">
+  <div class="page-title">Mis Eventos</div>
+  <div class="page-sub">Gestiona sesiones, bodas, quinceañeras y más</div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="st-total">0</div>
+      <div class="stat-lbl">Eventos totales</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="st-activos">0</div>
+      <div class="stat-lbl">Eventos activos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="st-fotos">0</div>
+      <div class="stat-lbl">Fotos subidas</div>
+    </div>
+  </div>
+
+  <!-- Events -->
+  <div class="events-grid" id="events-grid">
+    <div class="empty">
+      <div class="empty-icon">📸</div>
+      <div class="empty-title">Cargando eventos...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CREAR EVENTO -->
+<div class="overlay" id="m-crear">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle">Nuevo Evento</div>
+      <button class="mcls" onclick="cerrar('m-crear')">✕</button>
+    </div>
+    <div class="mbody">
+      <div class="g2">
+        <div class="fg" style="grid-column:span 2"><label class="fl">Nombre del evento *</label><input class="fi" id="c-nombre" placeholder="Boda García & López"></div>
+        <div class="fg"><label class="fl">Tipo *</label>
+          <select class="fi" id="c-tipo">
+            <option value="boda">💍 Boda</option>
+            <option value="quinceañera">👑 Quinceañera</option>
+            <option value="corporativo">🏢 Corporativo</option>
+            <option value="cumpleaños">🎂 Cumpleaños</option>
+            <option value="otro">📸 Sesión / Otro</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Fecha del evento *</label><input class="fi" id="c-fecha" type="date"></div>
+        <div class="fg"><label class="fl">Nombre del cliente *</label><input class="fi" id="c-cliente" placeholder="María García"></div>
+        <div class="fg"><label class="fl">Teléfono</label><input class="fi" id="c-tel" placeholder="7000-0000" type="tel"></div>
+        <div class="fg" style="grid-column:span 2"><label class="fl">Descripción (opcional)</label><input class="fi" id="c-desc" placeholder="Jardines del Valle, San Salvador"></div>
+        <div class="fg"><label class="fl">Clave de galería (opcional)</label><input class="fi" id="c-pass" placeholder="Dejar vacío = galería pública" type="text"></div>
+        <div class="fg"><label class="fl">¿Evento activo?</label>
+          <select class="fi" id="c-activo">
+            <option value="1">✅ Activo — invitados pueden subir</option>
+            <option value="0">🔒 Cerrado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-outline" onclick="cerrar('m-crear')">Cancelar</button>
+      <button class="btn btn-gold" onclick="crearEvento()"><i class="fa-solid fa-check"></i> Crear Evento</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETALLE EVENTO -->
+<div class="overlay" id="m-detalle">
+  <div class="modal modal-wide">
+    <div class="mhead">
+      <div class="mtitle" id="det-title">Detalle del Evento</div>
+      <button class="mcls" onclick="cerrar('m-detalle')">✕</button>
+    </div>
+    <div class="mbody" id="det-body"></div>
+    <div class="mfoot" id="det-foot"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════
+// FIREBASE
+// ═══════════════════════════════
+const FB = {
+  apiKey:"AIzaSyAub-lwo0l1B8-_97VvTYwPOrgID7nfWHY",
+  authDomain:"impactoeventos.firebaseapp.com",
+  databaseURL:"https://impactoeventos-default-rtdb.firebaseio.com",
+  projectId:"impactoeventos",
+  storageBucket:"impactoeventos.firebasestorage.app",
+  messagingSenderId:"519198615427",
+  appId:"1:519198615427:web:81b9c4d4dee6aa4483f8b6"
+};
+firebase.initializeApp(FB);
+const db = firebase.database();
+const storage = firebase.storage();
+const ROOT = 'foto_studio_eventos';
+
+let _eventos = {};
+const TIPOS_ICON = { boda:'💍', quinceañera:'👑', corporativo:'🏢', cumpleaños:'🎂', otro:'📸' };
+
+// ═══════════════════════════════
+// AUTH
+// ═══════════════════════════════
+const ADMIN_PASS_KEY = 'foto_studio_admin_auth';
+
+function login() {
+  const pin = document.getElementById('auth-pin').value;
+  // Check against Firebase or default
+  db.ref('foto_studio_config/admin_pass').once('value', s => {
+    const stored = s.val() || 'foto2026';
+    if (pin === stored) {
+      sessionStorage.setItem(ADMIN_PASS_KEY, '1');
+      document.getElementById('auth-wall').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      document.getElementById('main-content').style.display = 'block';
+      initEventos();
+    } else {
+      document.getElementById('auth-err').style.display = 'block';
+      setTimeout(() => document.getElementById('auth-err').style.display = 'none', 2500);
+    }
+  });
+}
+
+function logout() {
+  sessionStorage.removeItem(ADMIN_PASS_KEY);
+  location.reload();
+}
+
+// Auto-login if session active
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('c-fecha').value = new Date().toISOString().split('T')[0];
+  if (sessionStorage.getItem(ADMIN_PASS_KEY)) {
+    document.getElementById('auth-wall').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    document.getElementById('main-content').style.display = 'block';
+    initEventos();
+  }
+});
+
+// ═══════════════════════════════
+// EVENTOS
+// ═══════════════════════════════
+function initEventos() {
+  db.ref(ROOT).on('value', s => {
+    _eventos = s.val() || {};
+    renderEventos();
+  });
+}
+
+function renderEventos() {
+  const total = Object.keys(_eventos).length;
+  const activos = Object.values(_eventos).filter(e => e.activo).length;
+  let totalFotos = 0;
+  Object.values(_eventos).forEach(e => { totalFotos += Object.keys(e.fotos || {}).length; });
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-activos').textContent = activos;
+  document.getElementById('st-fotos').textContent = totalFotos;
+
+  const grid = document.getElementById('events-grid');
+  if (!total) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📸</div><div class="empty-title">Sin eventos aún</div><p style="font-size:13px;margin-top:8px">Crea tu primer evento para generar el QR</p></div>`;
+    return;
+  }
+  const sorted = Object.entries(_eventos).sort((a, b) => (b[1].creado || 0) - (a[1].creado || 0));
+  grid.innerHTML = sorted.map(([id, ev]) => {
+    const nFotos = Object.keys(ev.fotos || {}).length;
+    const tipo = ev.tipo || 'otro';
+    const badgeClass = `badge-${tipo.replace('quinceañera','quinceañera')}`;
+    return `<div class="event-card">
+      <div class="event-thumb">
+        <div class="event-thumb-icon">${TIPOS_ICON[tipo]||'📸'}</div>
+        <span class="event-type-badge">${tipo}</span>
+        <div class="event-status ${ev.activo?'activo':'cerrado'}"></div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">${ev.nombre||'Sin nombre'}</div>
+        <div class="event-date">${ev.fecha||'—'} · ${ev.cliente||''}</div>
+        <div class="event-meta">
+          <span><i class="fa-solid fa-images"></i> ${nFotos} fotos</span>
+          <span><i class="fa-solid fa-circle" style="font-size:7px;color:${ev.activo?'#22c55e':'#94a3b8'}"></i> ${ev.activo?'Activo':'Cerrado'}</span>
+        </div>
+      </div>
+      <div class="event-actions">
+        <button class="btn btn-gold btn-sm" onclick="abrirDetalle('${id}')"><i class="fa-solid fa-eye"></i> Ver</button>
+        <button class="btn btn-outline btn-sm" onclick="toggleActivo('${id}',${ev.activo})">${ev.activo?'🔒 Cerrar':'🔓 Activar'}</button>
+        <button class="btn btn-danger btn-sm" onclick="eliminarEvento('${id}')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════
+// CREAR EVENTO
+// ═══════════════════════════════
+function abrirCrear() {
+  ['c-nombre','c-cliente','c-tel','c-desc','c-pass'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('c-tipo').value = 'boda';
+  document.getElementById('c-activo').value = '1';
+  document.getElementById('c-fecha').value = new Date().toISOString().split('T')[0];
+  abrir('m-crear');
+}
+
+function genID() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id = '';
+  for (let i = 0; i < 7; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
+}
+
+function crearEvento() {
+  const nombre = document.getElementById('c-nombre').value.trim();
+  const fecha = document.getElementById('c-fecha').value;
+  const cliente = document.getElementById('c-cliente').value.trim();
+  if (!nombre || !fecha || !cliente) { toast('Nombre, fecha y cliente son requeridos', 'err'); return; }
+
+  const id = genID();
+  const ev = {
+    nombre, tipo: document.getElementById('c-tipo').value,
+    fecha, cliente,
+    telefono: document.getElementById('c-tel').value.trim(),
+    descripcion: document.getElementById('c-desc').value.trim(),
+    password_galeria: document.getElementById('c-pass').value.trim(),
+    activo: document.getElementById('c-activo').value === '1',
+    creado: Date.now()
+  };
+  db.ref(`${ROOT}/${id}`).set(ev).then(() => {
+    cerrar('m-crear');
+    toast('✅ Evento creado: ' + id);
+    setTimeout(() => abrirDetalle(id), 400);
+  }).catch(e => toast(e.message, 'err'));
+}
+
+// ═══════════════════════════════
+// DETALLE
+// ═══════════════════════════════
+function abrirDetalle(id) {
+  const ev = _eventos[id];
+  if (!ev) return;
+  const base = location.origin + location.pathname.replace('foto-admin.html', '');
+  const uploadURL = base + `foto-upload.html?evento=${id}`;
+  const galeriaURL = base + `foto-galeria.html?evento=${id}`;
+  const fotos = Object.entries(ev.fotos || {});
+  const nFotos = fotos.length;
+  const tipo = ev.tipo || 'otro';
+
+  document.getElementById('det-title').textContent = ev.nombre;
+  document.getElementById('det-body').innerHTML = `
+    <div class="detail-hero">
+      <div class="detail-hero-type">${tipo} · ${TIPOS_ICON[tipo]||'📸'}</div>
+      <div class="detail-hero-name">${ev.nombre}</div>
+      <div class="detail-hero-date">${ev.fecha} · ${ev.descripcion||''}</div>
+    </div>
+
+    <div class="detail-stats">
+      <div class="ds"><div class="ds-val">${nFotos}</div><div class="ds-lbl">Fotos</div></div>
+      <div class="ds"><div class="ds-val" style="color:${ev.activo?'#22c55e':'#94a3b8'}">${ev.activo?'Activo':'Cerrado'}</div><div class="ds-lbl">Estado</div></div>
+      <div class="ds"><div class="ds-val">${ev.password_galeria?'🔒':'🌐'}</div><div class="ds-lbl">Galería ${ev.password_galeria?'privada':'pública'}</div></div>
+    </div>
+
+    <div class="qr-wrap">
+      <div class="qr-title"><i class="fa-solid fa-qrcode" style="color:var(--gold);margin-right:5px"></i>QR para invitados — Subir fotos</div>
+      <div id="qrcode"></div>
+      <div class="qr-url">${uploadURL}</div>
+    </div>
+
+    <div class="link-row">
+      <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      <span class="link-row-label">Subir</span>
+      <span class="link-row-url">${uploadURL}</span>
+      <button class="link-copy" onclick="copiar('${uploadURL}')">Copiar</button>
+    </div>
+    <div class="link-row">
+      <i class="fa-solid fa-images"></i>
+      <span class="link-row-label">Galería</span>
+      <span class="link-row-url">${galeriaURL}</span>
+      <button class="link-copy" onclick="copiar('${galeriaURL}')">Copiar</button>
+    </div>
+    ${ev.password_galeria ? `<div style="font-size:11px;color:var(--muted);margin-top:4px;padding:6px 10px;background:var(--warm);border-radius:8px"><i class="fa-solid fa-lock" style="color:var(--gold);margin-right:4px"></i>Clave de galería: <strong>${ev.password_galeria}</strong></div>` : ''}
+
+    ${nFotos > 0 ? `<div style="margin-top:18px">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Últimas fotos (${nFotos})</div>
+      <div class="gallery-grid">
+        ${fotos.slice(-8).map(([,f])=>`<img class="gallery-thumb" src="${f.url}" loading="lazy" onerror="this.style.display='none'">`).join('')}
+      </div>
+    </div>` : '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Sin fotos aún. Comparte el QR con los invitados.</div>'}
+  `;
+
+  document.getElementById('det-foot').innerHTML = `
+    <button class="btn btn-outline" onclick="toggleActivo('${id}',${ev.activo})">${ev.activo?'🔒 Cerrar subida':'🔓 Activar subida'}</button>
+    <a href="foto-galeria.html?evento=${id}" target="_blank" class="btn btn-gold" style="text-decoration:none"><i class="fa-solid fa-images"></i> Abrir galería</a>
+  `;
+
+  abrir('m-detalle');
+
+  // Generate QR after render
+  setTimeout(() => {
+    const qrDiv = document.getElementById('qrcode');
+    qrDiv.innerHTML = '';
+    new QRCode(qrDiv, { text: uploadURL, width: 160, height: 160, colorDark:'#0d0d0d', colorLight:'#faf8f4', correctLevel: QRCode.CorrectLevel.M });
+  }, 100);
+}
+
+function toggleActivo(id, activo) {
+  db.ref(`${ROOT}/${id}/activo`).set(!activo).then(() => {
+    toast(activo ? '🔒 Evento cerrado' : '✅ Evento activado');
+    cerrar('m-detalle');
+  });
+}
+
+function eliminarEvento(id) {
+  const ev = _eventos[id];
+  if (!confirm(`¿Eliminar "${ev?.nombre}"? Se borrarán todos los datos del evento.`)) return;
+  db.ref(`${ROOT}/${id}`).remove().then(() => { toast('Evento eliminado'); cerrar('m-detalle'); });
+}
+
+// ═══════════════════════════════
+// UTILS
+// ═══════════════════════════════
+function abrir(id) { document.getElementById(id).classList.add('open'); }
+function cerrar(id) { document.getElementById(id).classList.remove('open'); }
+
+function copiar(txt) {
+  navigator.clipboard.writeText(txt).then(() => toast('✅ Enlace copiado'));
+}
+
+function toast(msg, tipo='ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = tipo === 'err' ? '#dc2626' : '#0d0d0d';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); }));
+</script>
+</body>
+</html>

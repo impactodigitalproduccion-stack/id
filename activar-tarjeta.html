@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activar Tarjeta Premium · Impacto Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a0a;--ink2:#111118;
+  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0e6d0;--gold-ll:#fdf8f0;
+  --green:#16a34a;--green-l:#f0fdf4;
+  --red:#dc2626;--red-l:#fef2f2;
+  --amber:#f59e0b;--amber-l:#fffbeb;
+  --blue:#2563eb;--blue-l:#eff6ff;
+  --border:#e8e4dc;--muted:#8a7d6a;
+  --cream:#faf8f4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ── LOGIN SCREEN ── */
+.login-screen{position:fixed;inset:0;background:var(--ink2);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;}
+.login-box{background:#fff;border-radius:28px;padding:52px 44px;width:400px;max-width:92vw;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.5);}
+.login-icon{width:64px;height:64px;border-radius:20px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;}
+.login-icon i{color:var(--gold);font-size:26px;}
+.login-brand{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.login-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.login-sub{font-size:12px;color:var(--muted);margin-bottom:32px;line-height:1.6;}
+.login-input{width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);outline:none;margin-bottom:14px;transition:.2s;background:var(--cream);letter-spacing:.1em;text-align:center;}
+.login-input:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(200,169,106,.12);}
+.login-btn{width:100%;padding:15px;border-radius:14px;background:var(--ink);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.04em;}
+.login-btn:hover{background:var(--gold-d);}
+.login-err{color:var(--red);font-size:12px;margin-top:12px;display:none;font-weight:600;}
+.login-hint{font-size:10px;color:rgba(255,255,255,.2);margin-top:20px;letter-spacing:.08em;}
+
+/* ── NAV ── */
+nav{background:var(--ink2);position:sticky;top:0;z-index:100;height:60px;display:flex;align-items:center;padding:0 28px;justify-content:space-between;border-bottom:1px solid rgba(200,169,106,.1);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;}
+.nav-logo em{font-style:italic;color:var(--gold);}
+.nav-back{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:rgba(255,255,255,.35);text-decoration:none;letter-spacing:.06em;transition:.2s;}
+.nav-back:hover{color:var(--gold);}
+
+/* ── MAIN LAYOUT ── */
+.main{max-width:900px;margin:0 auto;padding:48px 24px;}
+
+/* ── HEADER ── */
+.page-header{margin-bottom:40px;}
+.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.page-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold);}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:8px;}
+.page-title em{font-style:italic;color:var(--gold);}
+.page-desc{font-size:13px;color:var(--muted);line-height:1.75;max-width:560px;}
+
+/* ── SEARCH BOX ── */
+.search-box{background:#fff;border-radius:24px;border:1.5px solid var(--border);padding:28px 32px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.05);}
+.search-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:block;}
+.search-row{display:flex;gap:12px;}
+.search-input{flex:1;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);outline:none;transition:.2s;background:var(--cream);letter-spacing:.08em;}
+.search-input:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(200,169,106,.1);}
+.search-input::placeholder{font-weight:400;letter-spacing:0;color:#ccc;}
+.search-btn{padding:14px 24px;border-radius:14px;background:var(--ink);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:7px;letter-spacing:.04em;}
+.search-btn:hover{background:var(--gold-d);}
+.search-btn:disabled{opacity:.5;cursor:not-allowed;}
+.search-hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6;}
+
+/* ── RESULT CARD ── */
+.result-area{display:none;}
+.result-area.show{display:block;}
+.result-card{background:#fff;border-radius:24px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.07);margin-bottom:20px;}
+.result-header{padding:22px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.result-avatar{width:50px;height:50px;border-radius:14px;background:var(--gold-l);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1.5px solid rgba(200,169,106,.3);}
+.result-name-wrap{}
+.result-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);}
+.result-id{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.08em;margin-top:2px;}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:.06em;}
+.status-activa{background:var(--green-l);color:var(--green);border:1.5px solid rgba(22,163,74,.2);}
+.status-inactiva{background:var(--red-l);color:var(--red);border:1.5px solid rgba(220,38,38,.2);}
+.status-pendiente{background:var(--amber-l);color:var(--amber);border:1.5px solid rgba(245,158,11,.2);}
+.status-dot{width:7px;height:7px;border-radius:50%;}
+.status-activa .status-dot{background:var(--green);}
+.status-inactiva .status-dot{background:var(--red);}
+.status-pendiente .status-dot{background:var(--amber);}
+
+.result-body{padding:24px 28px;}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+@media(max-width:600px){.info-grid{grid-template-columns:1fr 1fr;}}
+.info-item{}
+.info-item-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.info-item-val{font-size:13px;font-weight:600;color:var(--ink);}
+.info-item-val.mono{font-family:monospace;font-size:12px;letter-spacing:.06em;}
+
+/* ── TOGGLE SWITCH ── */
+.toggle-section{background:var(--gold-ll);border:1.5px solid rgba(200,169,106,.25);border-radius:18px;padding:22px 24px;margin-bottom:16px;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.toggle-info h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.toggle-info p{font-size:12px;color:var(--muted);line-height:1.6;}
+.toggle-switch{position:relative;width:60px;height:32px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-slider{position:absolute;inset:0;background:#e2e8f0;border-radius:50px;cursor:pointer;transition:.3s;border:2px solid transparent;}
+.toggle-slider::before{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.3s;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+input:checked + .toggle-slider{background:var(--green);border-color:var(--green);}
+input:checked + .toggle-slider::before{transform:translateX(28px);}
+
+/* ── ACTION BUTTONS ── */
+.actions-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:.2s;letter-spacing:.03em;}
+.btn-activate{background:var(--green);color:#fff;flex:1;justify-content:center;}
+.btn-activate:hover{background:#15803d;}
+.btn-deactivate{background:var(--red-l);color:var(--red);border:1.5px solid rgba(220,38,38,.2);flex:1;justify-content:center;}
+.btn-deactivate:hover{background:var(--red);color:#fff;}
+.btn-wa{background:#25d366;color:#fff;}
+.btn-wa:hover{background:#1ab754;}
+.btn-copy{background:var(--gold-ll);color:var(--gold-d);border:1.5px solid rgba(200,169,106,.3);}
+.btn-copy:hover{background:var(--gold-l);}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+
+/* ── LOG / HISTORIAL ── */
+.log-section{background:#fff;border-radius:20px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.04);}
+.log-header{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.log-title{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.log-list{padding:0;}
+.log-item{display:flex;align-items:flex-start;gap:14px;padding:14px 22px;border-bottom:1px solid #f8f7f5;}
+.log-item:last-child{border-bottom:none;}
+.log-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.log-dot-green{background:var(--green);}
+.log-dot-red{background:var(--red);}
+.log-dot-gold{background:var(--gold);}
+.log-dot-blue{background:var(--blue);}
+.log-text{font-size:12px;color:var(--ink);font-weight:500;line-height:1.5;}
+.log-time{font-size:10px;color:var(--muted);margin-top:2px;}
+.log-empty{padding:28px 22px;text-align:center;font-size:12px;color:var(--muted);font-style:italic;}
+
+/* ── TARJETAS LIST ── */
+.cards-list-section{background:#fff;border-radius:24px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05);}
+.cards-list-header{padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.cards-list-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);}
+.cards-search{padding:9px 14px;border-radius:10px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:200px;transition:.2s;}
+.cards-search:focus{border-color:var(--gold);}
+table{width:100%;border-collapse:collapse;}
+thead th{background:#f8f7f5;padding:10px 16px;font-size:9px;font-weight:800;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;text-align:left;border-bottom:1px solid var(--border);}
+tbody td{padding:13px 16px;font-size:12px;border-bottom:1px solid #f5f4f2;vertical-align:middle;}
+tbody tr:hover{background:#fdfcfa;}
+tbody tr:last-child td{border-bottom:none;}
+
+/* ── NOT FOUND ── */
+.not-found{background:var(--red-l);border:1.5px solid rgba(220,38,38,.15);border-radius:20px;padding:28px;text-align:center;display:none;}
+.not-found.show{display:block;}
+.not-found i{font-size:28px;color:var(--red);margin-bottom:12px;display:block;}
+.not-found h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--red);margin-bottom:6px;}
+.not-found p{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── NEW CARD FORM ── */
+.new-card-section{background:#fff;border-radius:24px;border:1.5px solid var(--border);padding:28px 32px;margin-top:20px;box-shadow:0 4px 24px rgba(0,0,0,.05);}
+.nc-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.nc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:540px){.nc-grid{grid-template-columns:1fr;}}
+.fgroup label{display:block;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.fgroup input,.fgroup select{width:100%;padding:12px 15px;border-radius:12px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;transition:.2s;}
+.fgroup input:focus,.fgroup select:focus{border-color:var(--gold);background:#fff;}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:12px 22px;border-radius:14px;z-index:9999;transform:translateY(60px);opacity:0;transition:.3s;pointer-events:none;max-width:320px;}
+#toast.show{transform:translateY(0);opacity:1;}
+#toast.ok{background:var(--green);}
+#toast.err{background:var(--red);}
+#toast.info{background:var(--blue);}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-icon"><i class="fas fa-toggle-on"></i></div>
+    <div class="login-brand">Impacto Digital</div>
+    <div class="login-title">Activador de Tarjetas</div>
+    <div class="login-sub">Ingresa el código de acceso para continuar.<br>Solo personal autorizado.</div>
+    <input class="login-input" type="password" id="loginPass" placeholder="••••••••" autocomplete="off"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()"><i class="fas fa-unlock-alt" style="margin-right:7px"></i> Acceder</button>
+    <div class="login-err" id="loginErr"><i class="fas fa-times-circle"></i> Código incorrecto</div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app" style="display:none">
+
+<nav>
+  <div class="nav-logo">Impacto <em>Digital</em></div>
+  <a href="admin.html" class="nav-back"><i class="fas fa-arrow-left" style="font-size:10px"></i> Dashboard</a>
+</nav>
+
+<div class="main">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-eyebrow">Tarjetas Premium</div>
+    <h1 class="page-title">Activar / Desactivar<br><em>Tarjeta Digital</em></h1>
+    <p class="page-desc">Busca una tarjeta por código, nombre o teléfono del cliente. Activa o desactiva su tarjeta premium con un clic. Todos los cambios quedan registrados.</p>
+  </div>
+
+  <!-- Search -->
+  <div class="search-box">
+    <span class="search-label"><i class="fas fa-magnifying-glass" style="margin-right:6px;color:var(--gold)"></i> Buscar tarjeta</span>
+    <div class="search-row">
+      <input class="search-input" type="text" id="searchInput" placeholder="Código de tarjeta, nombre o teléfono..."
+        onkeydown="if(event.key==='Enter')buscarTarjeta()">
+      <button class="search-btn" id="searchBtn" onclick="buscarTarjeta()">
+        <i class="fas fa-search"></i> Buscar
+      </button>
+    </div>
+    <p class="search-hint">💡 Puedes buscar por el código único (ej: <strong>TD-20251001</strong>), nombre del cliente o número de teléfono.</p>
+  </div>
+
+  <!-- Not found -->
+  <div class="not-found" id="notFound">
+    <i class="fas fa-face-frown-open"></i>
+    <h3>Tarjeta no encontrada</h3>
+    <p>No se encontró ninguna tarjeta con ese código o datos. Verifica la información o crea una tarjeta nueva más abajo.</p>
+  </div>
+
+  <!-- Result -->
+  <div class="result-area" id="resultArea">
+
+    <div class="result-card">
+      <div class="result-header">
+        <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:0;">
+          <div class="result-avatar" id="res-avatar">💳</div>
+          <div class="result-name-wrap">
+            <div class="result-name" id="res-name">—</div>
+            <div class="result-id" id="res-id">—</div>
+          </div>
+        </div>
+        <div class="status-badge" id="res-status-badge">
+          <span class="status-dot"></span> <span id="res-status-text">—</span>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-item-lbl">Teléfono / WA</div>
+            <div class="info-item-val" id="res-tel">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-lbl">Tipo de tarjeta</div>
+            <div class="info-item-val" id="res-tipo">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-lbl">Fecha de alta</div>
+            <div class="info-item-val" id="res-fecha">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-lbl">Vencimiento</div>
+            <div class="info-item-val" id="res-vence">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-lbl">Plan</div>
+            <div class="info-item-val" id="res-plan">—</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-lbl">Código</div>
+            <div class="info-item-val mono" id="res-codigo">—</div>
+          </div>
+        </div>
+
+        <!-- Toggle -->
+        <div class="toggle-section">
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h3 id="toggle-title">Estado de la tarjeta</h3>
+              <p id="toggle-desc">Activa la tarjeta para que el cliente pueda usarla.</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleActiva" onchange="toggleEstado()">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-row">
+          <button class="btn btn-activate" id="btnActivar" onclick="activarTarjeta()">
+            <i class="fas fa-circle-check"></i> Activar tarjeta
+          </button>
+          <button class="btn btn-deactivate" id="btnDesactivar" onclick="desactivarTarjeta()">
+            <i class="fas fa-circle-xmark"></i> Desactivar
+          </button>
+          <button class="btn btn-wa" id="btnWA" onclick="notificarWA()">
+            <i class="fab fa-whatsapp"></i> Notificar
+          </button>
+          <button class="btn btn-copy" onclick="copiarCodigo()">
+            <i class="fas fa-copy"></i> Copiar código
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log de actividad -->
+    <div class="log-section">
+      <div class="log-header">
+        <span class="log-title"><i class="fas fa-clock-rotate-left" style="margin-right:6px;color:var(--gold)"></i> Historial de actividad</span>
+        <button onclick="limpiarLog()" style="font-size:10px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;">Limpiar</button>
+      </div>
+      <div id="logList"><div class="log-empty">Sin actividad registrada aún.</div></div>
+    </div>
+
+  </div>
+
+  <!-- ══ LISTA DE TODAS LAS TARJETAS ══ -->
+  <div class="cards-list-section">
+    <div class="cards-list-header">
+      <span class="cards-list-title">📋 Todas las tarjetas registradas</span>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <input class="cards-search" type="text" id="cardsSearch" placeholder="🔍 Filtrar..." oninput="filtrarLista()">
+        <select id="filtroEstado" onchange="filtrarLista()" style="padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;">
+          <option value="">Todos</option>
+          <option value="activa">Activas</option>
+          <option value="inactiva">Inactivas</option>
+          <option value="pendiente">Pendientes</option>
+        </select>
+        <button onclick="cargarTodasLasTarjetas()" style="padding:9px 14px;border-radius:10px;background:var(--ink);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+          <i class="fas fa-rotate-right"></i> Actualizar
+        </button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Teléfono</th>
+            <th>Tipo</th>
+            <th>Plan</th>
+            <th>Vence</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="cards-tbody">
+          <tr><td colspan="8" style="text-align:center;padding:40px;color:#ccc;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em">Cargando tarjetas...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ REGISTRAR NUEVA TARJETA ══ -->
+  <div class="new-card-section">
+    <div class="nc-title"><i class="fas fa-plus-circle" style="color:var(--gold)"></i> Registrar nueva tarjeta premium</div>
+    <div class="nc-grid">
+      <div class="fgroup">
+        <label>Nombre del cliente *</label>
+        <input type="text" id="nc-nombre" placeholder="Ej. Ana María López">
+      </div>
+      <div class="fgroup">
+        <label>Teléfono / WhatsApp *</label>
+        <input type="tel" id="nc-tel" placeholder="7000-0000">
+      </div>
+      <div class="fgroup">
+        <label>Tipo de tarjeta</label>
+        <select id="nc-tipo">
+          <option value="Digital NFC">Digital NFC</option>
+          <option value="Digital QR">Digital QR</option>
+          <option value="Digital Estándar">Digital Estándar</option>
+          <option value="Wedding Planner">Wedding Planner</option>
+          <option value="Empresarial">Empresarial</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label>Plan</label>
+        <select id="nc-plan">
+          <option value="Básico">Básico</option>
+          <option value="Premium">Premium</option>
+          <option value="Anual">Anual</option>
+          <option value="Vitalicio">Vitalicio</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label>Fecha de vencimiento</label>
+        <input type="date" id="nc-vence">
+      </div>
+      <div class="fgroup">
+        <label>Código personalizado (opcional)</label>
+        <input type="text" id="nc-codigo" placeholder="TD-XXXXXXXX (auto si vacío)" style="text-transform:uppercase;letter-spacing:.06em;">
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+      <button onclick="crearTarjeta()" class="btn" style="background:var(--ink);color:#fff;flex:1;justify-content:center;min-width:180px;">
+        <i class="fas fa-plus"></i> Crear tarjeta
+      </button>
+      <button onclick="generarCodigo()" class="btn btn-copy">
+        <i class="fas fa-dice"></i> Generar código
+      </button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<div id="toast"></div>
+
+<script>
+const ACCESS_CODE = 'impacto2025tarjeta';
+const firebaseConfig = {
+  apiKey:"AIzaSyDDV95jBSlNFjzwP9SzF0oPB_nOkWX3MHY",
+  authDomain:"impacto-digital-pedidos.firebaseapp.com",
+  databaseURL:"https://impacto-digital-pedidos-default-rtdb.firebaseio.com",
+  projectId:"impacto-digital-pedidos",
+  storageBucket:"impacto-digital-pedidos.firebasestorage.app",
+  messagingSenderId:"335233633777",
+  appId:"1:335233633777:web:d1f588d6792ad63318c850"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+var _tarjetaActual = null;
+var _tarjetaKey = null;
+var _todasLasTarjetas = {};
+
+/* ══ LOGIN ══ */
+function doLogin() {
+  var p = document.getElementById('loginPass').value.trim();
+  var err = document.getElementById('loginErr');
+  if (p === ACCESS_CODE) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    cargarTodasLasTarjetas();
+    toast('✅ Bienvenido al Activador de Tarjetas', 'ok');
+  } else {
+    err.style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+    setTimeout(function(){ err.style.display = 'none'; }, 3000);
+  }
+}
+document.getElementById('loginPass').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') doLogin();
+});
+
+/* ══ TOAST ══ */
+function toast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + (type || '');
+  setTimeout(function(){ t.className = ''; }, 3500);
+}
+
+/* ══ BUSCAR TARJETA ══ */
+function buscarTarjeta() {
+  var q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (!q) { toast('Ingresa un código, nombre o teléfono', 'err'); return; }
+  var btn = document.getElementById('searchBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+  document.getElementById('resultArea').classList.remove('show');
+  document.getElementById('notFound').classList.remove('show');
+
+  db.ref('tarjetas_premium').once('value', function(snap) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-search"></i> Buscar';
+    var data = snap.val() || {};
+    var found = null, foundKey = null;
+    Object.entries(data).forEach(function(e) {
+      var t = e[1], k = e[0];
+      var nombre = (t.nombre || '').toLowerCase();
+      var tel = (t.telefono || '').replace(/[^0-9]/g, '');
+      var codigo = (t.codigo || k).toLowerCase();
+      if (codigo.includes(q) || nombre.includes(q) || tel.includes(q.replace(/[^0-9]/g,''))) {
+        if (!found) { found = t; foundKey = k; }
+      }
+    });
+    if (found) {
+      mostrarTarjeta(found, foundKey);
+    } else {
+      document.getElementById('notFound').classList.add('show');
+      toast('No se encontró ninguna tarjeta', 'err');
+    }
+  }).catch(function(e){
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-search"></i> Buscar';
+    toast('Error: ' + e.message, 'err');
+  });
+}
+
+function mostrarTarjeta(t, key) {
+  _tarjetaActual = t;
+  _tarjetaKey = key;
+  var activa = (t.estado === 'activa');
+
+  // Header
+  document.getElementById('res-avatar').textContent = activa ? '✅' : '🔒';
+  document.getElementById('res-name').textContent = t.nombre || '—';
+  document.getElementById('res-id').textContent = '📎 Código: ' + (t.codigo || key);
+
+  // Status badge
+  var badge = document.getElementById('res-status-badge');
+  var cls = {'activa':'status-activa','inactiva':'status-inactiva','pendiente':'status-pendiente'}[t.estado] || 'status-pendiente';
+  badge.className = 'status-badge ' + cls;
+  document.getElementById('res-status-text').textContent = (t.estado || 'pendiente').charAt(0).toUpperCase() + (t.estado || 'pendiente').slice(1);
+
+  // Info
+  document.getElementById('res-tel').textContent = t.telefono || '—';
+  document.getElementById('res-tipo').textContent = t.tipo || 'Digital';
+  document.getElementById('res-plan').textContent = t.plan || '—';
+  document.getElementById('res-codigo').textContent = t.codigo || key;
+  document.getElementById('res-fecha').textContent = t.fechaAlta
+    ? new Date(t.fechaAlta).toLocaleDateString('es-SV', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
+  document.getElementById('res-vence').textContent = t.vencimiento
+    ? new Date(t.vencimiento+'T12:00:00').toLocaleDateString('es-SV', {day:'2-digit',month:'short',year:'2-digit'}) : 'Sin venc.';
+
+  // Toggle
+  document.getElementById('toggleActiva').checked = activa;
+  document.getElementById('toggle-title').textContent = activa ? '🟢 Tarjeta ACTIVA' : '🔴 Tarjeta INACTIVA';
+  document.getElementById('toggle-desc').textContent = activa
+    ? 'El cliente puede usar su tarjeta digital normalmente.'
+    : 'La tarjeta está desactivada. El cliente no puede acceder.';
+
+  // Buttons
+  document.getElementById('btnActivar').style.display = activa ? 'none' : '';
+  document.getElementById('btnDesactivar').style.display = activa ? '' : 'none';
+
+  // Log
+  renderLog(t.historial || {});
+
+  document.getElementById('resultArea').classList.add('show');
+  document.getElementById('resultArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ══ TOGGLE ══ */
+function toggleEstado() {
+  var checked = document.getElementById('toggleActiva').checked;
+  if (checked) activarTarjeta();
+  else desactivarTarjeta();
+}
+
+/* ══ ACTIVAR ══ */
+function activarTarjeta() {
+  if (!_tarjetaKey) return;
+  var ahora = Date.now();
+  db.ref('tarjetas_premium/' + _tarjetaKey).update({
+    estado: 'activa',
+    ultimaActivacion: ahora
+  }).then(function(){
+    // Log entry
+    db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').push({
+      accion: 'activada',
+      fecha: ahora,
+      nota: 'Activada desde el panel admin'
+    });
+    _tarjetaActual.estado = 'activa';
+    mostrarTarjeta(_tarjetaActual, _tarjetaKey);
+    cargarTodasLasTarjetas();
+    toast('✅ Tarjeta activada correctamente', 'ok');
+  }).catch(function(e){ toast('Error: ' + e.message, 'err'); });
+}
+
+/* ══ DESACTIVAR ══ */
+function desactivarTarjeta() {
+  if (!_tarjetaKey) return;
+  if (!confirm('¿Desactivar la tarjeta de ' + (_tarjetaActual.nombre || 'este cliente') + '?')) return;
+  var ahora = Date.now();
+  db.ref('tarjetas_premium/' + _tarjetaKey).update({
+    estado: 'inactiva',
+    ultimaDesactivacion: ahora
+  }).then(function(){
+    db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').push({
+      accion: 'desactivada',
+      fecha: ahora,
+      nota: 'Desactivada desde el panel admin'
+    });
+    _tarjetaActual.estado = 'inactiva';
+    mostrarTarjeta(_tarjetaActual, _tarjetaKey);
+    cargarTodasLasTarjetas();
+    toast('🔴 Tarjeta desactivada', 'info');
+  }).catch(function(e){ toast('Error: ' + e.message, 'err'); });
+}
+
+/* ══ NOTIFICAR WA ══ */
+function notificarWA() {
+  if (!_tarjetaActual) return;
+  var tel = (_tarjetaActual.telefono || '').replace(/[^0-9]/g, '');
+  var activa = _tarjetaActual.estado === 'activa';
+  var msg = activa
+    ? '✅ Hola ' + (_tarjetaActual.nombre || '') + ', tu Tarjeta Digital Premium de *Impacto Digital* ya está *ACTIVA* 🎉\n\nCódigo: *' + (_tarjetaActual.codigo || _tarjetaKey) + '*\n\n¡Ya puedes compartirla con todos! 🌟'
+    : '🔴 Hola ' + (_tarjetaActual.nombre || '') + ', tu Tarjeta Digital Premium ha sido desactivada temporalmente. Contáctanos para más información.\n\n📞 Impacto Digital';
+  window.open('https://wa.me/503' + tel + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ══ COPIAR CÓDIGO ══ */
+function copiarCodigo() {
+  if (!_tarjetaActual) return;
+  var codigo = _tarjetaActual.codigo || _tarjetaKey;
+  navigator.clipboard.writeText(codigo).then(function(){
+    toast('📋 Código copiado: ' + codigo, 'info');
+  });
+}
+
+/* ══ LOG ══ */
+function renderLog(historial) {
+  var entries = Object.values(historial || {}).sort(function(a,b){ return b.fecha - a.fecha; });
+  var el = document.getElementById('logList');
+  if (!entries.length) {
+    el.innerHTML = '<div class="log-empty">Sin actividad registrada aún.</div>';
+    return;
+  }
+  var colors = {activada:'log-dot-green', desactivada:'log-dot-red', creada:'log-dot-gold', editada:'log-dot-blue'};
+  var icons = {activada:'✅', desactivada:'🔴', creada:'🆕', editada:'✏️'};
+  el.innerHTML = entries.map(function(e) {
+    var color = colors[e.accion] || 'log-dot-gold';
+    var icon = icons[e.accion] || '•';
+    var fecha = e.fecha ? new Date(e.fecha).toLocaleString('es-SV') : '—';
+    return '<div class="log-item"><div class="log-dot ' + color + '"></div><div><div class="log-text">' + icon + ' ' + (e.nota || e.accion) + '</div><div class="log-time">' + fecha + '</div></div></div>';
+  }).join('');
+}
+
+function limpiarLog() {
+  if (!_tarjetaKey) return;
+  if (!confirm('¿Limpiar el historial de esta tarjeta?')) return;
+  db.ref('tarjetas_premium/' + _tarjetaKey + '/historial').remove().then(function(){
+    document.getElementById('logList').innerHTML = '<div class="log-empty">Historial limpiado.</div>';
+    toast('🗑 Historial limpiado', 'info');
+  });
+}
+
+/* ══ LISTA TODAS ══ */
+function cargarTodasLasTarjetas() {
+  db.ref('tarjetas_premium').once('value', function(snap) {
+    _todasLasTarjetas = snap.val() || {};
+    filtrarLista();
+  }).catch(function(){
+    document.getElementById('cards-tbody').innerHTML =
+      '<tr><td colspan="8" style="text-align:center;padding:32px;color:#ccc;font-size:12px;font-weight:700;text-transform:uppercase">Sin tarjetas registradas aún</td></tr>';
+  });
+}
+
+function filtrarLista() {
+  var q = (document.getElementById('cardsSearch').value || '').toLowerCase();
+  var est = document.getElementById('filtroEstado').value;
+  var entries = Object.entries(_todasLasTarjetas).filter(function(e) {
+    var t = e[1];
+    var matchQ = !q || (t.nombre||'').toLowerCase().includes(q) || (t.telefono||'').includes(q) || (t.codigo||e[0]).toLowerCase().includes(q);
+    var matchE = !est || (t.estado || 'pendiente') === est;
+    return matchQ && matchE;
+  });
+  renderTabla(entries);
+}
+
+function renderTabla(entries) {
+  var tbody = document.getElementById('cards-tbody');
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:#ccc;font-size:12px;font-weight:700;text-transform:uppercase">Sin resultados</td></tr>';
+    return;
+  }
+  var estadoBadge = function(est) {
+    var map = {
+      activa: 'background:#f0fdf4;color:#16a34a;border:1px solid rgba(22,163,74,.2)',
+      inactiva: 'background:#fef2f2;color:#dc2626;border:1px solid rgba(220,38,38,.2)',
+      pendiente: 'background:#fffbeb;color:#f59e0b;border:1px solid rgba(245,158,11,.2)'
+    };
+    var s = map[est] || map.pendiente;
+    return '<span style="' + s + ';padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;">' + (est||'pendiente') + '</span>';
+  };
+  tbody.innerHTML = entries.map(function(e) {
+    var k = e[0], t = e[1];
+    var vence = t.vencimiento ? new Date(t.vencimiento+'T12:00:00').toLocaleDateString('es-SV',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
+    return '<tr>' +
+      '<td style="font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.06em;color:#6366f1">' + (t.codigo||k) + '</td>' +
+      '<td><div style="font-weight:700;font-size:12px">' + (t.nombre||'—') + '</div></td>' +
+      '<td><a href="https://wa.me/503' + (t.telefono||'').replace(/[^0-9]/g,'') + '" target="_blank" style="color:#16a34a;font-weight:700;font-size:12px">' + (t.telefono||'—') + '</a></td>' +
+      '<td style="font-size:11px">' + (t.tipo||'—') + '</td>' +
+      '<td style="font-size:11px">' + (t.plan||'—') + '</td>' +
+      '<td style="font-size:11px">' + vence + '</td>' +
+      '<td>' + estadoBadge(t.estado) + '</td>' +
+      '<td><div style="display:flex;gap:6px">' +
+        '<button onclick="quickActivar(\'' + k + '\')" title="Activar" style="width:28px;height:28px;border-radius:8px;background:#f0fdf4;color:#16a34a;border:1px solid rgba(22,163,74,.2);cursor:pointer;font-size:12px"><i class="fas fa-check"></i></button>' +
+        '<button onclick="quickDesactivar(\'' + k + '\')" title="Desactivar" style="width:28px;height:28px;border-radius:8px;background:#fef2f2;color:#dc2626;border:1px solid rgba(220,38,38,.2);cursor:pointer;font-size:12px"><i class="fas fa-times"></i></button>' +
+        '<button onclick="cargarEnBuscador(\'' + k + '\')" title="Ver detalle" style="width:28px;height:28px;border-radius:8px;background:#eff6ff;color:#2563eb;border:1px solid rgba(37,99,235,.2);cursor:pointer;font-size:12px"><i class="fas fa-eye"></i></button>' +
+      '</div></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function quickActivar(key) {
+  db.ref('tarjetas_premium/' + key).update({estado:'activa', ultimaActivacion:Date.now()}).then(function(){
+    db.ref('tarjetas_premium/' + key + '/historial').push({accion:'activada',fecha:Date.now(),nota:'Activación rápida desde lista'});
+    cargarTodasLasTarjetas();
+    toast('✅ Tarjeta activada', 'ok');
+  });
+}
+function quickDesactivar(key) {
+  db.ref('tarjetas_premium/' + key).update({estado:'inactiva', ultimaDesactivacion:Date.now()}).then(function(){
+    db.ref('tarjetas_premium/' + key + '/historial').push({accion:'desactivada',fecha:Date.now(),nota:'Desactivación rápida desde lista'});
+    cargarTodasLasTarjetas();
+    toast('🔴 Tarjeta desactivada', 'info');
+  });
+}
+function cargarEnBuscador(key) {
+  var t = _todasLasTarjetas[key];
+  if (t) {
+    document.getElementById('searchInput').value = t.codigo || key;
+    mostrarTarjeta(t, key);
+  }
+}
+
+/* ══ GENERAR CÓDIGO ══ */
+function generarCodigo() {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var code = 'TD-';
+  for (var i = 0; i < 8; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+  document.getElementById('nc-codigo').value = code;
+  toast('🎲 Código generado: ' + code, 'info');
+}
+
+/* ══ CREAR TARJETA ══ */
+function crearTarjeta() {
+  var nombre = document.getElementById('nc-nombre').value.trim();
+  var tel = document.getElementById('nc-tel').value.trim();
+  if (!nombre) { toast('Ingresa el nombre del cliente', 'err'); document.getElementById('nc-nombre').focus(); return; }
+  if (!tel) { toast('Ingresa el teléfono', 'err'); document.getElementById('nc-tel').focus(); return; }
+
+  var codigo = document.getElementById('nc-codigo').value.trim().toUpperCase();
+  if (!codigo) {
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    codigo = 'TD-';
+    for (var i = 0; i < 8; i++) codigo += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+
+  var vence = document.getElementById('nc-vence').value;
+  var datos = {
+    nombre: nombre,
+    telefono: tel,
+    tipo: document.getElementById('nc-tipo').value,
+    plan: document.getElementById('nc-plan').value,
+    codigo: codigo,
+    estado: 'pendiente',
+    fechaAlta: Date.now(),
+    vencimiento: vence || null
+  };
+
+  db.ref('tarjetas_premium').push(datos).then(function(ref) {
+    // Log
+    db.ref('tarjetas_premium/' + ref.key + '/historial').push({accion:'creada', fecha:Date.now(), nota:'Tarjeta creada desde panel admin'});
+    toast('🆕 Tarjeta creada: ' + codigo, 'ok');
+    // Limpiar form
+    ['nc-nombre','nc-tel','nc-codigo','nc-vence'].forEach(function(id){ document.getElementById(id).value = ''; });
+    cargarTodasLasTarjetas();
+    // Abrir en buscador
+    datos.historial = {};
+    setTimeout(function(){ mostrarTarjeta(datos, ref.key); }, 500);
+  }).catch(function(e){ toast('Error: ' + e.message, 'err'); });
+}
+
+// Escuchar cambios en tiempo real
+db.ref('tarjetas_premium').on('value', function(snap) {
+  _todasLasTarjetas = snap.val() || {};
+  filtrarLista();
+  // Actualizar tarjeta actual si está abierta
+  if (_tarjetaKey && _todasLasTarjetas[_tarjetaKey]) {
+    _tarjetaActual = _todasLasTarjetas[_tarjetaKey];
+  }
+});
+</script>
+</body>
+</html>

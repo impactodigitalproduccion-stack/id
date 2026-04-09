@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Productos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #191919;
+    --surface2: #222222;
+    --border: #2e2e2e;
+    --accent: #f0c14b;
+    --accent2: #e8855a;
+    --text: #f0ede8;
+    --muted: #888;
+    --tag: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,15,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.3rem;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+  }
+  .logo span { color: var(--text); }
+
+  .search-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    width: 280px;
+  }
+  .search-bar input {
+    background: none; border: none; outline: none;
+    color: var(--text); font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-icon { color: var(--muted); font-size: 1rem; }
+
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .total-badge {
+    background: var(--accent);
+    color: #000;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  /* SIDEBAR + LAYOUT */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 64px);
+  }
+
+  aside {
+    width: 220px;
+    min-width: 220px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  .aside-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 1.25rem 0.75rem;
+  }
+  .cat-btn {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 9px 1.25rem;
+    background: none; border: none; cursor: pointer;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    text-align: left;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .cat-btn:hover { color: var(--text); background: var(--surface2); }
+  .cat-btn.active {
+    color: var(--accent);
+    background: rgba(240,193,75,0.06);
+    border-left-color: var(--accent);
+  }
+  .cat-btn .cat-count {
+    margin-left: auto;
+    font-size: 0.72rem;
+    background: var(--tag);
+    padding: 2px 7px;
+    border-radius: 20px;
+    color: var(--muted);
+  }
+
+  /* MAIN CONTENT */
+  main {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    overflow-y: auto;
+  }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+  .section-count {
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: var(--tag);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* PRODUCT GRID */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .product-card {
+    background: var(--surface);
+    display: flex; flex-direction: column;
+    transition: background 0.15s;
+    cursor: pointer;
+    position: relative;
+  }
+  .product-card:hover { background: var(--surface2); }
+  .product-card:hover .upload-overlay { opacity: 1; }
+
+  .img-area {
+    aspect-ratio: 4/3;
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .img-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 1rem;
+  }
+  .img-placeholder .icon {
+    font-size: 1.8rem;
+    opacity: 0.4;
+  }
+  .product-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .product-img.loaded { display: block; }
+
+  .upload-overlay {
+    position: absolute; inset: 0;
+    background: rgba(240,193,75,0.12);
+    border: 2px dashed var(--accent);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .card-body {
+    padding: 12px 14px;
+    flex: 1;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .product-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .product-price {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+  .product-price.no-price {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-style: italic;
+  }
+  .product-sku {
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .card-footer {
+    padding: 8px 14px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 6px;
+  }
+  .btn-upload {
+    flex: 1;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    padding: 5px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-upload:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .file-input { display: none; }
+
+  /* CATEGORY SECTION */
+  .category-section { display: none; }
+  .category-section.visible { display: block; }
+
+  /* EMPTY STATE */
+  .no-results {
+    text-align: center; padding: 4rem;
+    color: var(--muted);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FOTO<span>ESTUDIO</span> · Catálogo</div>
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Buscar producto...">
+  </div>
+  <div class="header-right">
+    <span class="total-badge" id="totalBadge">0 productos</span>
+  </div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="aside-title">Categorías</div>
+    <div id="sidebarCats"></div>
+  </aside>
+
+  <main id="mainContent"></main>
+</div>
+
+<script>
+const data = [
+  {
+    category: "Banners & Vinil",
+    icon: "🖼️",
+    products: [
+      { name: "BANNER 50X100 CM", price: "$8.00", sku: "bn01" },
+      { name: "BANNER 1x1 MT", price: "$12.00" },
+      { name: "BANNER 150x100", price: "$16.00" },
+      { name: "BANNER 2x1 MT", price: "$24.00" },
+      { name: "BANNER 3x1 MT", price: "$36.00" },
+      { name: "BANNER MEDIDA LIBRE", price: null },
+      { name: "VINIL STICKER METRO", price: "$15.00" },
+      { name: "VINIL TROQUELADO METRO", price: "$19.00" },
+      { name: "VINIL M2 NORMAL", price: "$14.00" },
+      { name: "STICKER TABLOIDE ADHESIVO", price: "$4.00" },
+      { name: "STICKER CARTA ADHESIVO", price: "$2.00" },
+      { name: "TARJETAS PRESENTACION (100)", price: "$8.00" },
+      { name: "OTRAS IMPRESIONES", price: null },
+    ]
+  },
+  {
+    category: "Cuadros e Impresión",
+    icon: "🖼️",
+    products: [
+      { name: "IMPRESION 5x7", price: "$1.50" },
+      { name: "IMPRESION 6x8", price: "$2.50" },
+      { name: "IMPRESION 8x10", price: "$5.00" },
+      { name: "IMPRESION 11x14", price: "$10.00" },
+      { name: "IMPRESION 12x18", price: "$12.00" },
+      { name: "IMPRESION 16x20", price: "$25.00" },
+      { name: "CANVA 16x20", price: "$25.00" },
+      { name: "CANVA 20x28", price: "$40.00" },
+      { name: "ACRILICO 16x24", price: "$50.00" },
+      { name: "LAMINA 40x60", price: "$35.00" },
+      { name: "PVC 50x75", price: "$25.00" },
+      { name: "PVC 60x80", price: "$30.00" },
+      { name: "POSTAL 4x6", price: "$0.60" },
+    ]
+  },
+  {
+    category: "Eventos",
+    icon: "🎉",
+    products: [
+      { name: "EVENTO PLATA", price: "$300.00" },
+      { name: "EVENTO ORO", price: "$400.00" },
+      { name: "EVENTO FOTO Y VIDEO", price: "$250.00" },
+      { name: "EVENTO DIGITAL FOTO", price: "$200.00" },
+    ]
+  },
+  {
+    category: "Fotoestudio",
+    icon: "📸",
+    products: [
+      { name: "FOTO CEDULA/CARNET/TRAMITE", price: "$5.00" },
+      { name: "FOTO TITULO BACHILLER", price: "$15.00" },
+      { name: "FOTO TITULO UNIVERSITARIO", price: "$17.00" },
+      { name: "FOTO POSTAL", price: "$2.50" },
+      { name: "FOTO ESTUDIO MINI", price: "$25.00" },
+      { name: "FOTO VISA", price: "$6.00" },
+    ]
+  },
+  {
+    category: "General",
+    icon: "⚙️",
+    products: [
+      { name: "TRABAJO PERSONALIZADO", price: null },
+    ]
+  },
+  {
+    category: "Graduación",
+    icon: "🎓",
+    products: [
+      { name: "PAQUETE 6x9", price: "$25.00" },
+      { name: "PAQUETE 8x12", price: "$35.00" },
+      { name: "PAQUETE 10x12", price: "$40.00" },
+      { name: "PAQUETE 11x14", price: "$45.00" },
+      { name: "PAQUETE 12x18", price: "$55.00" },
+      { name: "PAQUETE 16x24", price: "$75.00" },
+      { name: "PAQUETE 20x28", price: "$120.00" },
+      { name: "PAQUETE SENCILLO 5x7", price: "$15.00" },
+    ]
+  },
+  {
+    category: "Invitaciones",
+    icon: "💌",
+    products: [
+      { name: "TARJETA SENCILLA", price: "$2.50" },
+      { name: "TARJETA PREMIUM", price: "$3.50" },
+      { name: "TARJETA SUPER PREMIUM", price: "$4.50" },
+      { name: "TARJETA CUMPLEAÑOS", price: "$0.35" },
+      { name: "SEPARADORES FOLCOTE", price: "$0.25" },
+      { name: "SEPARADORES OPALINA", price: "$0.20" },
+      { name: "RECUERDOS FOLCOTE/FOTO", price: "$0.35" },
+    ]
+  },
+  {
+    category: "Resina",
+    icon: "✨",
+    products: [
+      { name: "CUADRO 6x9", price: "$20.00" },
+      { name: "CUADRO 8x10", price: "$25.00" },
+      { name: "CUADRO 8x12", price: "$30.00" },
+      { name: "CUADRO 10x12", price: "$35.00" },
+      { name: "CUADRO 11x14", price: "$45.00" },
+      { name: "CUADRO 12x18", price: "$50.00" },
+      { name: "CUADRO 16x20", price: "$80.00" },
+      { name: "CUADRO 16x24", price: "$90.00" },
+      { name: "CUADRO 20x28", price: "$120.00" },
+      { name: "CUADRO 24x36", price: "$150.00" },
+    ]
+  },
+  {
+    category: "Sublimados",
+    icon: "👕",
+    products: [
+      { name: "CAMISA SUBLIMADA BLANCA", price: "$8.00" },
+      { name: "CAMISA DTF COLOR ALGODON", price: "$9.00" },
+      { name: "CAMISA TIPO POLO DTF", price: "$16.00" },
+      { name: "TAZA BLANCA", price: "$5.00" },
+      { name: "TAZA MAGICA", price: "$9.00" },
+      { name: "TAZA GRANDE", price: "$7.00" },
+      { name: "TAZA ESPECIAL", price: "$6.50" },
+      { name: "BOTELLA PEQUEÑA", price: "$8.00" },
+      { name: "BOTELLA GRANDE", price: "$12.00" },
+      { name: "VASO TERMICO", price: "$15.00" },
+      { name: "BOTELLA TERMICA", price: "$18.00" },
+    ]
+  },
+];
+
+// Image storage: productId -> dataURL
+const imageStore = {};
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]/g, '_');
+}
+
+function getProductId(catIdx, prodIdx) {
+  return `cat${catIdx}_prod${prodIdx}`;
+}
+
+function buildSidebar() {
+  const sidebar = document.getElementById('sidebarCats');
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cat-btn active';
+  allBtn.dataset.cat = 'all';
+  allBtn.innerHTML = `<span>📦</span> Todos <span class="cat-count">${data.reduce((a,c)=>a+c.products.length,0)}</span>`;
+  allBtn.onclick = () => filterCategory('all');
+  sidebar.appendChild(allBtn);
+
+  data.forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.dataset.cat = i;
+    btn.innerHTML = `<span>${cat.icon}</span> ${cat.category} <span class="cat-count">${cat.products.length}</span>`;
+    btn.onclick = () => filterCategory(i);
+    sidebar.appendChild(btn);
+  });
+}
+
+function filterCategory(catKey) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-cat="${catKey}"]`).classList.add('active');
+
+  document.querySelectorAll('.category-section').forEach(s => {
+    if (catKey === 'all') {
+      s.classList.add('visible');
+    } else {
+      s.classList.toggle('visible', s.dataset.catIdx == catKey);
+    }
+  });
+}
+
+function buildMain() {
+  const main = document.getElementById('mainContent');
+  let total = 0;
+
+  data.forEach((cat, catIdx) => {
+    const section = document.createElement('section');
+    section.className = 'category-section visible';
+    section.dataset.catIdx = catIdx;
+
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `
+      <h2 class="section-title">${cat.icon} ${cat.category}</h2>
+      <span class="section-count">${cat.products.length} productos</span>
+    `;
+    section.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'product-grid';
+
+    cat.products.forEach((prod, prodIdx) => {
+      total++;
+      const id = getProductId(catIdx, prodIdx);
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.dataset.name = prod.name.toLowerCase();
+
+      card.innerHTML = `
+        <div class="img-area" id="imgArea_${id}">
+          <img class="product-img" id="img_${id}" src="" alt="${prod.name}">
+          <div class="img-placeholder" id="placeholder_${id}">
+            <span class="icon">${cat.icon}</span>
+            <span>Sin imagen</span>
+          </div>
+          <div class="upload-overlay">📷 Subir foto</div>
+        </div>
+        <div class="card-body">
+          ${prod.sku ? `<div class="product-sku">SKU: ${prod.sku}</div>` : ''}
+          <div class="product-name">${prod.name}</div>
+          <div class="product-price ${!prod.price ? 'no-price'}">${prod.price || 'Precio variable'}</div>
+        </div>
+        <div class="card-footer">
+          <label class="btn-upload" for="file_${id}">📁 Subir imagen</label>
+          <input type="file" accept="image/*" class="file-input" id="file_${id}" data-id="${id}">
+        </div>
+      `;
+
+      grid.appendChild(card);
+
+      // Restore saved image
+      if (imageStore[id]) {
+        showImage(id, imageStore[id]);
+      }
+    });
+
+    section.appendChild(grid);
+    main.appendChild(section);
+  });
+
+  document.getElementById('totalBadge').textContent = `${total} productos`;
+
+  // File input listeners
+  document.querySelectorAll('.file-input').forEach(input => {
+    input.addEventListener('change', (e) => {
+      const id = e.target.dataset.id;
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imageStore[id] = ev.target.result;
+        showImage(id, ev.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+}
+
+function showImage(id, src) {
+  const img = document.getElementById(`img_${id}`);
+  const placeholder = document.getElementById(`placeholder_${id}`);
+  if (img && placeholder) {
+    img.src = src;
+    img.classList.add('loaded');
+    placeholder.style.display = 'none';
+  }
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  let visibleCount = 0;
+
+  document.querySelectorAll('.product-card').forEach(card => {
+    const match = !q || card.dataset.name.includes(q);
+    card.style.display = match ? '' : 'none';
+    if (match) visibleCount++;
+  });
+
+  // Show/hide empty sections
+  document.querySelectorAll('.category-section').forEach(section => {
+    const anyVisible = [...section.querySelectorAll('.product-card')].some(c => c.style.display !== 'none');
+    section.style.display = anyVisible ? '' : 'none';
+  });
+
+  document.getElementById('totalBadge').textContent = q
+    ? `${visibleCount} resultado(s)`
+    : `${document.querySelectorAll('.product-card').length} productos`;
+});
+
+buildSidebar();
+buildMain();
+</script>
+</body>
+</html>
