@@ -375,8 +375,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
           <div class="card-sub">Lista de tareas y control de presupuesto</div>
         </div>
         <div style="display:flex;gap:8px">
-          <button class="btn-soft" onclick="agregarTarea()"><i class="fas fa-plus"></i></button>
-          <button class="btn-gold" onclick="guardarPlanner()"><i class="fas fa-save"></i></button>
+          <button class="btn-soft" onclick="agregarTarea()" title="Añadir Tarea"><i class="fas fa-plus"></i></button>
+          <button class="btn-soft" onclick="exportarPlanPDF()" title="Exportar PDF"><i class="fas fa-file-pdf"></i></button>
+          <button class="btn-gold" onclick="guardarPlanner()"><i class="fas fa-save"></i> Guardar</button>
         </div>
       </div>
       <div class="planner-grid">
@@ -385,7 +386,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
         </div>
         <div>
           <div class="card" style="padding:16px; background:rgba(0,0,0,0.2)">
-            <div class="budget-row"><span class="budget-label">Total Presupuestado</span><span class="budget-amount" id="bud-total">$0</span></div>
+            <div style="font-size:11px; font-weight:600; color:var(--gold); text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Control de Presupuesto</div>
+            <div class="budget-row"><span class="budget-label">Salón/Venue</span><span class="budget-amount"><input type="number" id="bud-salon" placeholder="0" onchange="calcBudget()" style="width:60px; background:transparent; border:none; text-align:right; color:#fff;"></span></div>
+            <div class="budget-row"><span class="budget-label">Catering</span><span class="budget-amount"><input type="number" id="bud-catering" placeholder="0" onchange="calcBudget()" style="width:60px; background:transparent; border:none; text-align:right; color:#fff;"></span></div>
+            <div class="budget-row"><span class="budget-label">Invitaciones</span><span class="budget-amount"><input type="number" id="bud-inv" placeholder="0" onchange="calcBudget()" style="width:60px; background:transparent; border:none; text-align:right; color:#fff;"></span></div>
+            <div class="budget-row"><span class="budget-label">Decoración/Flores</span><span class="budget-amount"><input type="number" id="bud-flores" placeholder="0" onchange="calcBudget()" style="width:60px; background:transparent; border:none; text-align:right; color:#fff;"></span></div>
+            <div class="budget-row"><span class="budget-label">Otros gastos</span><span class="budget-amount"><input type="number" id="bud-otros" placeholder="0" onchange="calcBudget()" style="width:60px; background:transparent; border:none; text-align:right; color:#fff;"></span></div>
+            <div class="budget-row" style="border-top:1px solid var(--gold); margin-top:10px; padding-top:10px;"><span class="budget-label" style="color:var(--gold)">FOTOGRAFÍA (MI COTIZACIÓN)</span><span class="budget-amount" id="bud-foto">$0</span></div>
+            <div class="budget-row"><span class="budget-label" style="font-weight:700;">TOTAL ESTIMADO</span><span class="budget-amount" id="bud-total" style="color:var(--gold); font-size:1.2rem;">$0</span></div>
+          </div>
+          <!-- Datos del Evento -->
+          <div class="card" style="padding:16px; background:rgba(255,255,255,0.02)">
+            <div style="font-size:11px; font-weight:600; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Datos del Evento</div>
+            <div class="fld"><label>Nombre del Evento</label><input type="text" id="ev-nombre" placeholder="Ej. Boda R & M"></div>
+            <div class="fld"><label>Fecha</label><input type="date" id="ev-fecha"></div>
+            <div class="fld"><label>Lugar</label><input type="text" id="ev-lugar" placeholder="Salón..."></div>
           </div>
         </div>
       </div>
@@ -703,6 +718,64 @@ function solicitarInvitacion(){
 // ── UTILS ──
 function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'';}
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function exportarPlanPDF() {
+  const element = document.createElement('div');
+  element.style.padding = '40px';
+  element.style.color = '#000';
+  element.style.background = '#fff';
+  element.style.fontFamily = 'Arial, sans';
+
+  const evNombre = document.getElementById('ev-nombre').value || 'Mi Evento';
+  const evFecha = document.getElementById('ev-fecha').value || 'Sin fecha';
+  const evLugar = document.getElementById('ev-lugar').value || 'Sin lugar';
+  const total = document.getElementById('bud-total').textContent;
+  const progreso = document.getElementById('res-tasks').textContent;
+
+  let tasksHtml = '<h3>Lista de Tareas (' + progreso + ')</h3><ul>';
+  plannerData.tasks.forEach(t => {
+    tasksHtml += `<li>[${t.done ? 'X' : ' '}] ${t.nombre} (${t.cat})</li>`;
+  });
+  tasksHtml += '</ul>';
+
+  element.innerHTML = `
+    <div style="text-align:center; border-bottom:2px solid #c8a96a; padding-bottom:20px; margin-bottom:30px;">
+      <h1 style="margin:0; color:#c8a96a;">PLAN DE EVENTO</h1>
+      <p style="margin:5px 0;">Impacto Digital · Studio & Planning</p>
+    </div>
+    <div style="margin-bottom:30px;">
+      <h2>${evNombre}</h2>
+      <p><strong>Fecha:</strong> ${evFecha} | <strong>Lugar:</strong> ${evLugar}</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+      <div>
+        ${tasksHtml}
+      </div>
+      <div>
+        <h3>Presupuesto</h3>
+        <p>Salón: $${document.getElementById('bud-salon').value || 0}</p>
+        <p>Catering: $${document.getElementById('bud-catering').value || 0}</p>
+        <p>Invitaciones: $${document.getElementById('bud-inv').value || 0}</p>
+        <p>Decoración: $${document.getElementById('bud-flores').value || 0}</p>
+        <p>Otros: $${document.getElementById('bud-otros').value || 0}</p>
+        <p style="border-top:1px solid #ddd; padding-top:10px;"><strong>Presupuesto Total: ${total}</strong></p>
+      </div>
+    </div>
+    <div style="margin-top:40px; font-size:10px; color:#666; text-align:center;">
+      Documento generado desde el Portal Impacto Digital
+    </div>
+  `;
+
+  const opt = {
+    margin: 10,
+    filename: `Plan_${evNombre.replace(/\s+/g, '_')}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
 </script>
 </body>
 </html>

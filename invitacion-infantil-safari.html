@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safari Aventura · Preview</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body { 
+    margin: 0; padding: 0; 
+    background: #2e3b1c url('invitacion_cumple_safari_1775722211461.png') center/cover no-repeat;
+    height: 100vh; display: flex; align-items: center; justify-content: center;
+    font-family: 'Arial', sans-serif; overflow: hidden; color: #fff;
+  }
+  .frame { 
+    border: 10px solid #8b9d3e; padding: 30px; border-radius: 20px;
+    background: rgba(46, 59, 28, 0.82); backdrop-filter: blur(5px);
+    text-align: center; max-width: 300px;
+    animation: sway 4s infinite alternate ease-in-out;
+  }
+  @keyframes sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+  .animals { font-size: 3rem; margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; }
+  h1 { margin: 0; text-transform: uppercase; letter-spacing: 5px; color: #d4e157; }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="animals">
+      <span style="animation: jump 1s infinite;">🦁</span>
+      <span style="animation: jump 1.2s infinite 0.2s;">🐘</span>
+      <span style="animation: jump 0.8s infinite 0.4s;">🦒</span>
+    </div>
+    <h1>LIAM</h1>
+    <div style="font-weight: bold; margin-top: 10px; color: #fff;">¡UNA AVENTURA DE 4 AÑOS!</div>
+    <div style="font-size: 12px; margin-top: 15px; opacity: 0.8;">PREPÁRATE PARA LA SELVA</div>
+  </div>
+
+  <style>
+    @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  </style>
+
+  <audio id="bgMusic" loop>
+    <source src="https://www.dropbox.com/scl/fi/ouyl0komx3rd9uy1g3fwb/music_15.mp3?rlkey=l0v5y6oj4auihq01xky5pxz7u&raw=1" type="audio/mpeg">
+  </audio>
+  <button onclick="document.getElementById('bgMusic').play()" style="position:fixed; top:20px; right:20px; background:rgba(0,0,0,0.5); border:1px solid #d4e157; color:#d4e157; padding:10px; border-radius:50%; width:50px; height:50px; cursor:pointer;"><i class="fas fa-play"></i></button>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust · Preview</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #1a2a4a; --gold: #c8a96a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    font-family: 'Courier Prime', monospace; 
+    background: #111 url('https://i.ibb.co/nqxJNjxC/565140271-818206580602050-848438067903478130-n.jpg') center/cover no-repeat;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    overflow: hidden;
+  }
+  .overlay { position: absolute; inset: 0; background: rgba(10, 20, 40, 0.6); backdrop-filter: blur(1px); }
+  .passport {
+    position: relative;
+    background: rgba(26, 42, 74, 0.9);
+    border: 2px solid var(--gold);
+    width: 90%;
+    max-width: 360px;
+    padding: 30px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    animation: slideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 2;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+  .stamp {
+    position: absolute; top: 20px; right: 20px; width: 80px; height: 80px;
+    border: 3px double var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(15deg); font-size: 10px; font-weight: 700;
+    color: var(--gold); opacity: 0.6; text-align: center;
+  }
+  .header { border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px; }
+  .title { font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .info-row { margin-bottom: 15px; }
+  .label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 4px; }
+  .value { font-size: 16px; font-weight: 700; color: #fff; }
+  .footer { margin-top: 30px; }
+  .btn { display: block; padding: 12px; background: var(--gold); color: #1a2a4a; text-decoration: none; text-align: center; font-family: 'DM Sans', sans-serif; font-weight: 800; border-radius: 4px; transition: 0.3s; }
+  .btn:hover { background: #fff; transform: scale(1.05); }
+
+  .music-btn {
+    position: fixed; top: 20px; right: 20px; z-index: 100;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(26,42,74,0.8); border: 1px solid var(--gold);
+    color: var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: .3s;
+  }
+  .music-btn.playing { background: var(--gold); color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <i class="fas fa-music" id="musicIcon"></i>
+  </button>
+
+  <div class="passport">
+    <div class="stamp">AROUND THE WORLD<br>2025</div>
+    <div class="header">
+      <div class="title">BOARDING PASS</div>
+      <div style="font-size: 10px; color: rgba(255,255,255,0.4)">INTERNATIONAL WEDDING ADVENTURE</div>
+    </div>
+    <div class="info-row">
+      <div class="label">PASSENGER NAMES:</div>
+      <div class="value">ALEX & VICTORIA</div>
+    </div>
+    <div class="info-row">
+      <div class="label">DESTINATION:</div>
+      <div class="value">EL SALVADOR · HACIENDA DE VIAJE</div>
+    </div>
+    <div class="info-row">
+      <div class="label">DEPARTURE DATE:</div>
+      <div class="value">SEP 20, 2025 · 17:00 HRS</div>
+    </div>
+    <div class="footer">
+      <a href="#" class="btn">BOOK YOUR SEAT (RSVP)</a>
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="https://dl.dropboxusercontent.com/scl/fi/7l2mann5zklvr03ujm5vj/paulyudin-wedding-485932.mp3?rlkey=w3qjmtobq4zmd3fkxtpp38oxe" type="audio/mpeg">
+  </audio>
+
+  <script>
+    var musicPlaying = false;
+    function toggleMusic() {
+      var audio = document.getElementById('bgMusic');
+      musicPlaying = !musicPlaying;
+      if (musicPlaying) { audio.play(); } else { audio.pause(); }
+      document.getElementById('musicIcon').className = musicPlaying ? 'fas fa-pause' : 'fas fa-music';
+      document.getElementById('musicBtn').classList.toggle('playing', musicPlaying);
+    }
+  </script>
+</body>
+</html>

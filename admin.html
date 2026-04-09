@@ -210,7 +210,7 @@ tbody tr:hover{background:#fafafa}
     </div>
     <div class="topbar-right">
       <span id="admin-email-badge" style="font-size:11px;color:var(--slate)"></span>
-      <button class="tbtn tbtn-ghost" onclick="auth.signOut().then(()=>location.href='index.html')">
+      <button class="tbtn tbtn-ghost" onclick="localStorage.removeItem('as_impacto_admin'); auth.signOut().then(()=>location.href='index.html')">
         <i class="fas fa-sign-out-alt"></i> Salir
       </button>
     </div>
@@ -344,6 +344,20 @@ tbody tr:hover{background:#fafafa}
 
 <div id="toast"></div>
 
+<!-- ══ ACCESO MAESTRO (SUPERADMIN) ══ -->
+<div id="adminLockScreen" style="position:fixed;inset:0;background:rgba(13,13,13,0.98);z-index:10000;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center;backdrop-filter:blur(10px);">
+    <img src="logo_id.png" alt="ID" style="max-height:80px;margin-bottom:32px;filter:drop-shadow(0 0 20px rgba(201,169,110,0.3));">
+    <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:8px;">Panel de Seguridad</h3>
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:24px;">Acceso exclusivo para administradores autorizados.</p>
+    <div style="width:100%;max-width:320px;">
+        <input type="password" id="masterCodeInput" placeholder="Código Maestro" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid var(--gold);background:rgba(255,255,255,0.05);color:#fff;text-align:center;font-size:16px;outline:none;margin-bottom:12px;" onkeydown="if(event.key==='Enter')checkMasterCode()">
+        <button onclick="checkMasterCode()" style="width:100%;padding:14px;border-radius:12px;border:none;background:var(--gold);color:#000;font-weight:700;cursor:pointer;transition:0.2s;" onmouseover="this.style.background='#ffe1a0'" onmouseout="this.style.background='var(--gold)'">
+            Validar Acceso
+        </button>
+    </div>
+    <a href="index.html" style="margin-top:24px;color:rgba(255,255,255,0.3);text-decoration:none;font-size:12px;">← Volver al sitio público</a>
+</div>
+
 <!-- ══ FIREBASE ══ -->
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
@@ -363,14 +377,44 @@ let _CUENTA_ACTUAL=null;
 
 // ── AUTH CHECK ──
 auth.onAuthStateChanged(function(user){
-  if(!user){window.location.href='index.html';return;}
-  if(!ADMIN_EMAILS.includes(user.email)){window.location.href='mi-cuenta.html';return;}
-  ADMIN_USER=user;
-  document.getElementById('admin-email-badge').textContent=user.email;
+  const isSuperAdmin = localStorage.getItem('as_impacto_admin') === 'true';
+  
+  // Si no hay usuario y no es superadmin, redirigir a inicio (o permitir ver pantalla de bloqueo si se prefiere)
+  if(!user && !isSuperAdmin){
+    // Permitir que vean la pantalla de bloqueo si entran a admin.html directamente
+    document.getElementById('adminLockScreen').style.display = 'flex';
+    document.getElementById('loadingScreen').style.display = 'none';
+    return;
+  }
+  
+  // Si hay usuario pero no es admin y no ha usado el código maestro
+  if(user && !ADMIN_EMAILS.includes(user.email) && !isSuperAdmin){
+    document.getElementById('adminLockScreen').style.display = 'flex';
+    document.getElementById('loadingScreen').style.display = 'none';
+    return;
+  }
+  
+  // Acceso concedido
+  ADMIN_USER = user;
+  const adminLabel = isSuperAdmin ? 'SUPERADMIN MASTER' : (user ? user.email : 'ADMIN SESSION');
+  document.getElementById('admin-email-badge').textContent = adminLabel;
+  document.getElementById('adminLockScreen').style.display = 'none';
+  
   document.getElementById('loadingScreen').style.opacity='0';
   setTimeout(function(){document.getElementById('loadingScreen').style.display='none';},400);
+  
   cargarTodo();
 });
+
+function checkMasterCode(){
+  const code = document.getElementById('masterCodeInput').value;
+  if(code === 'impacto2025admin'){
+    localStorage.setItem('as_impacto_admin', 'true');
+    location.reload();
+  } else {
+    toast('Código incorrecto','err');
+  }
+}
 
 // ── NAV ──
 var PAGE_META={

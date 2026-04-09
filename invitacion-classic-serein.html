@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classic Serein · Preview</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --gold: #c8a96a; --ink: #1a1208; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    font-family: 'DM Sans', sans-serif; 
+    background: #fdfaf5 url('https://i.ibb.co/ZzhV1MXm/564554910-818206413935409-4456078221019249377-n.jpg') center/cover no-repeat;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    overflow: hidden;
+  }
+  .overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.4); backdrop-filter: blur(2px); }
+  .card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 360px;
+    padding: 40px;
+    text-align: center;
+    border: 1px solid rgba(200, 169, 106, 0.3);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    animation: fadeIn 1.2s ease-out;
+    z-index: 2;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .names { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 400; font-style: italic; margin-bottom: 20px; line-height: 1.2; }
+  .details { font-size: 13px; line-height: 2; border-top: 1px solid rgba(200, 169, 106, 0.2); border-bottom: 1px solid rgba(200, 169, 106, 0.2); padding: 20px 0; margin-bottom: 20px; color: #5d503b; }
+  .btn { display: inline-block; padding: 12px 30px; background: var(--gold); color: #fff; text-decoration: none; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; transition: 0.3s; }
+  .btn:hover { background: #b89858; transform: translateY(-2px); }
+  
+  .music-btn {
+    position: fixed; top: 20px; right: 20px; z-index: 100;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.8); border: 1px solid var(--gold);
+    color: var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: .3s;
+  }
+  .music-btn.playing { background: var(--gold); color: #fff; }
+</style>
+</head>
+<body>
+  <div class="overlay"></div>
+  
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <i class="fas fa-music" id="musicIcon"></i>
+  </button>
+
+  <div class="card">
+    <div class="eyebrow">Nuestra Boda</div>
+    <div class="names">Serein<br>&<br>Botanique</div>
+    <div class="details">
+      SÁBADO, 14 DE JUNIO DE 2025<br>
+      6:00 PM · SANTA ANA, EL SALVADOR<br>
+      DRESS CODE: FORMAL ELEGANT
+    </div>
+    <a href="#" class="btn">CONFIRMAR ASISTENCIA</a>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="https://dl.dropboxusercontent.com/scl/fi/7l2mann5zklvr03ujm5vj/paulyudin-wedding-485932.mp3?rlkey=w3qjmtobq4zmd3fkxtpp38oxe" type="audio/mpeg">
+  </audio>
+
+  <script>
+    var musicPlaying = false;
+    function toggleMusic() {
+      var audio = document.getElementById('bgMusic');
+      musicPlaying = !musicPlaying;
+      if (musicPlaying) { audio.play(); } else { audio.pause(); }
+      document.getElementById('musicIcon').className = musicPlaying ? 'fas fa-pause' : 'fas fa-music';
+      document.getElementById('musicBtn').classList.toggle('playing', musicPlaying);
+    }
+  </script>
+</body>
+</html>
