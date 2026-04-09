@@ -3,57 +3,344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Súper Cumpleaños · Preview</title>
+<title>¡Súper Mateo · Cumpleaños Héroe!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  body { 
-    margin: 0; padding: 0; 
-    background: #000 url('invitacion_cumple_superheroe_1775722029110.png') center/cover no-repeat;
-    height: 100vh; display: flex; align-items: center; justify-content: center;
-    font-family: 'Arial Black', sans-serif; overflow: hidden;
-  }
-  .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); }
-  .boom { 
-    position: relative; background: #ffea00; color: #000; padding: 20px;
-    border: 5px solid #000; transform: rotate(-5deg);
-    box-shadow: 10px 10px 0 #ed1c24; animation: pop 0.5s infinite alternate;
-  }
-  @keyframes pop { from { transform: rotate(-5deg) scale(1); } to { transform: rotate(-5deg) scale(1.1); } }
-  h1 { margin: 0; font-size: 3rem; text-transform: uppercase; -webkit-text-stroke: 2px #fff; }
-  .info { margin-top: 10px; font-size: 1.2rem; }
-  
-  .music-btn {
-    position: fixed; top: 20px; right: 20px; z-index: 100;
-    width: 60px; height: 60px; border-radius: 50%;
-    background: #ed1c24; border: 4px solid #000;
-    color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    box-shadow: 4px 4px 0 #000; transition: .1s; font-size: 24px;
-  }
-  .music-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#ed1c24;--blue:#0047ab;--yellow:#ffe000;--dark:#0a0a1a;
+  --white:#fff;--border:rgba(237,28,36,0.2);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:#0a0a1a;color:var(--white);overflow-x:hidden;}
+
+/* PORTADA */
+.cover{position:relative;height:100dvh;min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:#0a0a1a;}
+.cover-bg{position:absolute;inset:0;background:url('invitacion_cumple_superheroe_1775722029110.png') center/cover no-repeat;opacity:.35;}
+.cover-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 90% 90% at 50% 50%,transparent 20%,rgba(10,10,26,0.9) 100%);}
+/* Comic halftone dots */
+.halftone{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(237,28,36,0.08) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;}
+.cover-top{position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,var(--red) 0,var(--red) 20px,var(--yellow) 20px,var(--yellow) 40px,var(--blue) 40px,var(--blue) 60px);}
+.cover-bottom{position:absolute;bottom:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 20px,var(--yellow) 20px,var(--yellow) 40px,var(--red) 40px,var(--red) 60px);}
+
+.cover-music-btn{position:absolute;top:20px;right:20px;z-index:10;width:44px;height:44px;border-radius:50%;background:var(--red);border:3px solid var(--yellow);color:var(--yellow);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;box-shadow:4px 4px 0 var(--dark);}
+.cover-music-btn:hover{transform:scale(1.1);}
+
+.cover-inner{position:relative;z-index:2;text-align:center;padding:24px;}
+.cover-eyebrow{font-family:'Bangers',cursive;font-size:clamp(1rem,3vw,1.4rem);letter-spacing:.2em;color:var(--yellow);margin-bottom:8px;opacity:0;animation:fadeUp .8s .3s forwards;text-shadow:2px 2px 0 var(--dark);}
+.boom-badge{display:inline-block;background:var(--yellow);color:var(--dark);font-family:'Bangers',cursive;font-size:clamp(1.5rem,5vw,2.5rem);padding:6px 20px;border:4px solid var(--dark);transform:rotate(-3deg);box-shadow:6px 6px 0 var(--dark);margin-bottom:20px;opacity:0;animation:fadeUp .6s .4s forwards;}
+.cover-names{font-family:'Bangers',cursive;font-size:clamp(4rem,16vw,9rem);color:var(--white);line-height:.9;text-shadow:6px 6px 0 var(--red),10px 10px 0 var(--dark);opacity:0;animation:fadeUp 1s .5s forwards;letter-spacing:.02em;}
+.cover-age{font-family:'Bangers',cursive;font-size:clamp(2rem,8vw,5rem);color:var(--yellow);text-shadow:3px 3px 0 var(--dark);display:block;margin-top:4px;opacity:0;animation:fadeUp .8s .7s forwards;}
+.cover-date-badge{display:inline-flex;align-items:center;gap:12px;margin-top:20px;opacity:0;animation:fadeUp .8s .9s forwards;}
+.cover-date-badge::before,.cover-date-badge::after{content:'';width:30px;height:2px;background:var(--red);}
+.cover-date-text{font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.2em;color:rgba(255,255,255,0.7);}
+.cover-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeUp .6s 1.3s forwards;color:rgba(255,255,255,0.4);font-size:9px;letter-spacing:.2em;text-transform:uppercase;}
+.cover-scroll-arrow{width:2px;height:36px;background:linear-gradient(to bottom,transparent,var(--yellow));margin:0 auto;}
+
+/* SECCIONES */
+.inv-section{padding:64px 24px;}
+.inv-section.bg-dark{background:#0a0a1a;}
+.inv-section.bg-blue{background:#001050;}
+.inv-section.bg-red{background:#200005;}
+.sec-inner{max-width:580px;margin:0 auto;text-align:center;}
+
+.sec-eyebrow{font-family:'Bangers',cursive;font-size:1rem;letter-spacing:.25em;text-transform:uppercase;color:var(--yellow);margin-bottom:8px;text-shadow:2px 2px 0 var(--dark);}
+.sec-title{font-family:'Bangers',cursive;font-size:clamp(2rem,6vw,3.5rem);color:var(--white);margin-bottom:18px;line-height:1;text-shadow:4px 4px 0 var(--red);}
+.sec-title.yellow{color:var(--yellow);text-shadow:4px 4px 0 var(--dark);}
+
+/* COMIC PANEL - invitación */
+.comic-bubble{position:relative;background:var(--yellow);border:4px solid var(--dark);padding:24px 28px;margin-top:24px;box-shadow:8px 8px 0 var(--dark);}
+.comic-bubble::before{content:'';position:absolute;bottom:-20px;left:40px;border-width:20px 15px 0;border-style:solid;border-color:var(--dark) transparent transparent;}
+.comic-bubble::after{content:'';position:absolute;bottom:-14px;left:44px;border-width:16px 11px 0;border-style:solid;border-color:var(--yellow) transparent transparent;}
+.comic-bubble p{font-family:'Bangers',cursive;font-size:1.4rem;color:var(--dark);line-height:1.4;letter-spacing:.05em;}
+
+/* COUNTDOWN */
+.countdown-sec{background:#001050;padding:64px 24px;text-align:center;position:relative;overflow:hidden;}
+.countdown-label{font-family:'Bangers',cursive;font-size:1.2rem;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow);margin-bottom:28px;text-shadow:3px 3px 0 var(--dark);}
+.countdown-grid{display:flex;gap:12px;justify-content:center;align-items:center;}
+.cd-item{text-align:center;background:var(--red);border:4px solid var(--dark);padding:12px 16px;box-shadow:5px 5px 0 var(--dark);min-width:70px;}
+.cd-num{font-family:'Bangers',cursive;font-size:clamp(2.5rem,8vw,4rem);color:var(--yellow);line-height:1;display:block;}
+.cd-lbl{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,235,0.6);margin-top:4px;display:block;}
+.cd-sep{font-family:'Bangers',cursive;font-size:3rem;color:var(--red);line-height:1;align-self:center;text-shadow:2px 2px 0 var(--dark);}
+
+/* LUGAR CARD */
+.place-card{background:rgba(255,255,255,0.05);border:3px solid var(--red);padding:24px;margin-top:14px;text-align:left;box-shadow:6px 6px 0 var(--dark);position:relative;}
+.place-card::before{content:'📍';position:absolute;top:-16px;left:16px;font-size:24px;}
+.place-type{font-family:'Bangers',cursive;font-size:.85rem;letter-spacing:.2em;color:var(--yellow);margin-bottom:6px;}
+.place-name{font-family:'Bangers',cursive;font-size:1.5rem;color:var(--white);margin-bottom:6px;line-height:1.2;}
+.place-time{font-size:13px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.place-address{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:14px;}
+.place-map-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--red);border:3px solid var(--dark);font-family:'Bangers',cursive;font-size:1rem;color:var(--white);cursor:pointer;transition:.15s;text-decoration:none;letter-spacing:.1em;box-shadow:3px 3px 0 var(--dark);}
+.place-map-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--dark);}
+
+/* ITINERARIO */
+.itinerary{margin-top:28px;text-align:left;}
+.itin-item{display:flex;gap:14px;padding:12px 0;border-bottom:2px dashed rgba(237,28,36,0.3);}
+.itin-item:last-child{border-bottom:none;}
+.itin-time{font-family:'Bangers',cursive;font-size:1.2rem;color:var(--yellow);min-width:60px;flex-shrink:0;padding-top:2px;text-shadow:2px 2px 0 var(--dark);}
+.itin-icon{width:36px;height:36px;border:3px solid var(--red);background:rgba(237,28,36,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.itin-name{font-family:'Bangers',cursive;font-size:1.1rem;color:var(--white);letter-spacing:.05em;}
+.itin-desc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;}
+
+/* ACTIVIDADES */
+.activity-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.activity-item{background:rgba(255,255,0,0.05);border:2px solid var(--yellow);padding:16px;text-align:center;box-shadow:4px 4px 0 var(--dark);}
+.activity-icon{font-size:2rem;display:block;margin-bottom:8px;}
+.activity-name{font-family:'Bangers',cursive;font-size:1.1rem;color:var(--white);letter-spacing:.05em;}
+
+/* RSVP */
+.rsvp-card{background:var(--red);border:4px solid var(--dark);padding:36px 28px;margin-top:24px;text-align:center;box-shadow:8px 8px 0 var(--dark);}
+.rsvp-title{font-family:'Bangers',cursive;font-size:2.2rem;color:var(--white);margin-bottom:8px;text-shadow:3px 3px 0 var(--dark);}
+.rsvp-sub{font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:24px;line-height:1.7;}
+.rsvp-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 32px;background:#25d366;color:#fff;font-family:'Bangers',cursive;font-size:1.3rem;text-decoration:none;border:3px solid var(--dark);cursor:pointer;transition:.15s;box-shadow:5px 5px 0 var(--dark);letter-spacing:.1em;}
+.rsvp-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--dark);}
+.rsvp-note{font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px;}
+
+/* FOOTER */
+.inv-footer{background:#000010;padding:64px 24px 48px;text-align:center;position:relative;}
+.footer-top{height:6px;background:repeating-linear-gradient(90deg,var(--yellow) 0,var(--yellow) 20px,var(--red) 20px,var(--red) 40px,var(--blue) 40px,var(--blue) 60px);margin-bottom:36px;}
+.footer-hero{font-size:60px;display:block;animation:heroFloat 2s ease-in-out infinite;}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.footer-names{font-family:'Bangers',cursive;font-size:clamp(2.5rem,8vw,4rem);color:var(--yellow);text-shadow:4px 4px 0 var(--dark);}
+.footer-date{font-family:'Bangers',cursive;font-size:1rem;letter-spacing:.3em;color:rgba(255,255,255,0.3);}
+.footer-brand{font-size:11px;color:rgba(255,255,255,0.15);letter-spacing:.08em;margin-top:24px;}
+.footer-brand a{color:rgba(237,28,36,0.4);text-decoration:none;}
+
+/* GALERÍA */
+.photo-carousel{margin-top:24px;position:relative;overflow:hidden;border:4px solid var(--red);box-shadow:8px 8px 0 var(--dark);}
+.carousel-track{display:flex;transition:.4s ease;}
+.carousel-slide{min-width:100%;}
+.carousel-slide img{width:100%;height:auto;display:block;}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;background:var(--red);border:3px solid var(--dark);color:var(--yellow);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;z-index:5;box-shadow:3px 3px 0 var(--dark);}
+.carousel-btn:hover{background:var(--yellow);color:var(--dark);}
+.carousel-prev{left:10px;}
+.carousel-next{right:10px;}
+.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:12px;}
+.carousel-dot{width:12px;height:12px;background:rgba(255,255,255,0.2);border:2px solid var(--dark);transition:.2s;cursor:pointer;}
+.carousel-dot.active{background:var(--yellow);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.4,0,.2,1);}
+.reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}
+.reveal.visible{opacity:1;transform:none;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+#toast-inv{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--red);color:var(--yellow);font-family:'Bangers',cursive;font-size:1rem;letter-spacing:.1em;padding:10px 22px;border:3px solid var(--dark);z-index:9999;transition:.3s;opacity:0;pointer-events:none;}
+#toast-inv.show{transform:translateX(-50%) translateY(0);opacity:1;}
 </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <button class="music-btn" onclick="toggleMusic()"><i class="fas fa-play" id="musicIcon"></i></button>
+<div id="toast-inv">⚡ ¡COPIADO!</div>
 
-  <div class="boom">
-    <h1>¡BOOM!</h1>
-    <div class="info">SÚPER MATEO CUMPLE 6</div>
-    <div style="font-size: 14px; margin-top: 10px;">¡ÚNETE A LA LIGA DEL CUMPLEAÑOS!</div>
+<!-- PORTADA -->
+<section class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-vignette"></div>
+  <div class="halftone"></div>
+  <div class="cover-top"></div>
+  <div class="cover-bottom"></div>
+
+  <button class="cover-music-btn" id="musicBtn" onclick="toggleMusic()">
+    <i class="fas fa-music" id="musicIcon"></i>
+  </button>
+
+  <div class="cover-inner">
+    <div class="cover-eyebrow">⚡ MISIÓN ESPECIAL ⚡</div>
+    <div class="boom-badge">¡BOOM!</div>
+    <div class="cover-names">SÚPER<br>MATEO</div>
+    <div class="cover-age">¡CUMPLE 6!</div>
+    <div class="cover-date-badge">
+      <span class="cover-date-text">SÁBADO 28 · JUNIO · 2025</span>
+    </div>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="https://www.dropbox.com/scl/fi/ouyl0komx3rd9uy1g3fwb/music_15.mp3?rlkey=l0v5y6oj4auihq01xky5pxz7u&raw=1" type="audio/mpeg">
-  </audio>
+  <div class="cover-scroll">
+    <div class="cover-scroll-arrow"></div>
+    Desliza
+  </div>
+</section>
 
-  <script>
-    var playing = false;
-    function toggleMusic() {
-      var audio = document.getElementById('bgMusic');
-      playing = !playing;
-      if (playing) { audio.play(); } else { audio.pause(); }
-      document.getElementById('musicIcon').className = playing ? 'fas fa-pause' : 'fas fa-play';
-    }
-  </script>
+<!-- MISIÓN -->
+<section class="inv-section bg-dark reveal">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">📢 MENSAJE DE LA LIGA</div>
+    <h1 class="sec-title yellow">¡ERES CONVOCADO!</h1>
+    <div class="comic-bubble">
+      <p>La Liga de los Superhéroes te necesita en esta MISIÓN ESPECIAL. Mateo cumple 6 años y solo los más valientes como TÚ pueden acompañarle en este épico cumpleaños.</p>
+    </div>
+    <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.8;margin-top:32px;">
+      ¡Pon a prueba tus superpoderes! Habrá juegos, sorpresas, pastel y mucha acción. ¡Es hora de ser un héroe!
+    </p>
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<section class="countdown-sec">
+  <div class="countdown-label reveal">⚡ CUENTA REGRESIVA PARA LA MISIÓN</div>
+  <div class="countdown-grid reveal d1">
+    <div class="cd-item"><span class="cd-num" id="cd-d">--</span><span class="cd-lbl">Días</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-item"><span class="cd-num" id="cd-h">--</span><span class="cd-lbl">Horas</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-item"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">Minutos</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-item"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">Segundos</span></div>
+  </div>
+</section>
+
+<!-- LUGAR -->
+<section class="inv-section bg-red reveal">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">🗺️ COORDENADAS DE LA MISIÓN</div>
+    <h2 class="sec-title">¿Dónde & Cuándo?</h2>
+    <div class="place-card">
+      <div class="place-type">🏰 Base de Operaciones</div>
+      <div class="place-name">Salón de Fiestas El Fortín</div>
+      <div class="place-time"><i class="fas fa-clock"></i> Sábado 28 de Junio · 15:00 h</div>
+      <div class="place-address">Colonia Escalón, Calle Las Palmas #25<br>San Salvador, El Salvador</div>
+      <a href="https://maps.google.com" target="_blank" class="place-map-btn">
+        <i class="fas fa-map-marker-alt"></i> VER MAPA
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARIO -->
+<section class="inv-section bg-dark reveal">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">📋 PLAN DE ACCIÓN</div>
+    <h2 class="sec-title yellow">Misión del Día</h2>
+    <div class="itinerary">
+      <div class="itin-item">
+        <div class="itin-time">15:00</div>
+        <div class="itin-icon">🦸</div>
+        <div class="itin-info"><div class="itin-name">LLEGADA DE HÉROES</div><div class="itin-desc">Recepción de invitados · Registro de superhéroes</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">15:30</div>
+        <div class="itin-icon">⚡</div>
+        <div class="itin-info"><div class="itin-name">ENTRENAMIENTO ESPECIAL</div><div class="itin-desc">Juegos y actividades heroicas</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">16:30</div>
+        <div class="itin-icon">🎂</div>
+        <div class="itin-info"><div class="itin-name">¡PASTEL EXPLOSIVO!</div><div class="itin-desc">Celebración del cumpleaños de Mateo</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">17:00</div>
+        <div class="itin-icon">🎁</div>
+        <div class="itin-info"><div class="itin-name">APERTURA DE MISIONES</div><div class="itin-desc">Regalos, sorpresas y piñata épica</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">18:00</div>
+        <div class="itin-icon">💥</div>
+        <div class="itin-info"><div class="itin-name">FIESTA LIBRE</div><div class="itin-desc">¡Música, baile y comida para todos los héroes!</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVIDADES -->
+<section class="inv-section bg-blue reveal">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">🎮 PODERES DISPONIBLES</div>
+    <h2 class="sec-title">Actividades</h2>
+    <div class="activity-grid">
+      <div class="activity-item"><span class="activity-icon">🎪</span><div class="activity-name">PIÑATA ÉPICA</div></div>
+      <div class="activity-item"><span class="activity-icon">🎂</span><div class="activity-name">PASTEL HEROICO</div></div>
+      <div class="activity-item"><span class="activity-icon">🎭</span><div class="activity-name">DISFRAZ CONCURSO</div></div>
+      <div class="activity-item"><span class="activity-icon">🎁</span><div class="activity-name">BOLSA DE PODERES</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="inv-section bg-dark reveal">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">📷 ARCHIVO DE HÉROES</div>
+    <h2 class="sec-title yellow">Galería</h2>
+    <div class="photo-carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide"><img src="invitacion_cumple_superheroe_1775722029110.png" alt="Súper Mateo" loading="lazy"></div>
+        <div class="carousel-slide"><img src="invitacion_cumple_princesa_1775722156243.png" alt="Celebración" loading="lazy"></div>
+        <div class="carousel-slide"><img src="invitacion_cumple_safari_1775722211461.png" alt="Fiesta" loading="lazy"></div>
+      </div>
+      <button class="carousel-btn carousel-prev" onclick="carouselMove(-1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn carousel-next" onclick="carouselMove(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+      <div class="carousel-dot active" onclick="carouselGo(0)"></div>
+      <div class="carousel-dot" onclick="carouselGo(1)"></div>
+      <div class="carousel-dot" onclick="carouselGo(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section class="inv-section bg-red reveal">
+  <div class="sec-inner">
+    <div class="sec-eyebrow">📡 COMUNICACIONES</div>
+    <h2 class="sec-title">¿Aceptas la Misión?</h2>
+    <div class="rsvp-card">
+      <div class="rsvp-title">¡CONFIRMA TU ASISTENCIA!</div>
+      <div class="rsvp-sub">Confirma antes del <strong style="color:var(--yellow)">20 de Junio de 2025</strong>. ¡Necesitamos saber cuántos héroes vendrán!</div>
+      <a href="https://wa.me/50372419889?text=Hola!%20Acepto%20la%20mision!%20Confirmo%20asistencia%20al%20cumple%20de%20Mateo%20el%2028%20de%20Junio." class="rsvp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> ¡ACEPTO LA MISIÓN!
+      </a>
+      <div class="rsvp-note">Teléfono de emergencias: +503 7241-9889</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="inv-footer">
+  <div class="footer-top"></div>
+  <span class="footer-hero">🦸‍♂️</span>
+  <div class="footer-names">¡SÚPER MATEO!</div>
+  <div class="footer-date">28 · JUNIO · 2025 · ¡6 AÑOS!</div>
+  <div class="footer-brand" style="margin-top:24px;">
+    Invitación digital creada con ❤️ por <a href="index.html">Impacto Digital · El Salvador</a>
+  </div>
+</footer>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://dl.dropboxusercontent.com/scl/fi/7l2mann5zklvr03ujm5vj/paulyudin-wedding-485932.mp3?rlkey=w3qjmtobq4zmd3fkxtpp38oxe" type="audio/mpeg">
+</audio>
+
+<script>
+var bdDate = new Date('2025-06-28T15:00:00');
+function updateCD(){
+  var diff=bdDate-new Date();
+  if(diff<0){document.getElementById('cd-d').textContent='0';return;}
+  var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+updateCD(); setInterval(updateCD,1000);
+
+var carouselIdx=0, carouselTotal=3;
+function carouselUpdate(){
+  document.getElementById('carouselTrack').style.transform='translateX(-'+(carouselIdx*100)+'%)';
+  document.querySelectorAll('.carousel-dot').forEach(function(d,i){d.classList.toggle('active',i===carouselIdx);});
+}
+function carouselMove(dir){carouselIdx=(carouselIdx+dir+carouselTotal)%carouselTotal;carouselUpdate();}
+function carouselGo(i){carouselIdx=i;carouselUpdate();}
+setInterval(function(){carouselMove(1);},4000);
+
+var musicPlaying=false;
+function toggleMusic(){
+  var audio=document.getElementById('bgMusic');
+  musicPlaying=!musicPlaying;
+  if(musicPlaying){audio.play();}else{audio.pause();}
+  document.getElementById('musicIcon').className=musicPlaying?'fas fa-pause':'fas fa-music';
+}
+
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
 </body>
 </html>

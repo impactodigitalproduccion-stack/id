@@ -3,104 +3,490 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wanderlust · Preview</title>
+<title>Alex & Victoria · Wanderlust Wedding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Courier+Prime:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-  :root { --navy: #1a2a4a; --gold: #c8a96a; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { 
-    font-family: 'Courier Prime', monospace; 
-    background: #111 url('https://i.ibb.co/nqxJNjxC/565140271-818206580602050-848438067903478130-n.jpg') center/cover no-repeat;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    overflow: hidden;
-  }
-  .overlay { position: absolute; inset: 0; background: rgba(10, 20, 40, 0.6); backdrop-filter: blur(1px); }
-  .passport {
-    position: relative;
-    background: rgba(26, 42, 74, 0.9);
-    border: 2px solid var(--gold);
-    width: 90%;
-    max-width: 360px;
-    padding: 30px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-    animation: slideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 2;
-  }
-  @keyframes slideIn { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
-  .stamp {
-    position: absolute; top: 20px; right: 20px; width: 80px; height: 80px;
-    border: 3px double var(--gold); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    transform: rotate(15deg); font-size: 10px; font-weight: 700;
-    color: var(--gold); opacity: 0.6; text-align: center;
-  }
-  .header { border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px; }
-  .title { font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-  .info-row { margin-bottom: 15px; }
-  .label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 4px; }
-  .value { font-size: 16px; font-weight: 700; color: #fff; }
-  .footer { margin-top: 30px; }
-  .btn { display: block; padding: 12px; background: var(--gold); color: #1a2a4a; text-decoration: none; text-align: center; font-family: 'DM Sans', sans-serif; font-weight: 800; border-radius: 4px; transition: 0.3s; }
-  .btn:hover { background: #fff; transform: scale(1.05); }
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#1a2a4a;--navy-d:#0d1a30;--navy-l:rgba(26,42,74,0.85);
+  --gold:#c8a96a;--gold-d:#a07840;--gold-l:#f0ead8;
+  --cream:#f8f5ee;--muted:#6b7280;--border:rgba(200,169,106,0.25);
+  --ink:#0f1923;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;}
 
-  .music-btn {
-    position: fixed; top: 20px; right: 20px; z-index: 100;
-    width: 44px; height: 44px; border-radius: 50%;
-    background: rgba(26,42,74,0.8); border: 1px solid var(--gold);
-    color: var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: .3s;
-  }
-  .music-btn.playing { background: var(--gold); color: var(--navy); }
+/* PORTADA */
+.cover{position:relative;height:100dvh;min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:var(--navy-d);}
+.cover-photo{position:absolute;inset:0;background-image:url('https://i.ibb.co/nqxJNjxC/565140271-818206580602050-848438067903478130-n.jpg');background-size:cover;background-position:center;opacity:.45;transition:transform 8s ease;}
+.cover-photo.loaded{transform:scale(1.04);}
+.cover-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 90% 90% at 50% 50%,transparent 20%,rgba(13,26,48,0.85) 100%);}
+.cover-top-ornament{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
+.cover-bottom-ornament{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
+/* Passport stamp top */
+.passport-stamp-top{position:absolute;top:30px;left:30px;width:80px;height:80px;border:3px double var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(-15deg);opacity:.5;z-index:5;}
+.passport-stamp-top span{font-family:'Courier Prime',monospace;font-size:7px;font-weight:700;color:var(--gold);text-align:center;line-height:1.3;letter-spacing:.05em;}
+
+.cover-inner{position:relative;z-index:2;text-align:center;padding:24px;}
+.cover-eyebrow{font-family:'Courier Prime',monospace;font-size:9px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;opacity:0;animation:fadeUp .8s .3s forwards;}
+.cover-label{font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:20px;opacity:0;animation:fadeUp .7s .5s forwards;}
+.cover-names{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,12vw,6.5rem);font-weight:300;font-style:italic;color:#fff;line-height:1;text-shadow:0 4px 40px rgba(0,0,0,0.5);opacity:0;animation:fadeUp 1s .6s forwards;}
+.cover-ampersand{display:block;font-size:.38em;color:var(--gold);line-height:1.4;}
+.cover-date-badge{display:inline-flex;align-items:center;gap:12px;margin-top:24px;opacity:0;animation:fadeUp .8s .9s forwards;}
+.cover-date-badge::before,.cover-date-badge::after{content:'';width:40px;height:1px;background:var(--gold);opacity:.5;}
+.cover-date-text{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,0.65);}
+.cover-destination{font-family:'Courier Prime',monospace;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:.2em;margin-top:10px;opacity:0;animation:fadeUp .7s 1.1s forwards;}
+.cover-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeUp .6s 1.4s forwards;color:rgba(255,255,255,0.3);font-size:9px;letter-spacing:.2em;text-transform:uppercase;}
+.cover-scroll-arrow{width:1px;height:36px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto;}
+.cover-music-btn{position:absolute;top:20px;right:20px;z-index:10;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(200,169,106,0.35);color:rgba(200,169,106,0.7);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;backdrop-filter:blur(8px);}
+.cover-music-btn:hover{background:rgba(0,0,0,.8);color:var(--gold);}
+.cover-music-btn.playing{color:var(--gold);border-color:var(--gold);}
+
+/* SECCIONES GENÉRICAS */
+.inv-section{padding:72px 24px;}
+.inv-section.bg-white{background:#fff;}
+.inv-section.bg-cream{background:var(--cream);}
+.inv-section.bg-dark{background:var(--navy-d);}
+.inv-section.bg-navy{background:var(--navy);}
+.sec-inner{max-width:580px;margin:0 auto;text-align:center;}
+.sec-ornament{font-size:28px;margin-bottom:16px;display:block;}
+.sec-eyebrow{font-family:'Courier Prime',monospace;font-size:9px;font-weight:700;letter-spacing:.36em;text-transform:uppercase;color:var(--gold-d);margin-bottom:12px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:600;color:var(--ink);margin-bottom:18px;line-height:1.1;}
+.sec-title.light{color:#fff;}
+.sec-sub{font-size:14px;color:var(--muted);line-height:1.85;}
+.sec-divider{display:flex;align-items:center;gap:12px;max-width:160px;margin:18px auto;}
+.sec-divider::before,.sec-divider::after{content:'';flex:1;height:1px;background:var(--gold);opacity:.4;}
+.sec-divider-plane{font-size:14px;}
+
+/* PASSPORT HEADER de cada sección */
+.passport-sticker{display:inline-flex;align-items:center;gap:8px;background:var(--navy);border:1px solid rgba(200,169,106,0.3);border-radius:4px;padding:5px 14px;margin-bottom:16px;}
+.passport-sticker span{font-family:'Courier Prime',monospace;font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);}
+
+/* BOARDING PASS — anuncio */
+.boarding-card{background:var(--navy);border-radius:16px;overflow:hidden;margin-top:24px;position:relative;}
+.boarding-top{padding:24px 28px;border-bottom:2px dashed rgba(200,169,106,0.25);}
+.boarding-bottom{padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.boarding-field{text-align:left;}
+.boarding-field-lbl{font-family:'Courier Prime',monospace;font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:3px;}
+.boarding-field-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;}
+.boarding-barcode{display:flex;gap:2px;align-items:flex-end;height:40px;}
+.barcode-bar{background:rgba(200,169,106,0.4);border-radius:1px;}
+
+/* COUNTDOWN */
+.countdown-sec{background:var(--navy-d);padding:64px 24px;text-align:center;position:relative;overflow:hidden;}
+.countdown-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(200,169,106,0.06),transparent);}
+.countdown-label{font-family:'Courier Prime',monospace;font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;position:relative;}
+.countdown-grid{display:flex;gap:16px;justify-content:center;align-items:center;position:relative;}
+.cd-item{min-width:72px;text-align:center;}
+.cd-num{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,8vw,4.5rem);font-weight:300;color:#fff;line-height:1;display:block;}
+.cd-lbl{font-family:'Courier Prime',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-top:4px;display:block;}
+.cd-sep{font-family:'Courier Prime',monospace;font-size:2rem;color:var(--gold);opacity:.4;line-height:1;align-self:flex-start;padding-top:16px;}
+
+/* LUGAR CARD */
+.place-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px 24px;margin-top:14px;text-align:left;position:relative;overflow:hidden;}
+.place-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);}
+.place-type{font-family:'Courier Prime',monospace;font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);margin-bottom:6px;}
+.place-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.place-time{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.place-time i{font-size:11px;color:var(--gold-d);}
+.place-address{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.place-map-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:4px;border:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--gold-d);cursor:pointer;transition:.2s;text-decoration:none;letter-spacing:.04em;}
+.place-map-btn:hover{background:var(--navy);color:var(--gold);border-color:var(--navy);}
+
+/* ITINERARIO */
+.itinerary{margin-top:28px;text-align:left;}
+.itin-item{display:flex;gap:18px;padding:14px 0;border-bottom:1px solid var(--border);}
+.itin-item:last-child{border-bottom:none;}
+.itin-time{font-family:'Courier Prime',monospace;font-size:1rem;font-weight:700;color:var(--gold);min-width:64px;flex-shrink:0;padding-top:4px;}
+.itin-icon{width:34px;height:34px;border-radius:4px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.itin-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);}
+.itin-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* DRESS CODE */
+.dc-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px 24px;margin-top:24px;text-align:center;}
+.dc-label{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--ink);margin-bottom:8px;}
+.dc-icons{display:flex;justify-content:center;gap:20px;margin:16px 0;font-size:40px;}
+.dc-note{font-size:12px;color:var(--muted);line-height:1.7;font-style:italic;}
+
+/* GALERÍA */
+.photo-carousel{margin-top:24px;position:relative;overflow:hidden;border-radius:12px;}
+.carousel-track{display:flex;transition:.4s ease;will-change:transform;}
+.carousel-slide{min-width:100%;}
+.carousel-slide img{width:100%;height:auto;display:block;object-fit:cover;}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:4px;background:rgba(13,26,48,0.7);border:1px solid rgba(200,169,106,0.3);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);transition:.2s;z-index:5;}
+.carousel-btn:hover{background:var(--gold);color:var(--navy);}
+.carousel-prev{left:12px;}
+.carousel-next{right:12px;}
+.carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:12px;}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:.2s;cursor:pointer;}
+.carousel-dot.active{background:var(--gold);width:18px;border-radius:3px;}
+
+/* FRASE */
+.frase-box{background:var(--navy);border-radius:12px;padding:32px 28px;margin-top:24px;position:relative;overflow:hidden;border:1px solid rgba(200,169,106,0.2);}
+.frase-box::before{content:'"';position:absolute;top:-20px;left:20px;font-family:'Cormorant Garamond',serif;font-size:12rem;color:rgba(200,169,106,0.06);line-height:1;}
+.frase-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,3vw,1.45rem);font-style:italic;color:#fff;line-height:1.7;position:relative;}
+.frase-attr{font-family:'Courier Prime',monospace;font-size:10px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:12px;display:block;}
+
+/* RSVP */
+.rsvp-card{background:var(--navy);border-radius:16px;padding:36px 28px;margin-top:24px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(200,169,106,0.2);}
+.rsvp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
+.rsvp-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:8px;}
+.rsvp-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:24px;line-height:1.7;}
+.rsvp-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 36px;border-radius:4px;background:#25d366;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:.25s;}
+.rsvp-btn:hover{background:#1ab754;transform:translateY(-2px);}
+.rsvp-note{font-family:'Courier Prime',monospace;font-size:10px;color:rgba(255,255,255,0.22);margin-top:14px;letter-spacing:.05em;}
+
+/* FOOTER */
+.inv-footer{background:var(--navy-d);padding:64px 24px 48px;text-align:center;position:relative;overflow:hidden;}
+.inv-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
+.footer-names{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,8vw,4rem);font-style:italic;color:var(--gold);margin-bottom:6px;}
+.footer-date{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,0.28);}
+.footer-icons{display:flex;justify-content:center;gap:10px;margin:20px 0;font-size:18px;}
+.footer-icon{animation:floatAnim 3s ease-in-out infinite;}
+.footer-icon:nth-child(2){animation-delay:.3s;font-size:24px;}
+.footer-icon:nth-child(3){animation-delay:.6s;}
+@keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.footer-brand{font-size:11px;color:rgba(255,255,255,0.15);letter-spacing:.08em;}
+.footer-brand a{color:rgba(200,169,106,0.4);text-decoration:none;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.4,0,.2,1);}
+.reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}
+.reveal.visible{opacity:1;transform:none;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* Toast */
+#toast-inv{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--navy);color:var(--gold);font-size:12px;font-weight:600;padding:10px 22px;border-radius:4px;border:1px solid rgba(200,169,106,0.3);z-index:9999;transition:.3s;opacity:0;pointer-events:none;white-space:nowrap;}
+#toast-inv.show{transform:translateX(-50%) translateY(0);opacity:1;}
 </style>
 </head>
 <body>
-  <div class="overlay"></div>
 
-  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+<div id="toast-inv">✓ Copiado</div>
+
+<!-- PORTADA -->
+<section class="cover" id="portada">
+  <div class="cover-photo" id="coverPhoto"></div>
+  <div class="cover-vignette"></div>
+  <div class="cover-top-ornament"></div>
+  <div class="cover-bottom-ornament"></div>
+  <div class="passport-stamp-top"><span>LOVE<br>PASSPORT<br>✈ SV</span></div>
+
+  <button class="cover-music-btn" id="musicBtn" title="Reproducir música" onclick="toggleMusic()">
     <i class="fas fa-music" id="musicIcon"></i>
   </button>
 
-  <div class="passport">
-    <div class="stamp">AROUND THE WORLD<br>2025</div>
-    <div class="header">
-      <div class="title">BOARDING PASS</div>
-      <div style="font-size: 10px; color: rgba(255,255,255,0.4)">INTERNATIONAL WEDDING ADVENTURE</div>
+  <div class="cover-inner">
+    <div class="cover-eyebrow">BOARDING PASS • WEDDING EDITION</div>
+    <div class="cover-label">PASSENGER NAMES</div>
+    <div class="cover-names">
+      Alex
+      <span class="cover-ampersand">&amp;</span>
+      Victoria
     </div>
-    <div class="info-row">
-      <div class="label">PASSENGER NAMES:</div>
-      <div class="value">ALEX & VICTORIA</div>
+    <div class="cover-date-badge">
+      <span class="cover-date-text">20 · Septiembre · 2025</span>
     </div>
-    <div class="info-row">
-      <div class="label">DESTINATION:</div>
-      <div class="value">EL SALVADOR · HACIENDA DE VIAJE</div>
-    </div>
-    <div class="info-row">
-      <div class="label">DEPARTURE DATE:</div>
-      <div class="value">SEP 20, 2025 · 17:00 HRS</div>
-    </div>
-    <div class="footer">
-      <a href="#" class="btn">BOOK YOUR SEAT (RSVP)</a>
-    </div>
+    <div class="cover-destination">DESTINO: EL SALVADOR · HACIENDA DE VIAJE</div>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="https://dl.dropboxusercontent.com/scl/fi/7l2mann5zklvr03ujm5vj/paulyudin-wedding-485932.mp3?rlkey=w3qjmtobq4zmd3fkxtpp38oxe" type="audio/mpeg">
-  </audio>
+  <div class="cover-scroll">
+    <div class="cover-scroll-arrow"></div>
+    Desliza
+  </div>
+</section>
 
-  <script>
-    var musicPlaying = false;
-    function toggleMusic() {
-      var audio = document.getElementById('bgMusic');
-      musicPlaying = !musicPlaying;
-      if (musicPlaying) { audio.play(); } else { audio.pause(); }
-      document.getElementById('musicIcon').className = musicPlaying ? 'fas fa-pause' : 'fas fa-music';
-      document.getElementById('musicBtn').classList.toggle('playing', musicPlaying);
-    }
-  </script>
+<!-- MENSAJE / BOARDING PASS -->
+<section class="inv-section bg-cream reveal">
+  <div class="sec-inner">
+    <div class="passport-sticker"><span>✈ PASAPORTE AL AMOR</span></div>
+    <div class="sec-eyebrow">¡Estás invitado a bordo!</div>
+    <h1 class="sec-title">¡Nos casamos<br><em style="font-style:italic;color:var(--gold)">y queremos que vueles con nosotros!</em></h1>
+    <div class="sec-divider"><div class="sec-divider-plane">✈</div></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:var(--muted);line-height:1.9;max-width:440px;margin:0 auto 28px;">
+      Después de un largo viaje juntos, hemos decidido hacer de este amor nuestra aventura para siempre. Tu presencia es el mejor equipaje que podemos pedir.
+    </p>
+
+    <div class="boarding-card">
+      <div class="boarding-top">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+          <div class="boarding-field">
+            <div class="boarding-field-lbl">FROM</div>
+            <div class="boarding-field-val" style="font-size:1.4rem;font-weight:700;letter-spacing:.1em;color:var(--gold);">SVS</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);">San Salvador</div>
+          </div>
+          <div style="font-size:2rem;color:var(--gold);align-self:center;">✈</div>
+          <div class="boarding-field" style="text-align:right;">
+            <div class="boarding-field-lbl">TO</div>
+            <div class="boarding-field-val" style="font-size:1.4rem;font-weight:700;letter-spacing:.1em;color:var(--gold);">LOVE</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);">Hacienda de Viaje</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:14px;">
+          <div class="boarding-field">
+            <div class="boarding-field-lbl">DATE</div>
+            <div class="boarding-field-val">20 SEP 2025</div>
+          </div>
+          <div class="boarding-field">
+            <div class="boarding-field-lbl">FLIGHT</div>
+            <div class="boarding-field-val">WL-2025</div>
+          </div>
+          <div class="boarding-field">
+            <div class="boarding-field-lbl">BOARDING</div>
+            <div class="boarding-field-val">17:00 H</div>
+          </div>
+        </div>
+      </div>
+      <div class="boarding-bottom">
+        <div class="boarding-field">
+          <div class="boarding-field-lbl">PASSENGER</div>
+          <div style="font-family:'Courier Prime',monospace;font-size:14px;color:rgba(255,255,255,0.7);">TU NOMBRE AQUÍ</div>
+        </div>
+        <div class="boarding-barcode">
+          <div class="barcode-bar" style="width:2px;height:30px;"></div><div class="barcode-bar" style="width:4px;height:40px;"></div><div class="barcode-bar" style="width:2px;height:35px;"></div><div class="barcode-bar" style="width:3px;height:38px;"></div><div class="barcode-bar" style="width:2px;height:28px;"></div><div class="barcode-bar" style="width:4px;height:40px;"></div><div class="barcode-bar" style="width:2px;height:32px;"></div><div class="barcode-bar" style="width:3px;height:36px;"></div><div class="barcode-bar" style="width:2px;height:40px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUENTA REGRESIVA -->
+<section class="countdown-sec">
+  <div class="countdown-label reveal">✈ TIEMPO PARA EL DESPEGUE</div>
+  <div class="countdown-grid reveal d1">
+    <div class="cd-item"><span class="cd-num" id="cd-d">--</span><span class="cd-lbl">Días</span></div>
+    <span class="cd-sep">·</span>
+    <div class="cd-item"><span class="cd-num" id="cd-h">--</span><span class="cd-lbl">Horas</span></div>
+    <span class="cd-sep">·</span>
+    <div class="cd-item"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">Minutos</span></div>
+    <span class="cd-sep">·</span>
+    <div class="cd-item"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">Segundos</span></div>
+  </div>
+  <p style="font-family:'Courier Prime',monospace;font-size:10px;color:rgba(255,255,255,0.2);margin-top:20px;letter-spacing:.1em;" class="reveal d2">para el gran vuelo · 20 · 09 · 25</p>
+</section>
+
+<!-- FRASE -->
+<section class="inv-section bg-cream reveal">
+  <div class="sec-inner">
+    <div class="frase-box">
+      <div class="frase-quote">
+        "No importa el destino, sino la persona con quien decides embarcarte. Cada viaje juntos fue prepararnos para este."
+      </div>
+      <span class="frase-attr">— Alex & Victoria</span>
+    </div>
+  </div>
+</section>
+
+<!-- CEREMONIA / LUGAR -->
+<section class="inv-section bg-white reveal">
+  <div class="sec-inner">
+    <span class="sec-ornament">📍</span>
+    <div class="sec-eyebrow">Coordenadas del evento</div>
+    <h2 class="sec-title">Lugar & Hora</h2>
+    <div class="sec-divider"><div class="sec-divider-plane">✈</div></div>
+    <div class="place-card">
+      <div class="place-type">⛪ Ceremonia</div>
+      <div class="place-name">Iglesia San Francisco de Asís</div>
+      <div class="place-time"><i class="fas fa-clock"></i> Sábado 20 de Septiembre · 16:00 h</div>
+      <div class="place-address">4a Calle Oriente · Santa Ana, El Salvador</div>
+      <a href="https://maps.google.com" target="_blank" class="place-map-btn">
+        <i class="fas fa-map-marker-alt"></i> Ver en Google Maps
+      </a>
+    </div>
+    <div class="place-card">
+      <div class="place-type">🥂 Recepción & Fiesta</div>
+      <div class="place-name">Hacienda de Viaje Resort</div>
+      <div class="place-time"><i class="fas fa-clock"></i> A partir de las 18:30 h</div>
+      <div class="place-address">Carretera Panamericana Km 78<br>Santa Ana, El Salvador</div>
+      <a href="https://maps.google.com" target="_blank" class="place-map-btn">
+        <i class="fas fa-map-marker-alt"></i> Ver en Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DRESS CODE -->
+<section class="inv-section bg-cream reveal">
+  <div class="sec-inner">
+    <span class="sec-ornament">🧳</span>
+    <div class="sec-eyebrow">Lo que debes empacar</div>
+    <h2 class="sec-title">Equipaje & Dress Code</h2>
+    <div class="dc-card">
+      <div class="dc-label">Formal Tropical</div>
+      <div class="dc-icons">🤵 👗</div>
+      <p class="dc-note">Viste como si fueras al evento más elegante del año.<br><strong style="color:var(--navy);">El blanco, reservado para la novia.</strong><br>Evita colores tierra — ¡trae los colores del viaje!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARIO -->
+<section class="inv-section bg-white reveal">
+  <div class="sec-inner">
+    <span class="sec-ornament">🗓</span>
+    <div class="sec-eyebrow">Ruta del gran día</div>
+    <h2 class="sec-title">Itinerario de Vuelo</h2>
+    <div class="sec-divider"><div class="sec-divider-plane">✈</div></div>
+    <div class="itinerary">
+      <div class="itin-item">
+        <div class="itin-time">15:30</div>
+        <div class="itin-icon">🚪</div>
+        <div class="itin-info"><div class="itin-name">Check-in de invitados</div><div class="itin-desc">Recibimiento en Iglesia San Francisco</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">16:00</div>
+        <div class="itin-icon">⛪</div>
+        <div class="itin-info"><div class="itin-name">Ceremonia religiosa</div><div class="itin-desc">Enlace nupcial de Alex & Victoria</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">17:30</div>
+        <div class="itin-icon">📸</div>
+        <div class="itin-info"><div class="itin-name">Sesión fotográfica</div><div class="itin-desc">Jardines exteriores · Fotos con pareja e invitados</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">18:30</div>
+        <div class="itin-icon">✈</div>
+        <div class="itin-info"><div class="itin-name">Traslado a la Hacienda</div><div class="itin-desc">Bus disponible desde la iglesia</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">19:00</div>
+        <div class="itin-icon">🥂</div>
+        <div class="itin-info"><div class="itin-name">Cóctel de bienvenida</div><div class="itin-desc">Hacienda de Viaje · Jardines principales</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">20:30</div>
+        <div class="itin-icon">🍽️</div>
+        <div class="itin-info"><div class="itin-name">Banquete & Cena de gala</div><div class="itin-desc">Menú especial con música en vivo</div></div>
+      </div>
+      <div class="itin-item">
+        <div class="itin-time">22:00</div>
+        <div class="itin-icon">💃</div>
+        <div class="itin-info"><div class="itin-name">Primer baile & Fiesta</div><div class="itin-desc">¡A celebrar toda la noche!</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="inv-section bg-cream reveal">
+  <div class="sec-inner">
+    <span class="sec-ornament">📷</span>
+    <div class="sec-eyebrow">Nuestra historia de viaje</div>
+    <h2 class="sec-title">Galería</h2>
+    <div class="photo-carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide"><img src="https://i.ibb.co/nqxJNjxC/565140271-818206580602050-848438067903478130-n.jpg" alt="Galería 1" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://i.ibb.co/KxMbsV5N/566224170-818206670602050-3077971961998669557-n.jpg" alt="Galería 2" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://i.ibb.co/m5FqqF1d/565650306-818206467268737-6087670307014961593-n.jpg" alt="Galería 3" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://i.ibb.co/ZzhV1MXm/564554910-818206413935409-4456078221019249377-n.jpg" alt="Galería 4" loading="lazy"></div>
+      </div>
+      <button class="carousel-btn carousel-prev" onclick="carouselMove(-1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn carousel-next" onclick="carouselMove(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+      <div class="carousel-dot active" onclick="carouselGo(0)"></div>
+      <div class="carousel-dot" onclick="carouselGo(1)"></div>
+      <div class="carousel-dot" onclick="carouselGo(2)"></div>
+      <div class="carousel-dot" onclick="carouselGo(3)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPORTE -->
+<section class="inv-section bg-white reveal">
+  <div class="sec-inner">
+    <span class="sec-ornament">🚌</span>
+    <div class="sec-eyebrow">Logística de vuelo</div>
+    <h2 class="sec-title">Transporte</h2>
+    <div class="sec-divider"><div class="sec-divider-plane">✈</div></div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8;">Contarás con bus privado entre la iglesia y la hacienda:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-family:'Courier Prime',monospace;font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px;">✈ SALIDA</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--ink);line-height:1.5;margin-bottom:8px;">Iglesia<br>→<br>Hacienda</div>
+        <div style="font-family:'Courier Prime',monospace;font-size:1.3rem;font-weight:700;color:var(--gold);">18:30 h</div>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-family:'Courier Prime',monospace;font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px;">🏠 REGRESO</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--ink);line-height:1.5;margin-bottom:8px;">Hacienda<br>→<br>Santa Ana Centro</div>
+        <div style="font-family:'Courier Prime',monospace;font-size:1.3rem;font-weight:700;color:var(--gold);">02:00 h</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section class="inv-section bg-cream reveal">
+  <div class="sec-inner">
+    <span class="sec-ornament">✉️</span>
+    <div class="sec-eyebrow">Confirmar asistencia</div>
+    <h2 class="sec-title">¿Abordas con nosotros?</h2>
+    <div class="rsvp-card">
+      <div class="rsvp-title">Reserva tu asiento</div>
+      <div class="rsvp-sub">Por favor confírmanos antes del <strong style="color:var(--gold)">1 de septiembre de 2025</strong> si podrás acompañarnos en esta aventura.</div>
+      <a href="https://wa.me/50372419889?text=Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20Wanderlust%20de%20Alex%20%26%20Victoria%20el%2020%20de%20septiembre." class="rsvp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> Confirmar por WhatsApp
+      </a>
+      <div class="rsvp-note">También puedes escribirnos directamente al +503 7241-9889</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="inv-footer">
+  <div class="footer-icons">
+    <span class="footer-icon">✈</span>
+    <span class="footer-icon">💍</span>
+    <span class="footer-icon">🌍</span>
+  </div>
+  <div class="footer-names">Alex & Victoria</div>
+  <div class="footer-date">20 · Septiembre · 2025</div>
+  <div style="margin-top:36px;"></div>
+  <div class="footer-brand">
+    Invitación digital creada con ❤️ por <a href="index.html">Impacto Digital · El Salvador</a>
+  </div>
+</footer>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://dl.dropboxusercontent.com/scl/fi/7l2mann5zklvr03ujm5vj/paulyudin-wedding-485932.mp3?rlkey=w3qjmtobq4zmd3fkxtpp38oxe" type="audio/mpeg">
+</audio>
+
+<script>
+var weddingDate = new Date('2025-09-20T16:00:00');
+function updateCD() {
+  var diff = weddingDate - new Date();
+  if (diff < 0) { document.getElementById('cd-d').textContent='0'; return; }
+  var d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+updateCD(); setInterval(updateCD,1000);
+document.getElementById('coverPhoto').classList.add('loaded');
+
+var carouselIdx=0, carouselTotal=4;
+function carouselUpdate(){
+  document.getElementById('carouselTrack').style.transform='translateX(-'+(carouselIdx*100)+'%)';
+  document.querySelectorAll('.carousel-dot').forEach(function(d,i){d.classList.toggle('active',i===carouselIdx);});
+}
+function carouselMove(dir){carouselIdx=(carouselIdx+dir+carouselTotal)%carouselTotal;carouselUpdate();}
+function carouselGo(i){carouselIdx=i;carouselUpdate();}
+setInterval(function(){carouselMove(1);},5000);
+
+var musicPlaying=false;
+function toggleMusic(){
+  var audio=document.getElementById('bgMusic');
+  musicPlaying=!musicPlaying;
+  if(musicPlaying){audio.play();}else{audio.pause();}
+  document.getElementById('musicIcon').className=musicPlaying?'fas fa-pause':'fas fa-music';
+  document.getElementById('musicBtn').classList.toggle('playing',musicPlaying);
+}
+
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
 </body>
 </html>
