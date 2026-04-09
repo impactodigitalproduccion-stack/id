@@ -206,9 +206,7 @@ footer p{font-size:12px;color:rgba(255,255,255,.2);margin-bottom:10px}
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <img src="iconoid.jpg" alt="ID" class="nav-logo-img" onerror="this.style.display='none';document.getElementById('nl-fb').style.display='flex'">
-    <div id="nl-fb" class="nav-logo-fb" style="display:none"><i class="fa-solid fa-camera"></i></div>
-    <span class="nav-name">Impacto <span>Digital</span></span>
+    <img src="logo_id.png" alt="ID" style="max-height:45px;">
   </div>
   <div class="nav-links">
     <!-- <button class="nav-link act" onclick="scrollTo('seguimiento')">Seguimiento</button> -->
@@ -285,9 +283,9 @@ footer p{font-size:12px;color:rgba(255,255,255,.2);margin-bottom:10px}
 
     <!-- Section header -->
     <div style="margin-bottom:28px">
-      <div class="sec-eyebrow">Servicios y precios</div>
-      <h2 class="sec-h">Catálogo de Productos</h2>
-      <p class="sec-sub">Selecciona los productos que deseas y envía tu cotización directo por WhatsApp.</p>
+      <div class="sec-eyebrow">Servicios y addons</div>
+      <h2 class="sec-h">Cotizador de Servicios</h2>
+      <p class="sec-sub">Personaliza tu evento con servicios adicionales de fotografía y video profesional.</p>
     </div>
 
     <!-- Catalog grid -->
@@ -332,6 +330,7 @@ footer p{font-size:12px;color:rgba(255,255,255,.2);margin-bottom:10px}
 
 <!-- FOOTER -->
 <footer>
+  <div style="margin-bottom:12px;"><img src="logo_id.png" alt="ID" style="max-height:50px;"></div>
   <p>© 2026 Impacto Digital SV · Todos los derechos reservados</p>
   <div class="footer-links">
     <!-- <a href="#seguimiento" onclick="scrollTo('seguimiento')">Seguimiento</a> -->
@@ -375,46 +374,29 @@ function cleanId(s){ return s.replace(/[^a-zA-Z0-9]/g,""); }
 
 // ── CATÁLOGO ──
 var CATALOGO = [
-  { nombre:"Cuadros y Ampliaciones", img:"https://i.ibb.co/mV7Dzh6D/8503102a-9d4f-404f-9d2b-b8d24005940d.png",
+  { nombre:"Cobertura Audiovisual Extra", img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
     productos:[
-      {n:"Impresión Postal",p:0.60},{n:"Impresión 5x7",p:1.50},{n:"Impresión 6x8",p:2.50},
-      {n:"Impresión 8x10",p:5.00},{n:"Impresión 11x14",p:10.00},{n:"Impresión 12x18",p:15.00},
-      {n:"Ampliación 6x8 con cuadro",p:6.50},{n:"Ampliación 8x10 con cuadro",p:10.00},
-      {n:"Ampliación 11x14 con cuadro",p:16.00},{n:"Ampliación 12x18 con cuadro",p:20.00},
-      {n:"Ampliación 16x20 con cuadro",p:45.00}
+      {n:"Hora extra de Fotografía",p:35.00},{n:"Hora extra de Video",p:45.00},{n:"Segundo Fotógrafo (Evento completo)",p:100.00},
+      {n:"Tomas con Dron (2-3 vuelos extra)",p:65.00},{n:"Transmisión en vivo (1 Cámara)",p:120.00}
     ]
   },
-  { nombre:"Banners y Vinil", img:"https://i.ibb.co/Gfr1cdB4/Chat-GPT-Image-6-mar-2026-03-43-35.png",
+  { nombre:"Videos y Edición Especial", img:"https://images.unsplash.com/photo-1492691523567-6170c329592e?auto=format&fit=crop&q=80&w=800",
     productos:[
-      {n:"Banner 50x100 cm (+ $1 Ojetes)",p:8.00},{n:"Banner 1x1 mt (+ $1 Ojetes)",p:12.00},
-      {n:"Banner 2x1 mt (+ $1 Ojetes)",p:24.00},{n:"Vinil Metro Lineal",p:14.00},
-      {n:"Sticker Metro Lineal",p:15.00},{n:"Tabloide Adhesivo",p:4.00}
+      {n:"Video Slideshow (Para proyector)",p:40.00},{n:"Videoclip Resumen (Social Media)",p:60.00},
+      {n:"Edición de Video Largo (1 hora+)",p:85.00},{n:"Same Day Edit (Video en el evento)",p:150.00}
     ]
   },
-  { nombre:"Graduación", img:"https://i.ibb.co/hRVQCLQX/Chat-GPT-Image-6-mar-2026-03-59-02.png",
+  { nombre:"Álbumes y Recuerdos", img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800",
     productos:[
-      {n:"Paquete 5x7 Sencillo",p:15.00},{n:"Paquete 6x9 (Resina)",p:25.00},
-      {n:"Paquete 8x12 (Resina)",p:35.00},{n:"Paquete 12x18 (Resina)",p:55.00}
+      {n:"Fotobook Deluxe (Pasta dura)",p:120.00},{n:"Álbum Pocket (20 fotos)",p:35.00},
+      {n:"Ampliación 11x14 Resina",p:45.00},{n:"Ampliación 16x20 Resina",p:80.00},
+      {n:"Pack 50 fotos impresas 4x6",p:30.00}
     ]
   },
-  { nombre:"Resinas", img:"https://i.ibb.co/rGHXKxc8/Chat-GPT-Image-6-mar-2026-03-38-22.png",
+  { nombre:"Tecnología para el Evento", img:"https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=800",
     productos:[
-      {n:"Cuadro Resina 6x9",p:20.00},{n:"Cuadro Resina 8x12",p:30.00},
-      {n:"Cuadro Resina 10x12",p:35.00},{n:"Cuadro Resina 11x14",p:45.00},
-      {n:"Cuadro Resina 12x18",p:50.00},{n:"Cuadro Resina 16x20",p:80.00}
-    ]
-  },
-  { nombre:"Tarjetas e Invitaciones", img:"https://i.ibb.co/n8Q4C98J/Chat-GPT-Image-6-mar-2026-03-45-59.png",
-    productos:[
-      {n:"100 Tarjetas (1 Lado)",p:8.00},{n:"100 Tarjetas (2 Lados)",p:12.00},
-      {n:"Invitación Sencilla",p:2.50},{n:"Invitación Cumpleaños",p:0.35},{n:"Invitación Premium",p:3.50}
-    ]
-  },
-  { nombre:"Fotoestudio y Sublimados", img:"https://i.ibb.co/FkJ3VCph/Chat-GPT-Image-6-mar-2026-03-52-25.png",
-    productos:[
-      {n:"Fotos Carnet/Trámite",p:5.00},{n:"Título Bachiller",p:15.00},
-      {n:"Taza Blanca Sublimada",p:5.00},{n:"Camisa Estampada (DTF Normal)",p:12.00},
-      {n:"Camisa Estampada (Diseño Grande)",p:14.00}
+      {n:"Galería en Vivo (Pantalla Gigante)",p:90.00},{n:"Invitación Digital Premium",p:25.00},
+      {n:"QR para descarga rápida de fotos",p:15.00}
     ]
   }
 ];

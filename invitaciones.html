@@ -317,17 +317,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .cumple-rsvp-lbl{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#e07030;font-family:'DM Sans',sans-serif;font-weight:600;}
 .cumple-rsvp-phone{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#ffb080;}
 
-/* ══ Modal preview animada ══ */
-.anim-preview-modal{position:fixed;inset:0;z-index:9997;background:rgba(5,5,10,0.92);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:.35s;}
-.anim-preview-modal.open{opacity:1;pointer-events:all;}
-.anim-preview-wrap{position:relative;width:100%;max-width:360px;margin:auto;}
-.anim-preview-card{border-radius:22px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.8);aspect-ratio:9/16;}
-.anim-preview-close{position:absolute;top:-16px;right:-16px;width:38px;height:38px;border-radius:50%;background:#fff;border:none;font-size:16px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
-.anim-preview-close:hover{background:var(--gold);}
-.anim-preview-note{text-align:center;font-size:11px;color:rgba(255,255,255,0.4);margin-top:14px;letter-spacing:.05em;}
-.anim-preview-cta{display:flex;justify-content:center;margin-top:14px;}
-.anim-preview-cta button{padding:12px 30px;border-radius:50px;background:var(--gold);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;}
-.anim-preview-cta button:hover{background:#e0c080;}
+/* ══ Child Templates Styling ══ */
+.inv-anim-child{width:100%;height:100%;position:relative;background:#000;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;}
+.child-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;transition:0.5s;}
+.anim-card:hover .child-img-bg{transform:scale(1.1);opacity:1;}
+.child-overlay{position:relative;z-index:5;padding:24px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);width:100%;text-align:center;}
+.child-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,0.5);}
+.child-det{font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;}
+.child-crown{font-size:32px;margin-bottom:8px;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.super-icons{position:absolute;top:20px;left:0;right:0;display:flex;justify-content:center;gap:15px;z-index:6;}
+.super-icon{font-size:24px;animation:superPop 2s ease-in-out infinite both;}
+.super-icon:nth-child(2){animation-delay:0.3s;}
+.super-icon:nth-child(3){animation-delay:0.6s;}
+@keyframes superPop{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.3) rotate(10deg)}}
+
+.child-sparkles{position:absolute;inset:0;pointer-events:none;z-index:4;}
+.child-leaves{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden;}
+.child-leaf{position:absolute;top:-20px;font-size:16px;animation:leafFall 6s linear infinite;}
+@keyframes leafFall{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}
+
+.safari-animals{font-size:24px;margin-bottom:8px;animation:float 4s ease-in-out infinite;}
 
 /* ═══════════════════════════════════════════
    PREMIUM SECTION
@@ -447,6 +458,190 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
       <div class="badge"><i class="fas fa-clock"></i> Cuenta regresiva</div>
       <div class="badge"><i class="fas fa-check-circle"></i> RSVP incluido</div>
       <div class="badge"><i class="fas fa-share-alt"></i> WhatsApp & Email</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     INVITACIONES PREMIUM — DE PAGO
+     (Movido arriba por solicitud del usuario)
+══════════════════════════════════════ -->
+<section class="premium-sec">
+  <div class="wrap" style="text-align:center;position:relative;">
+    <div class="premium-badge-top">⭐ Premium · Invitaciones Completas</div>
+    <h2 class="premium-title reveal">Invitaciones <em>Premium</em><br>que lo dicen todo</h2>
+    <p class="premium-desc reveal">Páginas web completas con portada cinematográfica, cuenta regresiva, galería, mapa, itinerario, RSVP y más. Una experiencia digital única para tu evento.</p>
+
+    <div class="premium-grid reveal">
+
+      <!-- BODA PREMIUM -->
+      <div class="premium-card">
+        <div class="premium-card-thumb" onclick="openIframePreview('invitacion-boda-premium.html','boda-nupcial')">
+          <span class="premium-tag">💍 Boda Premium</span>
+          <div style="text-align:center;">
+            <div style="font-size:52px;margin-bottom:12px;">💍</div>
+            <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:#c8a96a;text-shadow:0 2px 20px rgba(200,169,106,0.5);">Manuel &amp; Carmen</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;letter-spacing:.1em;">BODA · 2025</div>
+          </div>
+          <div class="premium-card-overlay-btn">
+            <button class="premium-btn gold" onclick="event.stopPropagation();openIframePreview('invitacion-boda-premium.html','boda-nupcial')">👁 Ver invitación</button>
+            <button class="premium-btn white" onclick="event.stopPropagation();openPremiumForm('boda-nupcial')">✉ Solicitar</button>
+          </div>
+        </div>
+        <div class="premium-card-info">
+          <div class="premium-card-label">💍 Boda · Oro & Mármol</div>
+          <div class="premium-card-name">Invitación Boda Premium</div>
+          <div class="premium-card-sub">Portada con foto a pantalla completa, cuenta regresiva en vivo, galería de fotos, itinerario del día, mapa interactivo, padrinos, dress code, RSVP por WhatsApp y más.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div class="premium-card-price">
+              <span class="premium-price-val">$35</span>
+              <span class="premium-price-lbl">/ única vez</span>
+            </div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:.04em;">Entrega en 24 hrs</div>
+          </div>
+          <div class="premium-card-btns">
+            <button class="premium-btn gold" style="flex:1" onclick="openIframePreview('invitacion-boda-premium.html','boda-nupcial')">👁 Ver demo</button>
+            <button class="premium-btn white" style="flex:1" onclick="openPremiumForm('boda-nupcial')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUINCEAÑERA PREMIUM -->
+      <div class="premium-card">
+        <div class="premium-card-thumb" onclick="openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')" style="background:linear-gradient(160deg,#18060e 0%,#2a0820 100%);">
+          <span class="premium-tag" style="background:rgba(196,104,122,0.25);color:#ffd0dc;border-color:rgba(196,104,122,0.5);">👑 XV Premium</span>
+          <div style="text-align:center;">
+            <div style="font-size:52px;margin-bottom:12px;">👑</div>
+            <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:#ffc0d8;text-shadow:0 2px 20px rgba(196,104,122,0.5);">Valentina Sofía</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;letter-spacing:.1em;">XV AÑOS · 2025</div>
+          </div>
+          <div class="premium-card-overlay-btn">
+            <button class="premium-btn" style="background:#c4687a;color:#fff;min-width:160px;" onclick="event.stopPropagation();openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')">👁 Ver invitación</button>
+            <button class="premium-btn white" onclick="event.stopPropagation();openPremiumForm('quincea-premium')">✉ Solicitar</button>
+          </div>
+        </div>
+        <div class="premium-card-info">
+          <div class="premium-card-label" style="color:#c4687a;">👑 Quinceañera · Rosa & Oro</div>
+          <div class="premium-card-name">Invitación XV Premium</div>
+          <div class="premium-card-sub">Portada mágica con pétalos animados, cuenta regresiva, chambelán de honor, corte de honor, padrinos, galería, itinerario, RSVP y cierre especial con fotografías.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div class="premium-card-price" style="border-color:rgba(196,104,122,0.3);background:rgba(196,104,122,0.08);">
+              <span class="premium-price-val" style="color:#c4687a;">$35</span>
+              <span class="premium-price-lbl">/ única vez</span>
+            </div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:.04em;">Entrega en 24 hrs</div>
+          </div>
+          <div class="premium-card-btns">
+            <button class="premium-btn" style="flex:1;background:#c4687a;color:#fff;" onclick="openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')">👁 Ver demo</button>
+            <button class="premium-btn white" style="flex:1" onclick="openPremiumForm('quincea-premium')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Features premium -->
+    <div class="reveal" style="margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:750px;margin-left:auto;margin-right:auto;margin-top:52px;">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:8px;">📸</div>
+        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">Galería & Fotos</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Carrusel de imágenes personalizado con tus fotos reales</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:8px;">🗺️</div>
+        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">Mapa & Rutas</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Enlace directo a Google Maps con dirección del evento</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
+        <div style="font-size:22px;margin-bottom:8px;">📲</div>
+        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">RSVP Inteligente</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Confirmación directa por WhatsApp con un solo clic</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PLANTILLAS INFANTILES (ANIMADAS)
+══════════════════════════════════════ -->
+<section class="anim-sec">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="color:var(--gold)">✨ Nuevo · Especial Cumpleaños</div>
+    <h2 class="stitle reveal" style="color:#fff">Plantillas <em>Infantiles</em></h2>
+    <p class="sdesc reveal" style="color:rgba(255,255,255,0.4);">Invitaciones mágicas que cobran vida con animaciones, música y efectos especiales para los más pequeños.</p>
+
+    <div class="anim-grid reveal">
+      <!-- PLACEHOLDER PARA LAS 3 PLANTILLAS QUE SE GENERARÁN LUEGO -->
+      <!-- PLANTILLA SUPERHÉROE -->
+      <div class="anim-card" onclick="openAnimPreview('superheroe')">
+        <div class="inv-anim-child child-super" id="animSuperheroe">
+          <img src="invitacion_superheroe.png" alt="Superhéroe" class="child-img-bg">
+          <div class="child-overlay">
+            <div class="super-icons">
+               <span class="super-icon">💥</span>
+               <span class="super-icon">⚡</span>
+               <span class="super-icon">🦸‍♂️</span>
+            </div>
+            <div class="child-text">
+              <div class="child-name">Súper Mateo</div>
+              <div class="child-det">Cumple 6 años de aventuras</div>
+            </div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-cumple anim-card-badge">⚡ Superhéroe</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('superheroe')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLANTILLA PRINCESA -->
+      <div class="anim-card" onclick="openAnimPreview('princesa')">
+        <div class="inv-anim-child child-princess" id="animPrincesa">
+          <img src="invitacion_princesa.png" alt="Princesa" class="child-img-bg">
+          <div class="child-sparkles" id="princessSparkles"></div>
+          <div class="child-overlay">
+            <div class="child-crown">👑</div>
+            <div class="child-text">
+              <div class="child-name">Princesa Sofía</div>
+              <div class="child-det">Un cuento de hadas de 5 años</div>
+            </div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-quincea anim-card-badge">✨ Reino Mágico</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('princesa')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLANTILLA SAFARI -->
+      <div class="anim-card" onclick="openAnimPreview('safari')">
+        <div class="inv-anim-child child-safari" id="animSafari">
+          <img src="invitacion_safari.png" alt="Safari" class="child-img-bg">
+          <div class="child-leaves" id="safariLeaves"></div>
+          <div class="child-overlay">
+             <div class="safari-animals">🦁🐘🦒</div>
+            <div class="child-text">
+              <div class="child-name">Explorador Liam</div>
+              <div class="child-det">4 años de safari</div>
+            </div>
+          </div>
+        </div>
+        <span class="photo-card-badge pb-bautizo anim-card-badge">🌿 Safari Kid</span>
+        <div class="anim-card-overlay">
+          <div class="anim-card-btns">
+            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('safari')">👁 Ver animación</button>
+            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -703,145 +898,7 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
 <!-- ══════════════════════════════════════
      PLANTILLAS ANIMADAS
 ══════════════════════════════════════ -->
-<section class="anim-sec">
-  <div class="wrap">
-    <div class="eyebrow reveal" style="color:var(--gold)">✨ Nuevo · Plantillas Animadas</div>
-    <h2 class="stitle reveal" style="color:#fff">Invitaciones que <em>cobran vida</em></h2>
-    <p class="sdesc reveal" style="color:rgba(255,255,255,0.4);">Estas plantillas incluyen animaciones, cuenta regresiva en vivo y efectos visuales únicos para cada ocasión.</p>
-
-    <div class="anim-grid reveal">
-
-      <!-- BODA ANIMADA -->
-      <div class="anim-card" onclick="openAnimPreview('boda')">
-        <div class="inv-anim-boda" id="animBoda">
-          <div class="boda-ornament"></div>
-          <div class="boda-particles" id="bodaParticles"></div>
-          <div class="boda-ring"><div class="boda-ring-icon">💍</div></div>
-          <div class="boda-eyebrow">Los invitamos a celebrar</div>
-          <div class="boda-names">Alisson <span>&</span><br>Joan</div>
-          <div class="boda-divider"><div class="boda-divider-diamond"></div></div>
-          <div class="boda-date">Sábado, 14 de Junio · 2025</div>
-          <div class="boda-place">Salón El Jardín · Santa Ana</div>
-          <div class="boda-flowers">
-            <span class="boda-flower" style="--s:3s;--d:0s">🌸</span>
-            <span class="boda-flower" style="--s:2.5s;--d:.4s">🌹</span>
-            <span class="boda-flower" style="--s:3.5s;--d:.8s">🌸</span>
-            <span class="boda-flower" style="--s:2.8s;--d:.2s">🌺</span>
-            <span class="boda-flower" style="--s:3.2s;--d:.6s">🌸</span>
-          </div>
-          <div class="boda-countdown-mini" id="bodaCd">
-            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-d">89</div><div class="boda-cd-lbl">Días</div></div>
-            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-h">14</div><div class="boda-cd-lbl">Hrs</div></div>
-            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-m">32</div><div class="boda-cd-lbl">Min</div></div>
-            <div class="boda-cd-item"><div class="boda-cd-num" id="bcd-s">08</div><div class="boda-cd-lbl">Seg</div></div>
-          </div>
-        </div>
-        <span class="photo-card-badge pb-boda anim-card-badge">💍 Boda · Animada</span>
-        <div class="anim-card-overlay">
-          <div class="anim-card-btns">
-            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('boda')">👁 Ver animación</button>
-            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('boda-nupcial')">✉ Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- QUINCEAÑERA ANIMADA -->
-      <div class="anim-card" onclick="openAnimPreview('quincea')">
-        <div class="inv-anim-quincea" id="animQuincea">
-          <div class="quincea-petals" id="quinceaPetals"></div>
-          <div class="quincea-sparkles" id="quinceaSparkles"></div>
-          <div class="quincea-circle"></div>
-          <div class="quincea-circle2"></div>
-          <div class="quincea-crown">👑</div>
-          <div class="quincea-eyebrow">XV Años · Quinceañera</div>
-          <div class="quincea-xv">XV</div>
-          <div class="quincea-name">Julia Alejandra</div>
-          <div class="quincea-divider"><span class="quincea-rose">🌸</span></div>
-          <div class="quincea-date">Sábado, 7 de Diciembre · 2025</div>
-          <div class="quincea-place">Salón Versailles · San Salvador</div>
-          <div class="quincea-cd" id="quinceaCd">
-            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-d">89</div><div class="quincea-cd-lbl">Días</div></div>
-            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-h">14</div><div class="quincea-cd-lbl">Hrs</div></div>
-            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-m">32</div><div class="quincea-cd-lbl">Min</div></div>
-            <div class="quincea-cd-item"><div class="quincea-cd-num" id="qcd-s">08</div><div class="quincea-cd-lbl">Seg</div></div>
-          </div>
-        </div>
-        <span class="photo-card-badge pb-quincea anim-card-badge">👑 Quinceañera · Animada</span>
-        <div class="anim-card-overlay">
-          <div class="anim-card-btns">
-            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('quincea')">👁 Ver animación</button>
-            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('quincea-azul')">✉ Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- BAUTIZO ANIMADO -->
-      <div class="anim-card" onclick="openAnimPreview('bautizo')">
-        <div class="inv-anim-bautizo" id="animBautizo">
-          <div class="bautizo-bubbles" id="bautizoBubbles"></div>
-          <div class="bautizo-stars" id="bautizoStars"></div>
-          <div class="bautizo-halo"></div>
-          <div class="bautizo-dove">🕊️</div>
-          <div class="bautizo-eyebrow">Con alegría los invitamos al bautizo de</div>
-          <div class="bautizo-name">Edén Sofía</div>
-          <div class="bautizo-sub">Hija de Carlos & Andrea Molina</div>
-          <div class="bautizo-divider"><span class="bautizo-cross">✝</span></div>
-          <div class="bautizo-date">Domingo, 10 de Agosto · 2025</div>
-          <div class="bautizo-place">Parroquia Santa Lucía · 10:00 AM</div>
-          <div class="bautizo-verse">"Dejen que los niños vengan a mí, y no se lo impidan, porque de ellos es el Reino de Dios."<br><small>— Marcos 10:14</small></div>
-          <div class="bautizo-padrinos">
-            <div class="bautizo-padrinos-title">🙏 Padrinos</div>
-            <div class="bautizo-padrino-name">Carlos Eduardo & Ana Lucía</div>
-          </div>
-        </div>
-        <span class="photo-card-badge pb-bautizo anim-card-badge">🕊️ Bautizo · Animado</span>
-        <div class="anim-card-overlay">
-          <div class="anim-card-btns">
-            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('bautizo')">👁 Ver animación</button>
-            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('bautizo-clasico')">✉ Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CUMPLEAÑOS ANIMADO -->
-      <div class="anim-card" onclick="openAnimPreview('cumple')">
-        <div class="inv-anim-cumple" id="animCumple">
-          <div class="cumple-confetti" id="cumpleConfetti"></div>
-          <div class="cumple-balloons">
-            <span class="cumple-balloon" style="--s:2.5s;--d:0s">🎈</span>
-            <span class="cumple-balloon" style="--s:3s;--d:.3s">🎉</span>
-            <span class="cumple-balloon" style="--s:2.8s;--d:.6s">🎈</span>
-          </div>
-          <div class="cumple-cake">🎂</div>
-          <div class="cumple-eyebrow">¡Te invitamos a celebrar!</div>
-          <div class="cumple-name">Sofía</div>
-          <div class="cumple-anos">Cumple sus primeros 5 años 🌟</div>
-          <div class="cumple-divider"><span class="cumple-star-icon">⭐</span></div>
-          <div class="cumple-date">Sábado, 22 de Noviembre · 2025</div>
-          <div class="cumple-place">Patio Familiar · 3:00 PM</div>
-          <div class="cumple-cd" id="cumpleCd">
-            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-d">89</div><div class="cumple-cd-lbl">Días</div></div>
-            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-h">14</div><div class="cumple-cd-lbl">Hrs</div></div>
-            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-m">32</div><div class="cumple-cd-lbl">Min</div></div>
-            <div class="cumple-cd-item"><div class="cumple-cd-num" id="ccd-s">08</div><div class="cumple-cd-lbl">Seg</div></div>
-          </div>
-          <div class="cumple-rsvp">
-            <div class="cumple-rsvp-lbl">📞 Confirmar asistencia</div>
-            <div class="cumple-rsvp-phone">+503 7241-9889</div>
-          </div>
-        </div>
-        <span class="photo-card-badge pb-cumple anim-card-badge">🎂 Cumpleaños · Animado</span>
-        <div class="anim-card-overlay">
-          <div class="anim-card-btns">
-            <button class="anim-btn-prev gold" onclick="event.stopPropagation();openAnimPreview('cumple')">👁 Ver animación</button>
-            <button class="anim-btn-prev white" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+<!-- Antiguo anim-sec movido arriba -->
 
 <!-- Modal preview animada -->
 <div class="anim-preview-modal" id="animPreviewModal">
@@ -858,101 +915,7 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
 <!-- ══════════════════════════════════════
      INVITACIONES PREMIUM — DE PAGO
 ══════════════════════════════════════ -->
-<section class="premium-sec">
-  <div class="wrap" style="text-align:center;position:relative;">
-    <div class="premium-badge-top">⭐ Premium · Invitaciones Completas</div>
-    <h2 class="premium-title reveal">Invitaciones <em>Premium</em><br>que lo dicen todo</h2>
-    <p class="premium-desc reveal">Páginas web completas con portada cinematográfica, cuenta regresiva, galería, mapa, itinerario, RSVP y más. Una experiencia digital única para tu evento.</p>
-
-    <div class="premium-grid reveal">
-
-      <!-- BODA PREMIUM -->
-      <div class="premium-card">
-        <div class="premium-card-thumb" onclick="openIframePreview('invitacion-boda-premium.html','boda-nupcial')">
-          <span class="premium-tag">💍 Boda Premium</span>
-          <div style="text-align:center;">
-            <div style="font-size:52px;margin-bottom:12px;">💍</div>
-            <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:#c8a96a;text-shadow:0 2px 20px rgba(200,169,106,0.5);">Manuel &amp; Carmen</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;letter-spacing:.1em;">BODA · 2025</div>
-          </div>
-          <div class="premium-card-overlay-btn">
-            <button class="premium-btn gold" onclick="event.stopPropagation();openIframePreview('invitacion-boda-premium.html','boda-nupcial')">👁 Ver invitación</button>
-            <button class="premium-btn white" onclick="event.stopPropagation();openPremiumForm('boda-nupcial')">✉ Solicitar</button>
-          </div>
-        </div>
-        <div class="premium-card-info">
-          <div class="premium-card-label">💍 Boda · Oro & Mármol</div>
-          <div class="premium-card-name">Invitación Boda Premium</div>
-          <div class="premium-card-sub">Portada con foto a pantalla completa, cuenta regresiva en vivo, galería de fotos, itinerario del día, mapa interactivo, padrinos, dress code, RSVP por WhatsApp y más.</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-            <div class="premium-card-price">
-              <span class="premium-price-val">$35</span>
-              <span class="premium-price-lbl">/ única vez</span>
-            </div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:.04em;">Entrega en 24 hrs</div>
-          </div>
-          <div class="premium-card-btns">
-            <button class="premium-btn gold" style="flex:1" onclick="openIframePreview('invitacion-boda-premium.html','boda-nupcial')">👁 Ver demo</button>
-            <button class="premium-btn white" style="flex:1" onclick="openPremiumForm('boda-nupcial')">✉ Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- QUINCEAÑERA PREMIUM -->
-      <div class="premium-card">
-        <div class="premium-card-thumb" onclick="openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')" style="background:linear-gradient(160deg,#18060e 0%,#2a0820 100%);">
-          <span class="premium-tag" style="background:rgba(196,104,122,0.25);color:#ffd0dc;border-color:rgba(196,104,122,0.5);">👑 XV Premium</span>
-          <div style="text-align:center;">
-            <div style="font-size:52px;margin-bottom:12px;">👑</div>
-            <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:#ffc0d8;text-shadow:0 2px 20px rgba(196,104,122,0.5);">Valentina Sofía</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;letter-spacing:.1em;">XV AÑOS · 2025</div>
-          </div>
-          <div class="premium-card-overlay-btn">
-            <button class="premium-btn" style="background:#c4687a;color:#fff;min-width:160px;" onclick="event.stopPropagation();openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')">👁 Ver invitación</button>
-            <button class="premium-btn white" onclick="event.stopPropagation();openPremiumForm('quincea-premium')">✉ Solicitar</button>
-          </div>
-        </div>
-        <div class="premium-card-info">
-          <div class="premium-card-label" style="color:#c4687a;">👑 Quinceañera · Rosa & Oro</div>
-          <div class="premium-card-name">Invitación XV Premium</div>
-          <div class="premium-card-sub">Portada mágica con pétalos animados, cuenta regresiva, chambelán de honor, corte de honor, padrinos, galería, itinerario, RSVP y cierre especial con fotografías.</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-            <div class="premium-card-price" style="border-color:rgba(196,104,122,0.3);background:rgba(196,104,122,0.08);">
-              <span class="premium-price-val" style="color:#c4687a;">$35</span>
-              <span class="premium-price-lbl">/ única vez</span>
-            </div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:.04em;">Entrega en 24 hrs</div>
-          </div>
-          <div class="premium-card-btns">
-            <button class="premium-btn" style="flex:1;background:#c4687a;color:#fff;" onclick="openIframePreview('invitacion-quincea\u00f1era-premium.html','quincea-premium')">👁 Ver demo</button>
-            <button class="premium-btn white" style="flex:1" onclick="openPremiumForm('quincea-premium')">✉ Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Features premium -->
-    <div class="reveal" style="margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:750px;margin-left:auto;margin-right:auto;margin-top:52px;">
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
-        <div style="font-size:22px;margin-bottom:8px;">📸</div>
-        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">Galería & Fotos</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Carrusel de imágenes personalizado con tus fotos reales</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
-        <div style="font-size:22px;margin-bottom:8px;">🗺️</div>
-        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">Mapa & Rutas</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Enlace directo a Google Maps con dirección del evento</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(200,169,106,0.12);border-radius:16px;padding:20px 16px;text-align:center;">
-        <div style="font-size:22px;margin-bottom:8px;">📲</div>
-        <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;">RSVP Inteligente</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">Confirmación directa por WhatsApp con un solo clic</div>
-      </div>
-    </div>
-
-  </div>
-</section>
+<!-- Antiguo premium-sec movido arriba -->
 
 <!-- Modal iframe para preview premium -->
 <div class="iframe-modal" id="iframeModal">
@@ -1592,24 +1555,20 @@ liveCD(); setInterval(liveCD,1000);
 })();
 
 // ── Animated preview modal ──
-var currentAnimTpl = '';
-var animFormMap = {'boda':'boda-nupcial','quincea':'quincea-azul','bautizo':'bautizo-clasico','cumple':'cumple-infantil'};
+var animFormMap = {'boda':'boda-nupcial','quincea':'quincea-azul','bautizo':'bautizo-clasico','cumple':'cumple-infantil','superheroe':'cumple-infantil','princesa':'cumple-infantil','safari':'cumple-infantil'};
 
 function openAnimPreview(type){
   currentAnimTpl = type;
   var src = document.getElementById('anim'+type.charAt(0).toUpperCase()+type.slice(1));
   if(!src) return;
-  var clone = src.parentElement.cloneNode(true);
-  // Remove overlay from clone
-  var ov = clone.querySelector('.anim-card-overlay'); if(ov) ov.remove();
-  var badge = clone.querySelector('.anim-card-badge'); if(badge) badge.remove();
-  clone.style.cssText='border-radius:22px;overflow:hidden;width:100%;aspect-ratio:9/16;';
+  var clone = src.cloneNode(true);
+  // Remove overlay if needed or keep for display
+  clone.style.cssText='width:100%;height:100%;';
   var card = document.getElementById('animPreviewCard');
   card.innerHTML=''; card.appendChild(clone);
   document.getElementById('animSolicitarBtn').onclick = function(){ closeAnimPreview(); setTimeout(function(){ openForm(animFormMap[currentAnimTpl]); },200); };
   document.getElementById('animPreviewModal').classList.add('open');
   document.body.style.overflow='hidden';
-  // Re-init particles inside clone
   reinitParticles(clone, type);
 }
 
@@ -1635,10 +1594,21 @@ function reinitParticles(clone, type){
   if(type==='bautizo'){
     var b=clone.querySelector('#bautizoBubbles'); if(b){ b.innerHTML=''; var sizes=[16,22,30,14,26,18,35]; for(var i=0;i<10;i++){var el=document.createElement('div');el.className='bautizo-bubble';var sz=sizes[Math.floor(Math.random()*sizes.length)];el.style.cssText='left:'+(5+Math.random()*90)+'%;bottom:0;width:'+sz+'px;height:'+sz+'px;--dur:'+(5+Math.random()*5)+'s;--delay:'+(Math.random()*6)+'s;';b.appendChild(el);} }
   }
-  if(type==='cumple'){
+  if(type==='cumple' || type==='superheroe'){
     var cc=clone.querySelector('#cumpleConfetti'); if(cc){ cc.innerHTML=''; var colors=['#ff6030','#ffb030','#ff3060','#30b0ff','#50e050','#ff80c0','#ffe030']; for(var i=0;i<22;i++){var el=document.createElement('div');el.className='cumple-piece rect';el.style.cssText='left:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';--dur:'+(4+Math.random()*5)+'s;--delay:'+(Math.random()*7)+'s;width:'+(5+Math.random()*7)+'px;height:'+(5+Math.random()*7)+'px;';cc.appendChild(el);} }
   }
+  if(type==='princesa'){
+    var sp=clone.querySelector('#princessSparkles'); if(sp){ sp.innerHTML=''; var colors=['#ffc0d8','#ffd0e8','#fff0f8','#ffffff','#c8a96a']; for(var j=0;j<30;j++){var s=document.createElement('div');s.className='quincea-sparkle';s.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';width:'+(2+Math.random()*5)+'px;height:'+(2+Math.random()*5)+'px;--dur:'+(2+Math.random()*3)+'s;--delay:'+(Math.random()*4)+'s;';sp.appendChild(s);} }
+  }
+  if(type==='safari'){
+    var sl=clone.querySelector('#safariLeaves'); if(sl){ sl.innerHTML=''; var leaves=['🌿','🍂','🍃','🍁']; for(var i=0;i<12;i++){var el=document.createElement('div');el.className='child-leaf';el.textContent=leaves[Math.floor(Math.random()*leaves.length)];el.style.cssText='left:'+(Math.random()*100)+'%;--dur:'+(5+Math.random()*4)+'s;--delay:'+(Math.random()*5)+'s;';sl.appendChild(el);} }
+  }
 }
+// Init static child animations
+(function(){
+  var sp=document.getElementById('princessSparkles'); if(sp){ var colors=['#ffc0d8','#ffd0e8','#fff0f8','#ffffff','#c8a96a']; for(var j=0;j<30;j++){var s=document.createElement('div');s.className='quincea-sparkle';s.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';width:'+(2+Math.random()*5)+'px;height:'+(2+Math.random()*5)+'px;--dur:'+(2+Math.random()*3)+'s;--delay:'+(Math.random()*4)+'s;';sp.appendChild(s);} }
+  var sl=document.getElementById('safariLeaves'); if(sl){ var leaves=['🌿','🍂','🍃','🍁']; for(var i=0;i<12;i++){var el=document.createElement('div');el.className='child-leaf';el.textContent=leaves[Math.floor(Math.random()*leaves.length)];el.style.cssText='left:'+(Math.random()*100)+'%;--dur:'+(5+Math.random()*4)+'s;--delay:'+(Math.random()*5)+'s;';sl.appendChild(el);} }
+})();
 </script>
 </body>
 </html>

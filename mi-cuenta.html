@@ -125,8 +125,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
 .fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.1);font-family:'DM Sans',sans-serif;font-size:13px;color:#fff;background:rgba(0,0,0,0.3);outline:none;transition:.2s}
 .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);background:rgba(0,0,0,0.6)}
 .fld textarea{resize:vertical;min-height:80px}
-.sbtn{padding:13px 24px;border-radius:11px;border:none;background:var(--gold);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
-.sbtn:hover{background:var(--gold-l);color:var(--ink)}
+.btn-outline{padding:15px 36px;border-radius:50px;border:1.5px solid var(--gold);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:.25s;display:inline-flex;align-items:center;gap:8px;background:rgba(200,169,106,0.05)}
+.btn-outline:hover{background:var(--gold);color:var(--ink)}
 
 /* ── PAQUETE SELECTOR ── */
 .pkg-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
@@ -169,13 +169,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
 
 <!-- Loading screen -->
 <div class="loading-screen" id="loadingScreen">
-  <div class="loading-logo">Impacto <em>Digital</em></div>
+  <img src="logo_id.png" alt="ID" style="max-height:80px; margin-bottom:20px;">
   <div class="loading-spin"></div>
 </div>
 
 <!-- TOPBAR -->
 <nav class="topbar">
-  <a href="index.html" class="tb-brand">Impacto <em>Digital</em></a>
+  <a href="index.html" class="tb-brand"><img src="logo_id.png" alt="ID" style="max-height:38px;"></a>
   <div class="tb-right">
     <a href="eventos.html" class="tb-btn tb-ghost"><i class="fas fa-calendar"></i>Eventos</a>
     <div class="tb-user">
@@ -212,10 +212,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
   <div class="tabs">
     <div class="tab active" id="tab-resumen" onclick="activarTab('resumen')"><i class="fas fa-home"></i>Inicio</div>
     <div class="tab" id="tab-cotizacion" onclick="activarTab('cotizacion')"><i class="fas fa-file-invoice-dollar"></i>Mi Cotización</div>
-    <div class="tab" id="tab-cotizar" onclick="activarTab('cotizar')"><i class="fas fa-calculator"></i>Cotizar</div>
-    <div class="tab" id="tab-planner" onclick="activarTab('planner')"><i class="fas fa-tasks"></i>Mi Planner</div>
-    <div class="tab" id="tab-invitacion" onclick="activarTab('invitacion')"><i class="fas fa-envelope-open-text"></i>Invitación</div>
-    <div class="tab" id="tab-galeria" onclick="activarTab('galeria')"><i class="fas fa-images"></i>Mi Galería</div>
+    <div class="tab" id="tab-cotizar" onclick="activarTab('cotizar')"><i class="fas fa-calculator"></i>Cotizar Addons</div>
+    <div class="tab" id="tab-evento" onclick="activarTab('evento')"><i class="fas fa-star"></i>Mi Evento</div>
   </div>
 </div>
 
@@ -230,12 +228,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600" id="res-cot-estado">—</div>
         <div style="font-size:12px;color:var(--muted)">Estado de cotización</div>
       </div>
-      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3)">
+      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3);cursor:pointer" onclick="activarTab('evento')">
         <div style="font-size:2rem;margin-bottom:6px">💌</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600" id="res-inv-estado">—</div>
         <div style="font-size:12px;color:var(--muted)">Invitación digital</div>
       </div>
-      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3)">
+      <div class="card" style="padding:20px;text-align:center;border-color:rgba(200,169,106,0.3);cursor:pointer" onclick="activarTab('evento')">
         <div style="font-size:2rem;margin-bottom:6px">✅</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600" id="res-tasks">0%</div>
         <div style="font-size:12px;color:var(--muted)">Planner completado</div>
@@ -280,7 +278,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
   <div class="page" id="page-cotizar">
     <div class="card">
       <div class="card-header">
-        <div><div class="card-title">Nueva Cotización</div><div class="card-sub">Selecciona los servicios que deseas — el precio se calcula automáticamente</div></div>
+        <div><div class="card-title">Cotizador de Addons</div><div class="card-sub">Personaliza tu cobertura con servicios extra — el precio se calcula automáticamente</div></div>
       </div>
 
       <!-- TIPO DE EVENTO -->
@@ -325,14 +323,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
 
       <!-- SERVICIOS ADICIONALES -->
       <div class="fld">
-        <label>Servicios adicionales</label>
+        <label>Addons Audiovisuales</label>
         <div class="svc-checks">
-          <label class="svc-check"><input type="checkbox" value="40" data-name="Hora adicional de filmación" onchange="calcTotal()"><span class="svc-check-name">Hora adicional de filmación</span><span class="svc-check-price">+$40</span></label>
-          <label class="svc-check"><input type="checkbox" value="100" data-name="Transmisión en vivo (1 dispositivo)" onchange="calcTotal()"><span class="svc-check-name">Transmisión en vivo</span><span class="svc-check-price">+$100</span></label>
-          <label class="svc-check"><input type="checkbox" value="0.75" data-name="Fotos impresas adicionales 4x6" onchange="calcTotal()"><span class="svc-check-name">Fotos impresas 4×6 adicionales</span><span class="svc-check-price">$0.75 c/u</span></label>
-          <label class="svc-check"><input type="checkbox" value="8" data-name="Camisas sublimadas" onchange="calcTotal()"><span class="svc-check-name">Camisas sublimadas para quinceañera</span><span class="svc-check-price">$8 c/u</span></label>
-          <label class="svc-check"><input type="checkbox" value="3" data-name="Tarjetas de invitación normales" onchange="calcTotal()"><span class="svc-check-name">Tarjetas de invitación (estilo normal)</span><span class="svc-check-price">$3.00 c/u</span></label>
-          <label class="svc-check"><input type="checkbox" value="3.5" data-name="Tarjetas de invitación premium" onchange="calcTotal()"><span class="svc-check-name">Tarjetas de invitación (Premium)</span><span class="svc-check-price">$3.50 c/u</span></label>
+          <label class="svc-check"><input type="checkbox" value="35" data-name="Hora extra de Fotografía" onchange="calcTotal()"><span class="svc-check-name">Hora extra de Fotografía</span><span class="svc-check-price">+$35</span></label>
+          <label class="svc-check"><input type="checkbox" value="45" data-name="Hora extra de Video" onchange="calcTotal()"><span class="svc-check-name">Hora extra de Video</span><span class="svc-check-price">+$45</span></label>
+          <label class="svc-check"><input type="checkbox" value="65" data-name="Tomas con Dron extra" onchange="calcTotal()"><span class="svc-check-name">Tomas con Dron extra</span><span class="svc-check-price">+$65</span></label>
+          <label class="svc-check"><input type="checkbox" value="40" data-name="Video Slideshow (Proyector)" onchange="calcTotal()"><span class="svc-check-name">Video Slideshow (Proyector)</span><span class="svc-check-price">+$40</span></label>
+          <label class="svc-check"><input type="checkbox" value="60" data-name="Videoclip Resumen Social Media" onchange="calcTotal()"><span class="svc-check-name">Videoclip Resumen Social Media</span><span class="svc-check-price">+$60</span></label>
+          <label class="svc-check"><input type="checkbox" value="120" data-name="Fotobook Deluxe (Pasta dura)" onchange="calcTotal()"><span class="svc-check-name">Fotobook Deluxe (Pasta dura)</span><span class="svc-check-price">+$120</span></label>
+          <label class="svc-check"><input type="checkbox" value="90" data-name="Galería en Vivo (Pantalla Gigante)" onchange="calcTotal()"><span class="svc-check-name">Galería en Vivo (Pantalla Gigante)</span><span class="svc-check-price">+$90</span></label>
         </div>
       </div>
 
@@ -354,102 +353,54 @@ body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-heigh
     </div>
   </div>
 
-  <!-- ── PLANNER ── -->
-  <div class="page" id="page-planner">
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Mi Event / Wedding Planner</div>
-          <div class="card-sub">Organiza cada detalle de tu evento — se guarda automáticamente</div>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="btn-soft" onclick="agregarTarea()"><i class="fas fa-plus"></i>Tarea</button>
-          <button class="btn-gold" onclick="guardarPlanner()"><i class="fas fa-save"></i>Guardar</button>
-        </div>
-      </div>
-
-      <!-- Progreso -->
-      <div style="margin-bottom:20px">
-        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px">
-          <span>Progreso del planner</span>
-          <span id="plannerPct">0%</span>
-        </div>
-        <div class="prog-bar-wrap"><div class="prog-bar" id="plannerBar" style="width:0%"></div></div>
-      </div>
-
-      <div class="planner-grid">
-        <!-- Checklist -->
-        <div>
-          <div style="font-weight:600;font-size:13px;margin-bottom:12px;letter-spacing:.04em;text-transform:uppercase;font-size:10px;color:var(--muted)">Lista de tareas</div>
-          <div class="task-list" id="taskList">
-            <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">
-              <i class="fas fa-circle-notch fa-spin"></i> Cargando planner...
-            </div>
-          </div>
-        </div>
-        <!-- Presupuesto -->
-        <div>
-          <div style="font-weight:600;font-size:10px;margin-bottom:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Presupuesto por categoría</div>
-          <div class="card" style="padding:16px">
-            <div class="budget-row"><span class="budget-label">Fotografía & Video</span><span class="budget-amount" id="bud-foto">$—</span></div>
-            <div class="budget-row"><span class="budget-label">Salón / Decoración</span><span class="budget-amount"><input type="text" id="bud-salon" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
-            <div class="budget-row"><span class="budget-label">Catering / Pastel</span><span class="budget-amount"><input type="text" id="bud-catering" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
-            <div class="budget-row"><span class="budget-label">Invitaciones</span><span class="budget-amount"><input type="text" id="bud-inv" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
-            <div class="budget-row"><span class="budget-label">Flores / Detalles</span><span class="budget-amount"><input type="text" id="bud-flores" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
-            <div class="budget-row"><span class="budget-label">Otros</span><span class="budget-amount"><input type="text" id="bud-otros" style="border:none;background:transparent;text-align:right;font-weight:600;width:80px;font-family:inherit;font-size:13px" placeholder="$0" oninput="guardarPlanner()"></span></div>
-            <div class="budget-row" style="border-top:2px solid var(--border);margin-top:4px;padding-top:14px">
-              <span style="font-weight:700;font-size:14px;color:#fff">Total estimado</span>
-              <span style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold)" id="bud-total">$0</span>
-            </div>
-          </div>
-          <!-- Datos del evento -->
-          <div class="card" style="padding:16px;margin-top:14px">
-            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Datos del evento</div>
-            <div class="fld" style="margin-bottom:10px"><label>Nombre del evento</label><input type="text" id="ev-nombre" placeholder="Mi boda / Mi quince" oninput="guardarPlanner()"></div>
-            <div class="fld" style="margin-bottom:10px"><label>Fecha del evento</label><input type="date" id="ev-fecha" oninput="guardarPlanner()"></div>
-            <div class="fld" style="margin-bottom:0"><label>Lugar</label><input type="text" id="ev-lugar" placeholder="Salón, municipio..." oninput="guardarPlanner()"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── INVITACIÓN ── -->
-  <div class="page" id="page-invitacion">
+  <!-- ── MI EVENTO UNIFICADO ── -->
+  <div class="page" id="page-evento">
+    
+    <!-- INVITACIÓN -->
     <div class="card">
       <div class="card-header">
         <div><div class="card-title">Mi Invitación Digital</div><div class="card-sub">Comparte con tus invitados por WhatsApp</div></div>
         <div id="inv-estado-badge"></div>
       </div>
       <div id="inv-content">
-        <div class="cot-empty">
-          <i class="fas fa-envelope-open-text"></i>
-          <div style="font-weight:600;margin-bottom:6px">Aún no tienes invitación</div>
-          <div style="font-size:13px">Solicita tu invitación digital o crea una desde el generador.</div>
-          <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap">
-            <a href="generador.html" class="btn-gold"><i class="fas fa-magic"></i>Crear invitación</a>
-            <button class="btn-soft" onclick="solicitarInvitacion()"><i class="fas fa-paper-plane"></i>Solicitar al admin</button>
+        <!-- Content will be loaded via JS -->
+      </div>
+    </div>
+
+    <!-- PLANNER -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Mi Event Planner</div>
+          <div class="card-sub">Lista de tareas y control de presupuesto</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-soft" onclick="agregarTarea()"><i class="fas fa-plus"></i></button>
+          <button class="btn-gold" onclick="guardarPlanner()"><i class="fas fa-save"></i></button>
+        </div>
+      </div>
+      <div class="planner-grid">
+        <div>
+          <div class="task-list" id="taskList"></div>
+        </div>
+        <div>
+          <div class="card" style="padding:16px; background:rgba(0,0,0,0.2)">
+            <div class="budget-row"><span class="budget-label">Total Presupuestado</span><span class="budget-amount" id="bud-total">$0</span></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ── GALERÍA ── -->
-  <div class="page" id="page-galeria">
+    <!-- GALERÍA -->
     <div class="card">
       <div class="card-header">
-        <div><div class="card-title">Mi Galería Privada</div><div class="card-sub">Fotos de tu evento entregadas por Impacto Digital</div></div>
+        <div><div class="card-title">Mi Galería de Fotos</div><div class="card-sub">Acceso privado a tus recuerdos</div></div>
       </div>
       <div id="galeria-content">
-        <div class="cot-empty">
-          <i class="fas fa-images"></i>
-          <div style="font-weight:600;margin-bottom:6px">Galería no disponible aún</div>
-          <div style="font-size:13px">Cuando tu evento sea fotografiado, recibirás el acceso a tu galería privada aquí y por WhatsApp.</div>
-          <a href="eventos.html#live" class="btn-soft" style="margin-top:16px;display:inline-flex"><i class="fas fa-arrow-right"></i>Ver galería pública del evento</a>
-        </div>
+        <!-- Content loaded via JS -->
       </div>
     </div>
+
   </div>
 
 </div><!-- /content -->
