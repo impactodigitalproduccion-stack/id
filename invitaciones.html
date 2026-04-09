@@ -616,9 +616,9 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
 ══════════════════════════════════════ -->
 <section class="anim-sec">
   <div class="wrap">
-    <div class="eyebrow reveal" style="color:var(--gold)">✨ Nuevo · Especial Cumpleaños</div>
-    <h2 class="stitle reveal" style="color:#fff">Plantillas <em>Infantiles</em></h2>
-    <p class="sdesc reveal" style="color:rgba(255,255,255,0.4);">Invitaciones mágicas que cobran vida con animaciones, música y efectos especiales para los más pequeños.</p>
+    <div class="eyebrow reveal" style="color:var(--gold)">✨ Colección Élite Kids · Animadas</div>
+    <h2 class="stitle reveal" style="color:#fff">Plantillas <em>Élite Infantiles</em></h2>
+    <p class="sdesc reveal" style="color:rgba(255,255,255,0.4);">Invitaciones mágicas de nivel Élite. Incluyen música, cuenta regresiva, galería de la sesión de fotos y confirmación por WhatsApp.</p>
 
     <div class="anim-grid reveal">
       <!-- PLACEHOLDER PARA LAS 3 PLANTILLAS QUE SE GENERARÁN LUEGO -->
@@ -672,7 +672,7 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
       <!-- PLANTILLA SAFARI -->
       <div class="anim-card" onclick="openIframePreview('invitacion-infantil-safari.html','safari')">
         <div class="inv-anim-child child-safari" id="animSafari">
-          <img src="invitacion_cumple_safari_1775722156243.png" alt="Safari" class="child-img-bg">
+          <img src="invitacion_cumple_safari_1775722211461.png" alt="Safari" class="child-img-bg">
           <div class="child-leaves" id="safariLeaves"></div>
           <div class="child-overlay">
              <div class="safari-animals">🦁🐘🦒</div>
@@ -712,7 +712,7 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
   <div class="wrap">
     <div class="eyebrow reveal">Plantillas disponibles</div>
     <h2 class="stitle reveal">Elige tu <em>estilo</em></h2>
-    <p class="sdesc reveal">Haz clic en <strong>Ver plantilla</strong> para previsualizar con datos de ejemplo, o en <strong>Solicitar</strong> para pedir la tuya.</p>
+    <p class="sdesc reveal">Disponemos de dos categorías: <strong>Colección Básica</strong> (Plantillas Gratis de ficha única) y <strong>Colección Élite</strong> (Invitaciones web completas e interactivas).</p>
     <div class="filter-row reveal">
       <button class="filter-btn active" onclick="filterCat('all',this)">Todas</button>
       <button class="filter-btn" onclick="filterCat('boda',this)">💍 Bodas</button>
@@ -922,14 +922,14 @@ footer{background:var(--ink2);padding:48px 24px 32px;text-align:center;border-to
           </div>
         </div>
 
-        <div class="photo-card">
-          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80" alt="Cumpleaños niño">
+        <div class="photo-card" onclick="openIframePreview('invitacion-infantil-superheroe.html','superheroe')">
+          <img src="https://i.ibb.co/zVKWT7t2/mateo-cuerpo-completo-frontal.jpg" alt="Cumpleaños Superhéroe Mateo">
           <div class="photo-card-gradient"></div>
-          <span class="photo-card-badge pb-cumple">Cumpleaños</span>
-          <div class="photo-card-name">Mateo</div>
+          <span class="photo-card-badge pb-cumple">⭐ Élite Kids</span>
+          <div class="photo-card-name">Súper Mateo</div>
           <div class="photo-card-overlay">
             <div class="card-btn-group">
-              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openPreview('cumple-infantil','https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80')">👁 Ver plantilla</button>
+              <button class="photo-card-ver-btn btn-preview" onclick="event.stopPropagation();openIframePreview('invitacion-infantil-superheroe.html','superheroe')">👁 Ver Élite</button>
               <button class="photo-card-ver-btn btn-solicitar" onclick="event.stopPropagation();openForm('cumple-infantil')">✉ Solicitar</button>
             </div>
           </div>
